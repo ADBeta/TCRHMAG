@@ -29,7 +29,7 @@ tempstep   =  4                        # Temperature Steps in the array (°C)
 
 
 ### Microcontroller Variables (if using ADC Mode) ###
-adc_max    =  4095                     # Maximum value the ADC Can read
+adc_max    =  1023                     # Maximum value the ADC Can read
 mcu_vcc    =  5.0                      # Microcontroller input voltage
 
 
@@ -59,18 +59,18 @@ except OSError as e:
     raise
 
 # Write the Prefix c code to the new file
-outprefix = """
+outprefix = f"""
 #ifndef THERMISTOR_LUT_H
 #define THERMISTOR_LUT_H
 
 
-typedef struct {
+typedef struct {{
 	uint16_t temp_c;    // Temperate Sample (Degrees Celsius)
 	uint16_t adc;       // MCU ADC Value at given temperature
-} thermistor_pair_t;
+}} thermistor_pair_t;
 
-
-static const thermistor_pair_t thermistor_pair[] __attribute__((section(".rodata"))) = {
+// NTC Thermistor LUT assuming Rf of {Rf}R, VCC of {mcu_vcc}V and ADC with {adc_max} Counts
+static const thermistor_pair_t thermistor_pair[] __attribute__((section(".rodata"))) = {{
 """
 of.write(outprefix)
 
