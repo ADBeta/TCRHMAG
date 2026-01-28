@@ -199,13 +199,6 @@ typedef struct {
 } RCC_REG_TypeDef;
 
 
-/// @brief EXTEN External Register (OpAmp)
-typedef struct
-{
-	volatile uint32_t EXTEN_CTR;
-} EXTEN_REG_TypeDef;
-
-
 
 /*** Register Address Definitions ********************************************/
 // Base Registers
@@ -216,10 +209,9 @@ typedef struct
 #define PORTD_GPIO_REGISTER_BASE 0x40011400
 #define ADC1_REGISTER_BASE	     0x40012400
 #define RCC_REGISTER_BASE	     0x40021000
-#define EXTEN_REGISTER_BASE      0x40023800
-
 
 // Register typedef Declarations
+
 #define GPIO_PORTA ((GPIO_PORT_REG_TypeDef *)PORTA_GPIO_REGISTER_BASE)
 // NOTE: PORTB is not available for the CH32V003.
 #define GPIO_PORTB ((GPIO_PORT_REG_TypeDef *)PORTB_GPIO_REGISTER_BASE)
@@ -227,7 +219,7 @@ typedef struct
 #define GPIO_PORTD ((GPIO_PORT_REG_TypeDef *)PORTD_GPIO_REGISTER_BASE)
 #define GPIO_ADC1  ((ADC_REG_TypeDef *)ADC1_REGISTER_BASE)
 #define GPIO_RCC   ((RCC_REG_TypeDef *)RCC_REGISTER_BASE)
-#define GPIO_EXTEN ((EXTEN_REG_TypeDef*)EXTEN_REGISTER_BASE)
+
 
 /// @breif The GPIO Ports are places into an array for easy indexing in the
 /// GPIO Functions
@@ -252,10 +244,6 @@ extern GPIO_PORT_REG_TypeDef *GPIO_PORT_MAP[4];
 
 
 /*** OpAmp Variables and Types ***********************************************/
-#define GPIO_EXTEN_OPA_PSEL  ((uint32_t)0x00040000)
-#define GPIO_EXTEN_OPA_NSEL  ((uint32_t)0x00020000)
-
-
 /// @brief OpAmp Positive Channel Inputs
 typedef enum {
 	GPIO_OPAMP_CH1_POS,

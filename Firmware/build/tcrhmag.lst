@@ -1,0 +1,300 @@
+
+build/tcrhmag.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .init:
+
+00000000 <InterruptVector>:
+	void InterruptVector()         __attribute__((naked)) __attribute((section(".init"))) __attribute((weak,alias("InterruptVectorDefault"))) __attribute((naked));
+	void InterruptVectorDefault()  __attribute__((naked)) __attribute((section(".init"))) __attribute((naked));
+	void InterruptVectorDefault( void )
+	{
+		#if !defined(FUNCONF_TINYVECTOR) || !FUNCONF_TINYVECTOR
+			asm volatile( DEFAULT_INTERRUPT_VECTOR_CONTENTS );
+   0:	0fa0006f          	j	fa <handle_reset>
+   4:	00000000          	.word	0x00000000
+   8:	000001b2          	.word	0x000001b2
+   c:	00000166          	.word	0x00000166
+	...
+  30:	00000166          	.word	0x00000166
+  34:	00000000          	.word	0x00000000
+  38:	00000166          	.word	0x00000166
+  3c:	00000000          	.word	0x00000000
+  40:	00000166          	.word	0x00000166
+  44:	00000166          	.word	0x00000166
+  48:	00000166          	.word	0x00000166
+  4c:	00000166          	.word	0x00000166
+  50:	00000166          	.word	0x00000166
+  54:	00000166          	.word	0x00000166
+  58:	00000166          	.word	0x00000166
+  5c:	00000166          	.word	0x00000166
+  60:	00000166          	.word	0x00000166
+  64:	00000166          	.word	0x00000166
+  68:	00000166          	.word	0x00000166
+  6c:	00000166          	.word	0x00000166
+  70:	00000166          	.word	0x00000166
+  74:	00000166          	.word	0x00000166
+  78:	00000166          	.word	0x00000166
+  7c:	00000166          	.word	0x00000166
+  80:	00000166          	.word	0x00000166
+  84:	00000166          	.word	0x00000166
+  88:	00000166          	.word	0x00000166
+  8c:	00000166          	.word	0x00000166
+  90:	00000166          	.word	0x00000166
+  94:	00000166          	.word	0x00000166
+  98:	00000166          	.word	0x00000166
+  9c:	0000                	unimp
+	...
+
+Disassembly of section .text:
+
+000000a0 <PrintHex>:
+	while( (*DMDATA0) & 0x80 );
+  a0:	e00007b7          	lui	a5,0xe0000
+  a4:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
+  a8:	4398                	lw	a4,0(a5)
+  aa:	08077713          	andi	a4,a4,128
+  ae:	ff6d                	bnez	a4,a8 <PrintHex+0x8>
+	*DMDATA0 = 0x78302088; //" 0x"
+  b0:	78302737          	lui	a4,0x78302
+  b4:	08870713          	addi	a4,a4,136 # 78302088 <_eusrstack+0x58301888>
+		while( (*DMDATA0) & 0x80 );
+  b8:	e00006b7          	lui	a3,0xe0000
+	*DMDATA0 = 0x78302088; //" 0x"
+  bc:	c398                	sw	a4,0(a5)
+		while( (*DMDATA0) & 0x80 );
+  be:	0f468693          	addi	a3,a3,244 # e00000f4 <_eusrstack+0xbffff8f4>
+	for( shift = 28; shift >= 0; shift -= 4 )
+  c2:	4771                	li	a4,28
+		s += ( s < 10 ) ? '0' : ('a' - 10);
+  c4:	45a5                	li	a1,9
+	for( shift = 28; shift >= 0; shift -= 4 )
+  c6:	5671                	li	a2,-4
+		while( (*DMDATA0) & 0x80 );
+  c8:	429c                	lw	a5,0(a3)
+  ca:	0807f793          	andi	a5,a5,128
+  ce:	ffed                	bnez	a5,c8 <PrintHex+0x28>
+		int s = (n>>shift) & 0xf;
+  d0:	00e55333          	srl	t1,a0,a4
+  d4:	00f37313          	andi	t1,t1,15
+		s += ( s < 10 ) ? '0' : ('a' - 10);
+  d8:	0065b7b3          	sltu	a5,a1,t1
+  dc:	40f007b3          	neg	a5,a5
+  e0:	0277f793          	andi	a5,a5,39
+  e4:	03078793          	addi	a5,a5,48
+  e8:	979a                	add	a5,a5,t1
+		*DMDATA0 = 0x85 | (s<<8); //" 0x"
+  ea:	07a2                	slli	a5,a5,0x8
+  ec:	0857e793          	ori	a5,a5,133
+  f0:	c29c                	sw	a5,0(a3)
+	for( shift = 28; shift >= 0; shift -= 4 )
+  f2:	1771                	addi	a4,a4,-4
+  f4:	fcc71ae3          	bne	a4,a2,c8 <PrintHex+0x28>
+}
+  f8:	8082                	ret
+
+000000fa <handle_reset>:
+
+#if defined( CH32V003 ) || defined( CH32X03x ) || defined(CH32V00x)
+
+void handle_reset( void )
+{
+	asm volatile( "\n\
+  fa:	20000197          	auipc	gp,0x20000
+  fe:	30218193          	addi	gp,gp,770 # 200003fc <__global_pointer$>
+ 102:	40418113          	addi	sp,gp,1028 # 20000800 <_eusrstack>
+ 106:	6509                	lui	a0,0x2
+ 108:	88050513          	addi	a0,a0,-1920 # 1880 <ch32fun.c.e1d0904f+0x91a>
+ 10c:	30051073          	csrw	mstatus,a0
+ 110:	468d                	li	a3,3
+ 112:	00000517          	auipc	a0,0x0
+ 116:	eee50513          	addi	a0,a0,-274 # 0 <InterruptVector>
+ 11a:	8d55                	or	a0,a0,a3
+ 11c:	30551073          	csrw	mtvec,a0
+	csrw mtvec, a0\n" 
+	: : : "a0", "a3", "memory");
+
+	// Careful: Use registers to prevent overwriting of self-data.
+	// This clears out BSS.
+asm volatile(
+ 120:	c0418513          	addi	a0,gp,-1020 # 20000000 <_data_vma>
+ 124:	c0418593          	addi	a1,gp,-1020 # 20000000 <_data_vma>
+ 128:	4601                	li	a2,0
+ 12a:	00b55663          	bge	a0,a1,136 <handle_reset+0x3c>
+ 12e:	c110                	sw	a2,0(a0)
+ 130:	0511                	addi	a0,a0,4
+ 132:	feb54ee3          	blt	a0,a1,12e <handle_reset+0x34>
+ 136:	22400513          	li	a0,548
+ 13a:	c0418593          	addi	a1,gp,-1020 # 20000000 <_data_vma>
+ 13e:	c0418613          	addi	a2,gp,-1020 # 20000000 <_data_vma>
+ 142:	00c58863          	beq	a1,a2,152 <handle_reset+0x58>
+ 146:	4114                	lw	a3,0(a0)
+ 148:	c194                	sw	a3,0(a1)
+ 14a:	0511                	addi	a0,a0,4
+ 14c:	0591                	addi	a1,a1,4
+ 14e:	fec59ae3          	bne	a1,a2,142 <handle_reset+0x48>
+: : : "a0", "a1", "a2", "a3", "memory"
+#endif
+);
+
+#if defined( FUNCONF_SYSTICK_USE_HCLK ) && FUNCONF_SYSTICK_USE_HCLK
+	SysTick->CTLR = 5;
+ 152:	e000f7b7          	lui	a5,0xe000f
+ 156:	4715                	li	a4,5
+ 158:	c398                	sw	a4,0(a5)
+#else
+	SysTick->CTLR = 1;
+#endif
+
+	// set mepc to be main as the root app.
+asm volatile(
+ 15a:	21400793          	li	a5,532
+ 15e:	34179073          	csrw	mepc,a5
+ 162:	30200073          	mret
+
+00000166 <ADC1_2_IRQHandler>:
+
+// Return the Machine Exception Program Register (MEPC)
+static inline uint32_t __get_MEPC(void)
+{
+	uint32_t result;
+	__ASM volatile( ADD_ARCH_ZICSR "csrr %0," "mepc" : "=r"(result));
+ 166:	34102573          	csrr	a0,mepc
+	PrintHex( __get_MEPC() ); // "addr2line -e debugprintfdemo.elf 0x000007e6" ---> debugprintfdemo.c:45
+ 16a:	3f1d                	jal	a0 <PrintHex>
+	__ASM volatile( ADD_ARCH_ZICSR "csrr %0, mstatus": "=r"(result) );
+ 16c:	30002573          	csrr	a0,mstatus
+	PrintHex( __get_MSTATUS() );
+ 170:	3f05                	jal	a0 <PrintHex>
+
+// Return the Machine Trap Value Register (MTVAL)
+static inline uint32_t __get_MTVAL(void)
+{
+	uint32_t result;
+	__ASM volatile( ADD_ARCH_ZICSR "csrr %0," "mtval" : "=r" (result) );
+ 172:	34302573          	csrr	a0,mtval
+	PrintHex( __get_MTVAL() );
+ 176:	372d                	jal	a0 <PrintHex>
+	__ASM volatile( ADD_ARCH_ZICSR "csrr %0," "mcause": "=r"(result));
+ 178:	34202573          	csrr	a0,mcause
+	PrintHex( __get_MCAUSE() );
+ 17c:	3715                	jal	a0 <PrintHex>
+	while( (*DMDATA0) & 0x80 );
+ 17e:	e00007b7          	lui	a5,0xe0000
+ 182:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
+ 186:	4398                	lw	a4,0(a5)
+ 188:	08077713          	andi	a4,a4,128
+ 18c:	ff6d                	bnez	a4,186 <ADC1_2_IRQHandler+0x20>
+	*DMDATA0 = 0x0a85;
+ 18e:	6705                	lui	a4,0x1
+ 190:	a8570713          	addi	a4,a4,-1403 # a85 <_data_lma+0x861>
+ 194:	c398                	sw	a4,0(a5)
+	while( (*DMDATA0) & 0x80 );
+ 196:	e00007b7          	lui	a5,0xe0000
+ 19a:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
+ 19e:	4398                	lw	a4,0(a5)
+ 1a0:	08077713          	andi	a4,a4,128
+ 1a4:	ff6d                	bnez	a4,19e <ADC1_2_IRQHandler+0x38>
+	*DMDATA0 = 0xaaaaaa83;
+ 1a6:	aaaab737          	lui	a4,0xaaaab
+ 1aa:	a8370713          	addi	a4,a4,-1405 # aaaaaa83 <_eusrstack+0x8aaaa283>
+ 1ae:	c398                	sw	a4,0(a5)
+	asm volatile( "1: j 1b" );
+ 1b0:	a001                	j	1b0 <ADC1_2_IRQHandler+0x4a>
+
+000001b2 <NMI_Handler>:
+	RCC->INTR |= RCC_CSSC;	// clear the clock security int flag
+ 1b2:	40021737          	lui	a4,0x40021
+ 1b6:	471c                	lw	a5,8(a4)
+ 1b8:	008006b7          	lui	a3,0x800
+ 1bc:	8fd5                	or	a5,a5,a3
+ 1be:	c71c                	sw	a5,8(a4)
+
+000001c0 <SystemInit>:
+	#endif
+#elif defined(CH32X03x)
+	FLASH->ACTLR = FLASH_ACTLR_LATENCY_2;                   // +2 Cycle Latency (Recommended per TRM)
+#elif defined(CH32V003)
+	#if FUNCONF_SYSTEM_CORE_CLOCK > 25000000
+		FLASH->ACTLR = FLASH_ACTLR_LATENCY_1;               // +1 Cycle Latency
+ 1c0:	400227b7          	lui	a5,0x40022
+ 1c4:	4705                	li	a4,1
+ 1c6:	c398                	sw	a4,0(a5)
+#elif defined(FUNCONF_USE_HSI) && FUNCONF_USE_HSI
+	#if defined(CH32V30x) || defined(CH32V20x) || defined(CH32V10x)
+		EXTEN->EXTEN_CTR |= EXTEN_PLL_HSI_PRE;
+	#endif
+	#if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL
+		RCC->CFGR0 = BASE_CFGR0;
+ 1c8:	400217b7          	lui	a5,0x40021
+		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
+ 1cc:	01080737          	lui	a4,0x1080
+		RCC->CFGR0 = BASE_CFGR0;
+ 1d0:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
+		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
+ 1d4:	08170713          	addi	a4,a4,129 # 1080081 <tcrhmag.c.31e45cef+0x107e067>
+ 1d8:	c398                	sw	a4,0(a5)
+		FLASH->ACTLR = FLASH_ACTLR_LATENCY_1;       		// +1 Cycle Latency
+	#endif
+#endif
+
+#if !defined(CH57x) && !defined(CH58x) && !defined(CH59x)
+	RCC->INTR  = 0x009F0000;                               // Clear PLL, CSSC, HSE, HSI and LSI ready flags.
+ 1da:	009f0737          	lui	a4,0x9f0
+ 1de:	c798                	sw	a4,8(a5)
+#endif
+
+#if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL && !defined(CH57x) && !defined(CH58x) && !defined(CH59x)
+	while((RCC->CTLR & RCC_PLLRDY) == 0);                       	// Wait till PLL is ready
+ 1e0:	4398                	lw	a4,0(a5)
+ 1e2:	00671693          	slli	a3,a4,0x6
+ 1e6:	fe06dde3          	bgez	a3,1e0 <SystemInit+0x20>
+	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
+ 1ea:	43d8                	lw	a4,4(a5)
+	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
+	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
+ 1ec:	400216b7          	lui	a3,0x40021
+	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
+ 1f0:	9b71                	andi	a4,a4,-4
+	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
+ 1f2:	00276713          	ori	a4,a4,2
+ 1f6:	c3d8                	sw	a4,4(a5)
+	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
+ 1f8:	4721                	li	a4,8
+ 1fa:	42dc                	lw	a5,4(a3)
+ 1fc:	8bb1                	andi	a5,a5,12
+ 1fe:	fee79ee3          	bne	a5,a4,1fa <SystemInit+0x3a>
+	*DMDATA1 = 0x00;
+ 202:	e00007b7          	lui	a5,0xe0000
+ 206:	0e07ac23          	sw	zero,248(a5) # e00000f8 <_eusrstack+0xbffff8f8>
+	*DMDATA0 = 0x80;
+ 20a:	08000713          	li	a4,128
+ 20e:	0ee7aa23          	sw	a4,244(a5)
+	SetupUART( UART_BRR );
+#endif
+#if defined( FUNCONF_USE_DEBUGPRINTF ) && FUNCONF_USE_DEBUGPRINTF
+	SetupDebugPrintf();
+#endif
+}
+ 212:	8082                	ret
+
+00000214 <main>:
+
+
+
+
+int main(void)
+{
+ 214:	1171                	addi	sp,sp,-4
+ 216:	c006                	sw	ra,0(sp)
+	SystemInit();
+ 218:	3765                	jal	1c0 <SystemInit>
+
+
+	return 0;
+}
+ 21a:	4082                	lw	ra,0(sp)
+ 21c:	4501                	li	a0,0
+ 21e:	0111                	addi	sp,sp,4
+ 220:	8082                	ret
+	...

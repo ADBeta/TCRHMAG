@@ -42,14 +42,14 @@ void gpio_set_opamp_inputs(const GPIO_OPAMP_CH_POS pos,
 						   const GPIO_OPAMP_CH_NEG neg)
 {
 	// Positive Input
-	GPIO_EXTEN->EXTEN_CTR =
-		(GPIO_EXTEN->EXTEN_CTR & ~GPIO_EXTEN_OPA_PSEL) |
-		((pos == GPIO_OPAMP_CH2_POS) ? GPIO_EXTEN_OPA_PSEL : 0);
+	EXTEN->EXTEN_CTR =
+		(EXTEN->EXTEN_CTR & ~EXTEN_OPA_PSEL) |
+		((pos == GPIO_OPAMP_CH2_POS) ? EXTEN_OPA_PSEL : 0);
 
 	// Negative Input
-	GPIO_EXTEN->EXTEN_CTR =
-		(GPIO_EXTEN->EXTEN_CTR & ~GPIO_EXTEN_OPA_NSEL) |
-		((neg == GPIO_OPAMP_CH2_NEG) ? GPIO_EXTEN_OPA_NSEL : 0);
+	EXTEN->EXTEN_CTR =
+		(EXTEN->EXTEN_CTR & ~EXTEN_OPA_NSEL) |
+		((neg == GPIO_OPAMP_CH2_NEG) ? EXTEN_OPA_NSEL : 0);
 }
 
 
@@ -132,7 +132,7 @@ inline uint16_t gpio_analog_read(const GPIO_ANALOG_CHANNEL chan)
 }
 
 
-uint16_t gpio_read_system_mv(void)
+uint16_t gpio_read_system_mv(void);
 {
 	// Get the raw ADC Value for the VREF - shift by 10 (*1024),
 	// then divide it by the ADC maximum.
