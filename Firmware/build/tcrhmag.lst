@@ -11,38 +11,38 @@ Disassembly of section .init:
 	{
 		#if !defined(FUNCONF_TINYVECTOR) || !FUNCONF_TINYVECTOR
 			asm volatile( DEFAULT_INTERRUPT_VECTOR_CONTENTS );
-   0:	0fa0006f          	j	fa <handle_reset>
+   0:	13e0006f          	j	13e <handle_reset>
    4:	00000000          	.word	0x00000000
-   8:	000001b2          	.word	0x000001b2
-   c:	00000166          	.word	0x00000166
+   8:	000001f6          	.word	0x000001f6
+   c:	000001aa          	.word	0x000001aa
 	...
-  30:	00000166          	.word	0x00000166
+  30:	000003cc          	.word	0x000003cc
   34:	00000000          	.word	0x00000000
-  38:	00000166          	.word	0x00000166
+  38:	000001aa          	.word	0x000001aa
   3c:	00000000          	.word	0x00000000
-  40:	00000166          	.word	0x00000166
-  44:	00000166          	.word	0x00000166
-  48:	00000166          	.word	0x00000166
-  4c:	00000166          	.word	0x00000166
-  50:	00000166          	.word	0x00000166
-  54:	00000166          	.word	0x00000166
-  58:	00000166          	.word	0x00000166
-  5c:	00000166          	.word	0x00000166
-  60:	00000166          	.word	0x00000166
-  64:	00000166          	.word	0x00000166
-  68:	00000166          	.word	0x00000166
-  6c:	00000166          	.word	0x00000166
-  70:	00000166          	.word	0x00000166
-  74:	00000166          	.word	0x00000166
-  78:	00000166          	.word	0x00000166
-  7c:	00000166          	.word	0x00000166
-  80:	00000166          	.word	0x00000166
-  84:	00000166          	.word	0x00000166
-  88:	00000166          	.word	0x00000166
-  8c:	00000166          	.word	0x00000166
-  90:	00000166          	.word	0x00000166
-  94:	00000166          	.word	0x00000166
-  98:	00000166          	.word	0x00000166
+  40:	000001aa          	.word	0x000001aa
+  44:	000001aa          	.word	0x000001aa
+  48:	000001aa          	.word	0x000001aa
+  4c:	000001aa          	.word	0x000001aa
+  50:	000001aa          	.word	0x000001aa
+  54:	000001aa          	.word	0x000001aa
+  58:	000001aa          	.word	0x000001aa
+  5c:	000001aa          	.word	0x000001aa
+  60:	000001aa          	.word	0x000001aa
+  64:	000001aa          	.word	0x000001aa
+  68:	000001aa          	.word	0x000001aa
+  6c:	000001aa          	.word	0x000001aa
+  70:	000001aa          	.word	0x000001aa
+  74:	000001aa          	.word	0x000001aa
+  78:	000001aa          	.word	0x000001aa
+  7c:	000001aa          	.word	0x000001aa
+  80:	000001aa          	.word	0x000001aa
+  84:	000001aa          	.word	0x000001aa
+  88:	000001aa          	.word	0x000001aa
+  8c:	000001aa          	.word	0x000001aa
+  90:	000001aa          	.word	0x000001aa
+  94:	000001aa          	.word	0x000001aa
+  98:	000001aa          	.word	0x000001aa
   9c:	0000                	unimp
 	...
 
@@ -93,208 +93,499 @@ Disassembly of section .text:
 }
   f8:	8082                	ret
 
-000000fa <handle_reset>:
+000000fa <gpio_set_mode>:
+	
+	// Make array of uint8_t from [pin] enum. See definition for details
+	uint8_t *byte = (uint8_t *)&pin;
+	
+	// Set the RCC Register to enable clock on the specified port
+	GPIO_RCC->APB2PCENR |= (RCC_APB2PCENR_AFIO | (RCC_APB2PCENR_IOPxEN << byte[0]));
+  fa:	400216b7          	lui	a3,0x40021
+  fe:	4e90                	lw	a2,24(a3)
+ 100:	4791                	li	a5,4
+ 102:	00a797b3          	sll	a5,a5,a0
+ 106:	8fd1                	or	a5,a5,a2
+ 108:	0017e793          	ori	a5,a5,1
+ 10c:	ce9c                	sw	a5,24(a3)
+ 10e:	0ff57713          	zext.b	a4,a0
+
+	// Clear then set the GPIO Config Register
+	GPIO_PORT_MAP[ byte[0] ]->CFGLR &=        ~(0x0F  << (4 * byte[1]));
+ 112:	070a                	slli	a4,a4,0x2
+ 114:	40000793          	li	a5,1024
+ 118:	97ba                	add	a5,a5,a4
+ 11a:	4398                	lw	a4,0(a5)
+ 11c:	8119                	srli	a0,a0,0x6
+ 11e:	3fc57513          	andi	a0,a0,1020
+ 122:	4314                	lw	a3,0(a4)
+ 124:	47bd                	li	a5,15
+ 126:	00a797b3          	sll	a5,a5,a0
+ 12a:	fff7c793          	not	a5,a5
+ 12e:	8ff5                	and	a5,a5,a3
+ 130:	c31c                	sw	a5,0(a4)
+	GPIO_PORT_MAP[ byte[0] ]->CFGLR |=  (mode & 0x0F) << (4 * byte[1]);
+ 132:	431c                	lw	a5,0(a4)
+ 134:	00a595b3          	sll	a1,a1,a0
+ 138:	8ddd                	or	a1,a1,a5
+ 13a:	c30c                	sw	a1,0(a4)
+
+	// If [mode] is INPUT_PULLUP or INPUT_PULLDOWN, set the [OUTDR] Register
+	if(mode == INPUT_PULLUP || mode == INPUT_PULLDOWN)
+		gpio_digital_write(pin, mode >> 4);
+}
+ 13c:	8082                	ret
+
+0000013e <handle_reset>:
 
 #if defined( CH32V003 ) || defined( CH32X03x ) || defined(CH32V00x)
 
 void handle_reset( void )
 {
 	asm volatile( "\n\
-  fa:	20000197          	auipc	gp,0x20000
-  fe:	30218193          	addi	gp,gp,770 # 200003fc <__global_pointer$>
- 102:	40418113          	addi	sp,gp,1028 # 20000800 <_eusrstack>
- 106:	6509                	lui	a0,0x2
- 108:	88050513          	addi	a0,a0,-1920 # 1880 <ch32fun.c.e1d0904f+0x91a>
- 10c:	30051073          	csrw	mstatus,a0
- 110:	468d                	li	a3,3
- 112:	00000517          	auipc	a0,0x0
- 116:	eee50513          	addi	a0,a0,-274 # 0 <InterruptVector>
- 11a:	8d55                	or	a0,a0,a3
- 11c:	30551073          	csrw	mtvec,a0
+ 13e:	20000197          	auipc	gp,0x20000
+ 142:	2be18193          	addi	gp,gp,702 # 200003fc <__global_pointer$>
+ 146:	40418113          	addi	sp,gp,1028 # 20000800 <_eusrstack>
+ 14a:	6509                	lui	a0,0x2
+ 14c:	88050513          	addi	a0,a0,-1920 # 1880 <ch32fun.c.e1d0904f+0x75b>
+ 150:	30051073          	csrw	mstatus,a0
+ 154:	468d                	li	a3,3
+ 156:	00000517          	auipc	a0,0x0
+ 15a:	eaa50513          	addi	a0,a0,-342 # 0 <InterruptVector>
+ 15e:	8d55                	or	a0,a0,a3
+ 160:	30551073          	csrw	mtvec,a0
 	csrw mtvec, a0\n" 
 	: : : "a0", "a3", "memory");
 
 	// Careful: Use registers to prevent overwriting of self-data.
 	// This clears out BSS.
 asm volatile(
- 120:	c0418513          	addi	a0,gp,-1020 # 20000000 <_data_vma>
- 124:	c0418593          	addi	a1,gp,-1020 # 20000000 <_data_vma>
- 128:	4601                	li	a2,0
- 12a:	00b55663          	bge	a0,a1,136 <handle_reset+0x3c>
- 12e:	c110                	sw	a2,0(a0)
- 130:	0511                	addi	a0,a0,4
- 132:	feb54ee3          	blt	a0,a1,12e <handle_reset+0x34>
- 136:	22400513          	li	a0,548
- 13a:	c0418593          	addi	a1,gp,-1020 # 20000000 <_data_vma>
- 13e:	c0418613          	addi	a2,gp,-1020 # 20000000 <_data_vma>
- 142:	00c58863          	beq	a1,a2,152 <handle_reset+0x58>
- 146:	4114                	lw	a3,0(a0)
- 148:	c194                	sw	a3,0(a1)
- 14a:	0511                	addi	a0,a0,4
- 14c:	0591                	addi	a1,a1,4
- 14e:	fec59ae3          	bne	a1,a2,142 <handle_reset+0x48>
+ 164:	c0418513          	addi	a0,gp,-1020 # 20000000 <g_systick_millis>
+ 168:	c0818593          	addi	a1,gp,-1016 # 20000004 <_ebss>
+ 16c:	4601                	li	a2,0
+ 16e:	00b55663          	bge	a0,a1,17a <handle_reset+0x3c>
+ 172:	c110                	sw	a2,0(a0)
+ 174:	0511                	addi	a0,a0,4
+ 176:	feb54ee3          	blt	a0,a1,172 <handle_reset+0x34>
+ 17a:	41000513          	li	a0,1040
+ 17e:	c0418593          	addi	a1,gp,-1020 # 20000000 <g_systick_millis>
+ 182:	c0418613          	addi	a2,gp,-1020 # 20000000 <g_systick_millis>
+ 186:	00c58863          	beq	a1,a2,196 <handle_reset+0x58>
+ 18a:	4114                	lw	a3,0(a0)
+ 18c:	c194                	sw	a3,0(a1)
+ 18e:	0511                	addi	a0,a0,4
+ 190:	0591                	addi	a1,a1,4
+ 192:	fec59ae3          	bne	a1,a2,186 <handle_reset+0x48>
 : : : "a0", "a1", "a2", "a3", "memory"
 #endif
 );
 
 #if defined( FUNCONF_SYSTICK_USE_HCLK ) && FUNCONF_SYSTICK_USE_HCLK
 	SysTick->CTLR = 5;
- 152:	e000f7b7          	lui	a5,0xe000f
- 156:	4715                	li	a4,5
- 158:	c398                	sw	a4,0(a5)
+ 196:	e000f7b7          	lui	a5,0xe000f
+ 19a:	4715                	li	a4,5
+ 19c:	c398                	sw	a4,0(a5)
 #else
 	SysTick->CTLR = 1;
 #endif
 
 	// set mepc to be main as the root app.
 asm volatile(
- 15a:	21400793          	li	a5,532
- 15e:	34179073          	csrw	mepc,a5
- 162:	30200073          	mret
+ 19e:	25800793          	li	a5,600
+ 1a2:	34179073          	csrw	mepc,a5
+ 1a6:	30200073          	mret
 
-00000166 <ADC1_2_IRQHandler>:
+000001aa <ADC1_2_IRQHandler>:
 
 // Return the Machine Exception Program Register (MEPC)
 static inline uint32_t __get_MEPC(void)
 {
 	uint32_t result;
 	__ASM volatile( ADD_ARCH_ZICSR "csrr %0," "mepc" : "=r"(result));
- 166:	34102573          	csrr	a0,mepc
+ 1aa:	34102573          	csrr	a0,mepc
 	PrintHex( __get_MEPC() ); // "addr2line -e debugprintfdemo.elf 0x000007e6" ---> debugprintfdemo.c:45
- 16a:	3f1d                	jal	a0 <PrintHex>
+ 1ae:	3dcd                	jal	a0 <PrintHex>
 	__ASM volatile( ADD_ARCH_ZICSR "csrr %0, mstatus": "=r"(result) );
- 16c:	30002573          	csrr	a0,mstatus
+ 1b0:	30002573          	csrr	a0,mstatus
 	PrintHex( __get_MSTATUS() );
- 170:	3f05                	jal	a0 <PrintHex>
+ 1b4:	35f5                	jal	a0 <PrintHex>
 
 // Return the Machine Trap Value Register (MTVAL)
 static inline uint32_t __get_MTVAL(void)
 {
 	uint32_t result;
 	__ASM volatile( ADD_ARCH_ZICSR "csrr %0," "mtval" : "=r" (result) );
- 172:	34302573          	csrr	a0,mtval
+ 1b6:	34302573          	csrr	a0,mtval
 	PrintHex( __get_MTVAL() );
- 176:	372d                	jal	a0 <PrintHex>
+ 1ba:	35dd                	jal	a0 <PrintHex>
 	__ASM volatile( ADD_ARCH_ZICSR "csrr %0," "mcause": "=r"(result));
- 178:	34202573          	csrr	a0,mcause
+ 1bc:	34202573          	csrr	a0,mcause
 	PrintHex( __get_MCAUSE() );
- 17c:	3715                	jal	a0 <PrintHex>
+ 1c0:	35c5                	jal	a0 <PrintHex>
 	while( (*DMDATA0) & 0x80 );
- 17e:	e00007b7          	lui	a5,0xe0000
- 182:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
- 186:	4398                	lw	a4,0(a5)
- 188:	08077713          	andi	a4,a4,128
- 18c:	ff6d                	bnez	a4,186 <ADC1_2_IRQHandler+0x20>
+ 1c2:	e00007b7          	lui	a5,0xe0000
+ 1c6:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
+ 1ca:	4398                	lw	a4,0(a5)
+ 1cc:	08077713          	andi	a4,a4,128
+ 1d0:	ff6d                	bnez	a4,1ca <ADC1_2_IRQHandler+0x20>
 	*DMDATA0 = 0x0a85;
- 18e:	6705                	lui	a4,0x1
- 190:	a8570713          	addi	a4,a4,-1403 # a85 <_data_lma+0x861>
- 194:	c398                	sw	a4,0(a5)
+ 1d2:	6705                	lui	a4,0x1
+ 1d4:	a8570713          	addi	a4,a4,-1403 # a85 <_data_lma+0x675>
+ 1d8:	c398                	sw	a4,0(a5)
 	while( (*DMDATA0) & 0x80 );
- 196:	e00007b7          	lui	a5,0xe0000
- 19a:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
- 19e:	4398                	lw	a4,0(a5)
- 1a0:	08077713          	andi	a4,a4,128
- 1a4:	ff6d                	bnez	a4,19e <ADC1_2_IRQHandler+0x38>
+ 1da:	e00007b7          	lui	a5,0xe0000
+ 1de:	0f478793          	addi	a5,a5,244 # e00000f4 <_eusrstack+0xbffff8f4>
+ 1e2:	4398                	lw	a4,0(a5)
+ 1e4:	08077713          	andi	a4,a4,128
+ 1e8:	ff6d                	bnez	a4,1e2 <ADC1_2_IRQHandler+0x38>
 	*DMDATA0 = 0xaaaaaa83;
- 1a6:	aaaab737          	lui	a4,0xaaaab
- 1aa:	a8370713          	addi	a4,a4,-1405 # aaaaaa83 <_eusrstack+0x8aaaa283>
- 1ae:	c398                	sw	a4,0(a5)
+ 1ea:	aaaab737          	lui	a4,0xaaaab
+ 1ee:	a8370713          	addi	a4,a4,-1405 # aaaaaa83 <_eusrstack+0x8aaaa283>
+ 1f2:	c398                	sw	a4,0(a5)
 	asm volatile( "1: j 1b" );
- 1b0:	a001                	j	1b0 <ADC1_2_IRQHandler+0x4a>
+ 1f4:	a001                	j	1f4 <ADC1_2_IRQHandler+0x4a>
 
-000001b2 <NMI_Handler>:
+000001f6 <NMI_Handler>:
 	RCC->INTR |= RCC_CSSC;	// clear the clock security int flag
- 1b2:	40021737          	lui	a4,0x40021
- 1b6:	471c                	lw	a5,8(a4)
- 1b8:	008006b7          	lui	a3,0x800
- 1bc:	8fd5                	or	a5,a5,a3
- 1be:	c71c                	sw	a5,8(a4)
+ 1f6:	40021737          	lui	a4,0x40021
+ 1fa:	471c                	lw	a5,8(a4)
+ 1fc:	008006b7          	lui	a3,0x800
+ 200:	8fd5                	or	a5,a5,a3
+ 202:	c71c                	sw	a5,8(a4)
 
-000001c0 <SystemInit>:
+00000204 <SystemInit>:
 	#endif
 #elif defined(CH32X03x)
 	FLASH->ACTLR = FLASH_ACTLR_LATENCY_2;                   // +2 Cycle Latency (Recommended per TRM)
 #elif defined(CH32V003)
 	#if FUNCONF_SYSTEM_CORE_CLOCK > 25000000
 		FLASH->ACTLR = FLASH_ACTLR_LATENCY_1;               // +1 Cycle Latency
- 1c0:	400227b7          	lui	a5,0x40022
- 1c4:	4705                	li	a4,1
- 1c6:	c398                	sw	a4,0(a5)
+ 204:	400227b7          	lui	a5,0x40022
+ 208:	4705                	li	a4,1
+ 20a:	c398                	sw	a4,0(a5)
 #elif defined(FUNCONF_USE_HSI) && FUNCONF_USE_HSI
 	#if defined(CH32V30x) || defined(CH32V20x) || defined(CH32V10x)
 		EXTEN->EXTEN_CTR |= EXTEN_PLL_HSI_PRE;
 	#endif
 	#if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL
 		RCC->CFGR0 = BASE_CFGR0;
- 1c8:	400217b7          	lui	a5,0x40021
+ 20c:	400217b7          	lui	a5,0x40021
 		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
- 1cc:	01080737          	lui	a4,0x1080
+ 210:	01080737          	lui	a4,0x1080
 		RCC->CFGR0 = BASE_CFGR0;
- 1d0:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
+ 214:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
 		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
- 1d4:	08170713          	addi	a4,a4,129 # 1080081 <tcrhmag.c.31e45cef+0x107e067>
- 1d8:	c398                	sw	a4,0(a5)
+ 218:	08170713          	addi	a4,a4,129 # 1080081 <lib_gpioctrl.c.9b7c6186+0x107d321>
+ 21c:	c398                	sw	a4,0(a5)
 		FLASH->ACTLR = FLASH_ACTLR_LATENCY_1;       		// +1 Cycle Latency
 	#endif
 #endif
 
 #if !defined(CH57x) && !defined(CH58x) && !defined(CH59x)
 	RCC->INTR  = 0x009F0000;                               // Clear PLL, CSSC, HSE, HSI and LSI ready flags.
- 1da:	009f0737          	lui	a4,0x9f0
- 1de:	c798                	sw	a4,8(a5)
+ 21e:	009f0737          	lui	a4,0x9f0
+ 222:	c798                	sw	a4,8(a5)
 #endif
 
 #if defined(FUNCONF_USE_PLL) && FUNCONF_USE_PLL && !defined(CH57x) && !defined(CH58x) && !defined(CH59x)
 	while((RCC->CTLR & RCC_PLLRDY) == 0);                       	// Wait till PLL is ready
- 1e0:	4398                	lw	a4,0(a5)
- 1e2:	00671693          	slli	a3,a4,0x6
- 1e6:	fe06dde3          	bgez	a3,1e0 <SystemInit+0x20>
+ 224:	4398                	lw	a4,0(a5)
+ 226:	00671693          	slli	a3,a4,0x6
+ 22a:	fe06dde3          	bgez	a3,224 <SystemInit+0x20>
 	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
- 1ea:	43d8                	lw	a4,4(a5)
+ 22e:	43d8                	lw	a4,4(a5)
 	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
 	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
- 1ec:	400216b7          	lui	a3,0x40021
+ 230:	400216b7          	lui	a3,0x40021
 	uint32_t tmp32 = RCC->CFGR0 & ~(0x03);							// clr the SW
- 1f0:	9b71                	andi	a4,a4,-4
+ 234:	9b71                	andi	a4,a4,-4
 	RCC->CFGR0 = tmp32 | RCC_SW_PLL;                       			// Select PLL as system clock source
- 1f2:	00276713          	ori	a4,a4,2
- 1f6:	c3d8                	sw	a4,4(a5)
+ 236:	00276713          	ori	a4,a4,2
+ 23a:	c3d8                	sw	a4,4(a5)
 	while ((RCC->CFGR0 & (uint32_t)RCC_SWS) != (uint32_t)0x08); 	// Wait till PLL is used as system clock source
- 1f8:	4721                	li	a4,8
- 1fa:	42dc                	lw	a5,4(a3)
- 1fc:	8bb1                	andi	a5,a5,12
- 1fe:	fee79ee3          	bne	a5,a4,1fa <SystemInit+0x3a>
+ 23c:	4721                	li	a4,8
+ 23e:	42dc                	lw	a5,4(a3)
+ 240:	8bb1                	andi	a5,a5,12
+ 242:	fee79ee3          	bne	a5,a4,23e <SystemInit+0x3a>
 	*DMDATA1 = 0x00;
- 202:	e00007b7          	lui	a5,0xe0000
- 206:	0e07ac23          	sw	zero,248(a5) # e00000f8 <_eusrstack+0xbffff8f8>
+ 246:	e00007b7          	lui	a5,0xe0000
+ 24a:	0e07ac23          	sw	zero,248(a5) # e00000f8 <_eusrstack+0xbffff8f8>
 	*DMDATA0 = 0x80;
- 20a:	08000713          	li	a4,128
- 20e:	0ee7aa23          	sw	a4,244(a5)
+ 24e:	08000713          	li	a4,128
+ 252:	0ee7aa23          	sw	a4,244(a5)
 	SetupUART( UART_BRR );
 #endif
 #if defined( FUNCONF_USE_DEBUGPRINTF ) && FUNCONF_USE_DEBUGPRINTF
 	SetupDebugPrintf();
 #endif
 }
- 212:	8082                	ret
+ 256:	8082                	ret
 
-00000214 <main>:
-
-
+00000258 <main>:
 
 
+
+/*** Main ********************************************************************/
 int main(void)
 {
- 214:	1171                	addi	sp,sp,-4
- 216:	c006                	sw	ra,0(sp)
+ 258:	1161                	addi	sp,sp,-8
+ 25a:	c206                	sw	ra,4(sp)
+ 25c:	c022                	sw	s0,0(sp)
+static void pwm_init(void)
+{
+	// NOTE: Uses TIM2 Channel 3 (PC0) as the PWM Output pin
+
+	// Enable TIM2 Clock
+	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
+ 25e:	40021437          	lui	s0,0x40021
 	SystemInit();
- 218:	3765                	jal	1c0 <SystemInit>
+ 262:	374d                	jal	204 <SystemInit>
+	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
+ 264:	4c5c                	lw	a5,28(s0)
+
+	// Set GPIO OUTPUT 10MHz, Aleternate Function (Multiplex)
+	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
+ 266:	45a5                	li	a1,9
+ 268:	4509                	li	a0,2
+	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
+ 26a:	0017e793          	ori	a5,a5,1
+ 26e:	cc5c                	sw	a5,28(s0)
+	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
+ 270:	3569                	jal	fa <gpio_set_mode>
+
+	// Reset TIM2, Inits all registers
+	RCC->APB1PRSTR |= RCC_APB1Periph_TIM2;
+ 272:	481c                	lw	a5,16(s0)
+	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
+
+	// Set Prescaler to ~17KHz. More efficient switching
+	TIM2->PSC = 0x000A;
+ 274:	4729                	li	a4,10
+	// Set the Sample Register(s) for all channels at once
+	GPIO_ADC1->SAMPTR1 = cycles;
+	GPIO_ADC1->SAMPTR2 = cycles;
+
+	// Enable the ADC, and set the triggering to external
+	GPIO_ADC1->CTLR2 |= ADC_ADON | ADC_EXTSEL;
+ 276:	000e06b7          	lui	a3,0xe0
+	RCC->APB1PRSTR |= RCC_APB1Periph_TIM2;
+ 27a:	0017e793          	ori	a5,a5,1
+ 27e:	c81c                	sw	a5,16(s0)
+	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
+ 280:	481c                	lw	a5,16(s0)
+ 282:	0685                	addi	a3,a3,1 # e0001 <lib_gpioctrl.c.9b7c6186+0xdd2a1>
+ 284:	9bf9                	andi	a5,a5,-2
+ 286:	c81c                	sw	a5,16(s0)
+	TIM2->PSC = 0x000A;
+ 288:	400007b7          	lui	a5,0x40000
+ 28c:	02e79423          	sh	a4,40(a5) # 40000028 <_eusrstack+0x1ffff828>
+	// Set PWM Max Value (Autoreload Value)
+	TIM2->ATRLR = 254;
+ 290:	0fe00713          	li	a4,254
+ 294:	02e79623          	sh	a4,44(a5)
+
+	// Set the Compare Capture Register for Channel 3
+	// TIM2_OC3M = 0b111 - PWM Mode 2 - Enable Preload
+	TIM2->CHCTLR2 |= TIM_OC3M_2 | TIM_OC3M_1 | TIM_OC3M_0 | TIM_OC3PE;
+ 298:	01c7d703          	lhu	a4,28(a5)
+ 29c:	07876713          	ori	a4,a4,120
+ 2a0:	00e79e23          	sh	a4,28(a5)
+
+	// Enable auto-reload
+	TIM2->CTLR1 |= TIM_ARPE;
+ 2a4:	0007d703          	lhu	a4,0(a5)
+ 2a8:	08076713          	ori	a4,a4,128
+ 2ac:	00e79023          	sh	a4,0(a5)
+
+	// Enable channel output, polarity is ACTIVE_HIGH
+	TIM2->CCER |= TIM_CC3E | TIM_CC3P;
+ 2b0:	0207d703          	lhu	a4,32(a5)
+ 2b4:	30076713          	ori	a4,a4,768
+ 2b8:	02e79023          	sh	a4,32(a5)
+
+	// Initialise Counter
+	TIM2->SWEVGR |= TIM_UG;
+ 2bc:	0147d703          	lhu	a4,20(a5)
+ 2c0:	00176713          	ori	a4,a4,1
+ 2c4:	00e79a23          	sh	a4,20(a5)
+
+	// Enable TIM2
+	TIM2->CTLR1 |= TIM_CEN;
+ 2c8:	0007d703          	lhu	a4,0(a5)
+ 2cc:	00176713          	ori	a4,a4,1
+ 2d0:	00e79023          	sh	a4,0(a5)
 
 
-	return 0;
+__attribute__((always_inline))
+static inline void pwm_set_duty(const uint32_t duty)
+{
+	TIM2->CH3CVR = duty;
+ 2d4:	0207ae23          	sw	zero,60(a5)
+	GPIO_RCC->APB2PCENR |= RCC_APB2Periph_ADC1;
+ 2d8:	4c1c                	lw	a5,24(s0)
+	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
+ 2da:	7741                	lui	a4,0xffff0
+ 2dc:	7ff70713          	addi	a4,a4,2047 # ffff07ff <_eusrstack+0xdffeffff>
+	GPIO_RCC->APB2PCENR |= RCC_APB2Periph_ADC1;
+ 2e0:	2007e793          	ori	a5,a5,512
+ 2e4:	cc1c                	sw	a5,24(s0)
+	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
+ 2e6:	405c                	lw	a5,4(s0)
+ 2e8:	8ff9                	and	a5,a5,a4
+ 2ea:	c05c                	sw	a5,4(s0)
+	GPIO_RCC->CFGR0 |= div;
+ 2ec:	405c                	lw	a5,4(s0)
+	GPIO_ADC1->SAMPTR1 = cycles;
+ 2ee:	24925737          	lui	a4,0x24925
+ 2f2:	92470713          	addi	a4,a4,-1756 # 24924924 <_eusrstack+0x4924124>
+	GPIO_RCC->CFGR0 |= div;
+ 2f6:	c05c                	sw	a5,4(s0)
+	GPIO_RCC->APB2PRSTR |=  RCC_APB2Periph_ADC1;
+ 2f8:	445c                	lw	a5,12(s0)
+ 2fa:	2007e793          	ori	a5,a5,512
+ 2fe:	c45c                	sw	a5,12(s0)
+	GPIO_RCC->APB2PRSTR &= ~RCC_APB2Periph_ADC1;
+ 300:	445c                	lw	a5,12(s0)
+ 302:	dff7f793          	andi	a5,a5,-513
+ 306:	c45c                	sw	a5,12(s0)
+	GPIO_ADC1->RSQR1 = 0;
+ 308:	400127b7          	lui	a5,0x40012
+ 30c:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+ 310:	0207a623          	sw	zero,44(a5)
+	GPIO_ADC1->RSQR2 = 0;
+ 314:	0207a823          	sw	zero,48(a5)
+	GPIO_ADC1->RSQR3 = 0;
+ 318:	0207aa23          	sw	zero,52(a5)
+	GPIO_ADC1->SAMPTR1 = cycles;
+ 31c:	c7d8                	sw	a4,12(a5)
+	GPIO_ADC1->SAMPTR2 = cycles;
+ 31e:	cb98                	sw	a4,16(a5)
+	GPIO_ADC1->CTLR2 |= ADC_ADON | ADC_EXTSEL;
+ 320:	4798                	lw	a4,8(a5)
+ 322:	8f55                	or	a4,a4,a3
+ 324:	c798                	sw	a4,8(a5)
+	
+	// Reset calibration, wait for it to finish
+	GPIO_ADC1->CTLR2 |= ADC_RSTCAL;
+ 326:	4798                	lw	a4,8(a5)
+ 328:	00876713          	ori	a4,a4,8
+ 32c:	c798                	sw	a4,8(a5)
+	while(GPIO_ADC1->CTLR2 & ADC_RSTCAL);
+ 32e:	4798                	lw	a4,8(a5)
+ 330:	8b21                	andi	a4,a4,8
+ 332:	ff75                	bnez	a4,32e <main+0xd6>
+
+	// Calibrate the ADC, want for it to finish
+	GPIO_ADC1->CTLR2 |= ADC_CAL;
+ 334:	4798                	lw	a4,8(a5)
+ 336:	00476713          	ori	a4,a4,4
+ 33a:	c798                	sw	a4,8(a5)
+	while(GPIO_ADC1->CTLR2 & ADC_CAL);
+ 33c:	40012737          	lui	a4,0x40012
+ 340:	40070713          	addi	a4,a4,1024 # 40012400 <_eusrstack+0x20011c00>
+ 344:	471c                	lw	a5,8(a4)
+ 346:	8b91                	andi	a5,a5,4
+ 348:	fff5                	bnez	a5,344 <main+0xec>
+	gpio_set_mode(OPAMP_CHA1_NEG, INPUT_FLOATING);
+ 34a:	4591                	li	a1,4
+ 34c:	10000513          	li	a0,256
+ 350:	336d                	jal	fa <gpio_set_mode>
+	gpio_set_mode(OPAMP_CHA1_POS, INPUT_FLOATING);
+ 352:	4591                	li	a1,4
+ 354:	20000513          	li	a0,512
+ 358:	334d                	jal	fa <gpio_set_mode>
+	gpio_set_mode(OPAMP_CHA2_POS, INPUT_FLOATING);
+ 35a:	4591                	li	a1,4
+ 35c:	70300513          	li	a0,1795
+ 360:	3b69                	jal	fa <gpio_set_mode>
+	gpio_set_mode(THERM_ADC_PIN,  INPUT_ANALOG);
+ 362:	4581                	li	a1,0
+ 364:	50300513          	li	a0,1283
+ 368:	3b49                	jal	fa <gpio_set_mode>
+	gpio_set_mode(BSENS_ADC_PIN,  INPUT_ANALOG);
+ 36a:	4581                	li	a1,0
+ 36c:	60300513          	li	a0,1539
+ 370:	3369                	jal	fa <gpio_set_mode>
+	gpio_set_mode(OPAMP_ADC_PIN,  INPUT_ANALOG);	
+ 372:	4581                	li	a1,0
+ 374:	40300513          	li	a0,1027
+ 378:	3349                	jal	fa <gpio_set_mode>
+	GPIO_EXTEN->EXTEN_CTR |= GPIO_EXTEN_OPA_EN;
+ 37a:	400247b7          	lui	a5,0x40024
+ 37e:	80078793          	addi	a5,a5,-2048 # 40023800 <_eusrstack+0x20023000>
+ 382:	4398                	lw	a4,0(a5)
+ 384:	66c1                	lui	a3,0x10
+ 386:	8f55                	or	a4,a4,a3
+ 388:	c398                	sw	a4,0(a5)
+		(GPIO_EXTEN->EXTEN_CTR & ~GPIO_EXTEN_OPA_PSEL) |
+ 38a:	4398                	lw	a4,0(a5)
+ 38c:	fffc06b7          	lui	a3,0xfffc0
+ 390:	16fd                	addi	a3,a3,-1 # fffbffff <_eusrstack+0xdffbf7ff>
+ 392:	8f75                	and	a4,a4,a3
+	GPIO_EXTEN->EXTEN_CTR =
+ 394:	c398                	sw	a4,0(a5)
+		(GPIO_EXTEN->EXTEN_CTR & ~GPIO_EXTEN_OPA_NSEL) |
+ 396:	4398                	lw	a4,0(a5)
+ 398:	7681                	lui	a3,0xfffe0
+ 39a:	16fd                	addi	a3,a3,-1 # fffdffff <_eusrstack+0xdffdf7ff>
+ 39c:	8f75                	and	a4,a4,a3
+	GPIO_EXTEN->EXTEN_CTR =
+ 39e:	c398                	sw	a4,0(a5)
+	SysTick->CTLR = 0x0000;
+ 3a0:	e000f7b7          	lui	a5,0xe000f
+	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
+ 3a4:	6731                	lui	a4,0xc
+	SysTick->CTLR = 0x0000;
+ 3a6:	0007a023          	sw	zero,0(a5) # e000f000 <_eusrstack+0xc000e800>
+	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
+ 3aa:	b7f70713          	addi	a4,a4,-1153 # bb7f <lib_gpioctrl.c.9b7c6186+0x8e1f>
+ 3ae:	cb98                	sw	a4,16(a5)
+	SysTick->CNT = 0x00000000;
+ 3b0:	0007a423          	sw	zero,8(a5)
+	g_systick_millis = 0x00000000;
+ 3b4:	c001a223          	sw	zero,-1020(gp) # 20000000 <g_systick_millis>
+	SysTick->CTLR |= SYSTICK_CTLR_STE   |  // Enable Counter
+ 3b8:	4398                	lw	a4,0(a5)
+ 3ba:	00776713          	ori	a4,a4,7
+ 3be:	c398                	sw	a4,0(a5)
+	NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
+ 3c0:	e000e7b7          	lui	a5,0xe000e
+ 3c4:	6705                	lui	a4,0x1
+ 3c6:	10e7a023          	sw	a4,256(a5) # e000e100 <_eusrstack+0xc000d900>
+	while(true)
+ 3ca:	a001                	j	3ca <main+0x172>
+
+000003cc <SysTick_Handler>:
+{
+ 3cc:	1151                	addi	sp,sp,-12
+ 3ce:	c03e                	sw	a5,0(sp)
+	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
+ 3d0:	e000f7b7          	lui	a5,0xe000f
+{
+ 3d4:	c23a                	sw	a4,4(sp)
+	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
+ 3d6:	4b98                	lw	a4,16(a5)
+{
+ 3d8:	c436                	sw	a3,8(sp)
+	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
+ 3da:	66b1                	lui	a3,0xc
+ 3dc:	b8068693          	addi	a3,a3,-1152 # bb80 <lib_gpioctrl.c.9b7c6186+0x8e20>
+ 3e0:	9736                	add	a4,a4,a3
+ 3e2:	cb98                	sw	a4,16(a5)
+	SysTick->SR = 0x00000000;
+ 3e4:	0007a223          	sw	zero,4(a5) # e000f004 <_eusrstack+0xc000e804>
+	g_systick_millis++;
+ 3e8:	c041a783          	lw	a5,-1020(gp) # 20000000 <g_systick_millis>
 }
- 21a:	4082                	lw	ra,0(sp)
- 21c:	4501                	li	a0,0
- 21e:	0111                	addi	sp,sp,4
- 220:	8082                	ret
+ 3ec:	46a2                	lw	a3,8(sp)
+	g_systick_millis++;
+ 3ee:	0785                	addi	a5,a5,1
+ 3f0:	c0f1a223          	sw	a5,-1020(gp) # 20000000 <g_systick_millis>
+}
+ 3f4:	4712                	lw	a4,4(sp)
+ 3f6:	4782                	lw	a5,0(sp)
+ 3f8:	0131                	addi	sp,sp,12
+ 3fa:	30200073          	mret
 	...
+
+00000400 <GPIO_PORT_MAP>:
+ 400:	40010800 00000000 40011000 40011400     ...@.......@...@

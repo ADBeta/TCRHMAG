@@ -38,6 +38,12 @@ void gpio_set_mode(const GPIO_PIN pin, const GPIO_MODE mode)
 }
 
 
+void gpio_init_opamp(void)
+{
+	GPIO_EXTEN->EXTEN_CTR |= GPIO_EXTEN_OPA_EN;
+}
+
+
 void gpio_set_opamp_inputs(const GPIO_OPAMP_CH_POS pos, 
 						   const GPIO_OPAMP_CH_NEG neg)
 {

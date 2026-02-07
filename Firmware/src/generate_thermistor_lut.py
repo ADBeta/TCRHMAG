@@ -30,7 +30,7 @@ tempstep   =  4                        # Temperature Steps in the array (°C)
 
 ### Microcontroller Variables (if using ADC Mode) ###
 adc_max    =  1023                     # Maximum value the ADC Can read
-mcu_vcc    =  5.0                      # Microcontroller input voltage
+mcu_vcc    =  3.3                      # Microcontroller input voltage
 
 
 # Converts a given Temperature in Degrees Celsius to a Resistance Value (Ohms)

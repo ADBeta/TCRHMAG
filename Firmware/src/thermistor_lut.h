@@ -8,7 +8,7 @@ typedef struct {
 	uint16_t adc;       // MCU ADC Value at given temperature
 } thermistor_pair_t;
 
-// NTC Thermistor LUT assuming Rf of 4700R, VCC of 5.0V and ADC with 1023 Counts
+// NTC Thermistor LUT assuming Rf of 4700R, VCC of 3.3V and ADC with 1023 Counts
 static const thermistor_pair_t thermistor_pair[] __attribute__((section(".rodata"))) = {
 	{  0,	1009},
 	{  4,	1006},

@@ -254,6 +254,7 @@ extern GPIO_PORT_REG_TypeDef *GPIO_PORT_MAP[4];
 /*** OpAmp Variables and Types ***********************************************/
 #define GPIO_EXTEN_OPA_PSEL  ((uint32_t)0x00040000)
 #define GPIO_EXTEN_OPA_NSEL  ((uint32_t)0x00020000)
+#define GPIO_EXTEN_OPA_EN    ((uint32_t)0x00010000)
 
 
 /// @brief OpAmp Positive Channel Inputs
@@ -277,6 +278,12 @@ typedef enum {
 /// @param GPIO_MODE mode, the GPIO Mode Variable (e.g OUTPUT_10MHZ_PP)
 /// @return None
 void gpio_set_mode(const GPIO_PIN pin, const GPIO_MODE mode);
+
+
+/// @brief Enables the internal OpAmp
+/// @param None
+/// @return None
+void gpio_init_opamp(void);
 
 
 /// @brief Configure the internal OpAmp to use the given POS and NEG Inputs
