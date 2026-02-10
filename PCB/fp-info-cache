@@ -1,4 +1,4 @@
-26568071355351804
+26569841936642068
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -98384,6 +98384,13 @@ Power_Conn
 0
 2
 2
+TCRHMAG
+Program_Conn
+
+
+0
+4
+4
 TCRHMAG
 Signal_Conn
 

@@ -7,10 +7,11 @@
 * PA1    OPAMP_CH1-
 * PA2    OPAMP_CH1+
 *
-* PC0    PWM Out           (TIM
+* PC0    PWM Out           (TIM2 CH3)
 * PC1    I2C SDA
 * PC2    I2C_SCL
 *
+* PD3    LED Out           (TIM2 CH2)
 * PD4    OPAMP_ADC         (ADC7)
 * PD5    Thermistor ADC    (ADC5)
 * PD6    Battery Sense     (ADC6)
@@ -146,7 +147,7 @@ int main(void)
 
 	while(true)
 	{
-		Serial.println(gpio_adc_read(THERM_ADC_CH));
+		printf("%d\n", gpio_analog_read(THERM_ADC_CH));
 		Delay_Ms(500);
 	}
 

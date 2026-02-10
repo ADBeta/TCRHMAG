@@ -189,7 +189,9 @@
       "track_widths": [
         0.0,
         0.2,
-        0.4
+        0.3,
+        0.4,
+        0.6
       ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
@@ -249,7 +251,12 @@
     "equivalence_files": []
   },
   "erc": {
-    "erc_exclusions": [],
+    "erc_exclusions": [
+      [
+        "pin_to_pin|1949450|1168400|9ead51fb-5e0a-4776-aaf5-59dbd5261e09|65510aec-47bd-4d93-8c1a-0540d80d3aea|/8a51e197-9605-4f4f-a5fb-608847d124d7|/8a51e197-9605-4f4f-a5fb-608847d124d7|/8a51e197-9605-4f4f-a5fb-608847d124d7",
+        ""
+      ]
+    ],
     "meta": {
       "version": 0
     },
@@ -432,7 +439,7 @@
       "different_unit_net": "error",
       "duplicate_reference": "error",
       "duplicate_sheet_names": "error",
-      "endpoint_off_grid": "warning",
+      "endpoint_off_grid": "ignore",
       "extra_units": "error",
       "footprint_filter": "ignore",
       "footprint_link_issues": "warning",
@@ -454,7 +461,7 @@
       "pin_not_connected": "error",
       "pin_not_driven": "error",
       "pin_to_pin": "warning",
-      "power_pin_not_driven": "error",
+      "power_pin_not_driven": "ignore",
       "same_local_global_label": "warning",
       "similar_label_and_power": "warning",
       "similar_labels": "warning",

@@ -3414,7 +3414,7 @@
 		)
 		(uuid "431fb4c1-ca3f-4d1d-8107-80ab396bf078")
 	)
-	(label "MCU_OPAMP_ADC"
+	(label "MCU_OPAMP_OUT"
 		(at 120.65 149.225 180)
 		(effects
 			(font
@@ -3534,7 +3534,7 @@
 		)
 		(uuid "8696c0dc-7858-4f49-9b45-d4a58145bffb")
 	)
-	(label "MCU_OPAMP_ADC"
+	(label "MCU_OPAMP_OUT"
 		(at 215.265 116.84 180)
 		(effects
 			(font
@@ -3664,7 +3664,7 @@
 		)
 		(uuid "daf69f0f-f22a-4807-8e85-22ba4030032b")
 	)
-	(label "MCU_OPAMP_ADC"
+	(label "MCU_OPAMP_OUT"
 		(at 281.305 116.84 180)
 		(effects
 			(font
