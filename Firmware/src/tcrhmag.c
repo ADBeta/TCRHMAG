@@ -103,6 +103,64 @@ static inline void pwm_set_duty(const uint32_t duty);
 
 
 
+
+
+
+uint16_t thermistor_adc_to_temp(const uint16_t adc)
+{
+	uint16_t adc0 = 0, adc1 = 0, temp0 = 0, temp1 = 0, output = 0;
+	
+
+	const uint16_t therm_max_index = THERMISTOR_PAIR_ENTRIES - 1;
+	
+	// Cap the Upper and Lower Bounds
+	if(adc >= thermistor_pair[0].adc)
+		return thermistor_pair[0].temp_c;
+	
+	if(adc <= thermistor_pair[therm_max_index].adc)
+		return thermistor_pair[therm_max_index].temp_c;
+
+
+	// Find the LUT ADC Range
+	for(uint16_t ti = 0; ti < therm_max_index; ti++)
+	{
+		// Get the Current and Next ADC Values in the pair table.
+		adc0  = thermistor_pair[ti].adc;
+		adc1  = thermistor_pair[ti + 1].adc;
+
+		// ADC Values Decrease as temperature rises. Check if adc input is within
+		// the current check range
+		if(adc <= adc0 && adc >= adc1)
+		{
+			// Get Current and Next Temp values in the pair table
+			temp0 = thermistor_pair[ti].temp_c;
+			temp1 = thermistor_pair[ti + 1].temp_c;
+
+			// Linear Interpolation
+			// ADC Decreases with Temperature Rise:
+			// delta_adc   =   adc0 - adc
+			// span_adc    =   adc0 - adc1
+			// delta_temp  =   temp1 - temp0
+			//
+			// x = temp0 + (delta_adc * delta_temp) / span_adc
+			output = temp0 + (uint32_t)(adc0 - adc) * (temp1 - temp0) / (adc0 - adc1);
+			break;
+		}
+	}
+
+	// 0 if something has gone wrong, the linear interptreted temp if not
+	return output;
+}
+
+
+
+
+
+
+
+
+
+
 /*** Main ********************************************************************/
 int main(void)
 {
@@ -147,7 +205,10 @@ int main(void)
 
 	while(true)
 	{
-		printf("%d\n", gpio_analog_read(THERM_ADC_CH));
+		uint16_t therm_adc = gpio_analog_read(THERM_ADC_CH);
+		
+		printf("adc: %d      temp: %d\n", therm_adc, thermistor_adc_to_temp(therm_adc));
+		
 		Delay_Ms(500);
 	}
 
