@@ -20,7 +20,7 @@
 *
 *
 *
-* Ver 0.1    07 Feb 2026
+* Ver 0.2    07 Mar 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -106,11 +106,11 @@ static inline void pwm_set_duty(const uint32_t duty);
 
 
 
+
+
 uint16_t thermistor_adc_to_temp(const uint16_t adc)
 {
 	uint16_t adc0 = 0, adc1 = 0, temp0 = 0, temp1 = 0, output = 0;
-	
-
 	const uint16_t therm_max_index = THERMISTOR_PAIR_ENTRIES - 1;
 	
 	// Cap the Upper and Lower Bounds
@@ -161,6 +161,96 @@ uint16_t thermistor_adc_to_temp(const uint16_t adc)
 
 
 
+
+typedef struct
+{
+	uint16_t Kp, Ki, Kd;                 // PID Gain Values (Scaled)
+	uint16_t scale;                      // Scaling value for the Gain Values
+	
+	// Hidden tracking variables
+	int32_t  _integral;                  // Accumulated Integral Value
+	int32_t  _prev_error;                // Previous Error Value
+} pid_ctrl_t;
+
+
+
+
+
+/// @brief Calculates the Heaters PWM Value using PID based on the current
+/// and target temperature
+/// @param pid, pointer to pid_ctrl_t struct
+/// @param c_temp, Current Temperature (c)
+/// @param t_temp, Target Temperature (c)
+/// @return PWM Value (0 - 255)
+uint32_t pid_calculate_heater_pwm(pid_ctrl_t *pid, 
+								  const uint16_t c_temp, 
+								  const uint16_t t_temp)
+{
+	// Calculate the current error
+	int32_t error = t_temp - c_temp;
+
+	// Prevent Integral Windup by clamping to a fixed value
+	int32_t iclamp = (255 * pid->scale) / pid->Ki;
+	if(pid->_integral >  iclamp)   pid->_integral =  iclamp;
+	if(pid->_integral < -iclamp)   pid->_integral = -iclamp;
+
+	// Calculate the derivative
+	int32_t derivative = (error - pid->_prev_error);
+
+	// Calculate the output (Limit to a range between 0 - 255)
+	int32_t P = (int32_t)pid->Kp * error;
+	int32_t I = (int32_t)pid->Ki * pid->_integral;
+	int32_t D = (int32_t)pid->Kd * derivative;
+	// Add the PID values, then scale to preserve resolution of intagers
+	int32_t output = (P + I + D) / pid->scale;
+
+	// Only accumlate the integration value if the output is not in saturation
+	if(output < 255 && output > 0)
+	{
+		pid->_integral += error;
+
+	// Clamp the output to the useful PWM range
+	} else {
+		if(output < 0)     output = 0;
+		if(output > 255)   output = 255;
+	}
+
+	// Update the previous error
+	pid->_prev_error = error;
+
+	return (uint32_t)output;
+}
+
+
+
+
+void pid_reset(pid_ctrl_t *pid)
+{
+	pid->_integral    = 0;
+	pid->_prev_error  = 0;
+}
+
+
+
+
+
+
+
+
+
+pid_ctrl_t heater_pid =
+{
+	.Kp      = 200,
+	.Ki      = 5,
+	.Kd      = 0,
+	.scale   = 100
+};
+
+
+
+
+
+
 /*** Main ********************************************************************/
 int main(void)
 {
@@ -203,11 +293,20 @@ int main(void)
 	//iwdg_init(0x00, 0x04E2);
 
 
+
+
+
+
+
+
 	while(true)
 	{
 		uint16_t therm_adc = gpio_analog_read(THERM_ADC_CH);
+		uint16_t curr_temp = thermistor_adc_to_temp(therm_adc);
+
+		uint32_t pwm_amount = pid_calculate_heater_pwm(&heater_pid, curr_temp, 30);
 		
-		printf("adc: %d      temp: %d\n", therm_adc, thermistor_adc_to_temp(therm_adc));
+		printf("adc: %d\ttemp: %d\tpid: %d\n", therm_adc, curr_temp, pwm_amount);
 		
 		Delay_Ms(500);
 	}

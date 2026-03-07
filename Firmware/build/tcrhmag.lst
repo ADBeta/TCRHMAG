@@ -16,7 +16,7 @@ Disassembly of section .init:
    8:	0000051e          	.word	0x0000051e
    c:	000004d2          	.word	0x000004d2
 	...
-  30:	000009a2          	.word	0x000009a2
+  30:	00000a54          	.word	0x00000a54
   34:	00000000          	.word	0x00000000
   38:	000004d2          	.word	0x000004d2
   3c:	00000000          	.word	0x00000000
@@ -397,7 +397,7 @@ int mini_itoa(long value, unsigned int radix, int uppercase, int unsig, char *bu
 	GPIO_PORT_MAP[ byte[0] ]->CFGLR &=        ~(0x0F  << (4 * byte[1]));
  332:	6785                	lui	a5,0x1
  334:	070a                	slli	a4,a4,0x2
- 336:	b1c78793          	addi	a5,a5,-1252 # b1c <GPIO_PORT_MAP>
+ 336:	bd478793          	addi	a5,a5,-1068 # bd4 <GPIO_PORT_MAP>
  33a:	97ba                	add	a5,a5,a4
  33c:	4398                	lw	a4,0(a5)
  33e:	8119                	srli	a0,a0,0x6
@@ -498,7 +498,7 @@ WEAK int _write(int fd, const char *buf, int size)
 		while( ( lastdmd = (*DMDATA0) ) & 0x80 )
  3b8:	e0000737          	lui	a4,0xe0000
 		if( tosend > 7 ) tosend = 7;
- 3bc:	0685                	addi	a3,a3,1 # 100001 <lib_gpioctrl.c.9b7c6186+0xfd15d>
+ 3bc:	0685                	addi	a3,a3,1 # 100001 <lib_gpioctrl.c.9b7c6186+0xfcf48>
 		while( ( lastdmd = (*DMDATA0) ) & 0x80 )
  3be:	0f470713          	addi	a4,a4,244 # e00000f4 <_eusrstack+0xbffff8f4>
  3c2:	4310                	lw	a2,0(a4)
@@ -593,7 +593,7 @@ WEAK int _write(int fd, const char *buf, int size)
  466:	f9a18193          	addi	gp,gp,-102 # 200003fc <__global_pointer$>
  46a:	40418113          	addi	sp,gp,1028 # 20000800 <_eusrstack>
  46e:	6509                	lui	a0,0x2
- 470:	88050513          	addi	a0,a0,-1920 # 1880 <ch32fun.c.e1d0904f+0x619>
+ 470:	88050513          	addi	a0,a0,-1920 # 1880 <ch32fun.c.e1d0904f+0x536>
  474:	30051073          	csrw	mstatus,a0
  478:	468d                	li	a3,3
  47a:	00000517          	auipc	a0,0x0
@@ -601,17 +601,17 @@ WEAK int _write(int fd, const char *buf, int size)
  482:	8d55                	or	a0,a0,a3
  484:	30551073          	csrw	mtvec,a0
 asm volatile(
- 488:	c0418513          	addi	a0,gp,-1020 # 20000000 <g_systick_millis>
- 48c:	c0818593          	addi	a1,gp,-1016 # 20000004 <_ebss>
+ 488:	c1418513          	addi	a0,gp,-1004 # 20000010 <g_systick_millis>
+ 48c:	c1818593          	addi	a1,gp,-1000 # 20000014 <_ebss>
  490:	4601                	li	a2,0
  492:	00b55663          	bge	a0,a1,49e <handle_reset+0x3c>
  496:	c110                	sw	a2,0(a0)
  498:	0511                	addi	a0,a0,4
  49a:	feb54ee3          	blt	a0,a1,496 <handle_reset+0x34>
  49e:	00000517          	auipc	a0,0x0
- 4a2:	68e50513          	addi	a0,a0,1678 # b2c <_data_lma>
- 4a6:	c0418593          	addi	a1,gp,-1020 # 20000000 <g_systick_millis>
- 4aa:	c0418613          	addi	a2,gp,-1020 # 20000000 <g_systick_millis>
+ 4a2:	74650513          	addi	a0,a0,1862 # be4 <_data_lma>
+ 4a6:	c0418593          	addi	a1,gp,-1020 # 20000000 <heater_pid>
+ 4aa:	c1418613          	addi	a2,gp,-1004 # 20000010 <g_systick_millis>
  4ae:	00c58863          	beq	a1,a2,4be <handle_reset+0x5c>
  4b2:	4114                	lw	a3,0(a0)
  4b4:	c194                	sw	a3,0(a1)
@@ -662,7 +662,7 @@ static inline uint32_t __get_MTVAL(void)
  4f8:	ff6d                	bnez	a4,4f2 <ADC1_2_IRQHandler+0x20>
 	*DMDATA0 = 0x0a85;
  4fa:	6705                	lui	a4,0x1
- 4fc:	a8570713          	addi	a4,a4,-1403 # a85 <thermistor_pair+0xb1>
+ 4fc:	a8570713          	addi	a4,a4,-1403 # a85 <SysTick_Handler+0x31>
  500:	c398                	sw	a4,0(a5)
 	while( (*DMDATA0) & 0x80 );
  502:	e00007b7          	lui	a5,0xe0000
@@ -976,7 +976,7 @@ static inline uint32_t __get_MTVAL(void)
 		RCC->CFGR0 = BASE_CFGR0;
  72c:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
 		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
- 730:	08170713          	addi	a4,a4,129 # 1080081 <lib_gpioctrl.c.9b7c6186+0x107d1dd>
+ 730:	08170713          	addi	a4,a4,129 # 1080081 <lib_gpioctrl.c.9b7c6186+0x107cfc8>
  734:	c398                	sw	a4,0(a5)
 		FLASH->ACTLR = FLASH_ACTLR_LATENCY_1;       		// +1 Cycle Latency
 	#endif
@@ -1029,386 +1029,475 @@ static inline uint32_t __get_MTVAL(void)
 /*** Main ********************************************************************/
 int main(void)
 {
- 770:	1131                	addi	sp,sp,-20
- 772:	c806                	sw	ra,16(sp)
- 774:	c622                	sw	s0,12(sp)
- 776:	c426                	sw	s1,8(sp)
+ 770:	fd810113          	addi	sp,sp,-40
+ 774:	d206                	sw	ra,36(sp)
+ 776:	d022                	sw	s0,32(sp)
+ 778:	ce26                	sw	s1,28(sp)
 static void pwm_init(void)
 {
 	// NOTE: Uses TIM2 Channel 3 (PC0) as the PWM Output pin
 
 	// Enable TIM2 Clock
 	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
- 778:	40021437          	lui	s0,0x40021
+ 77a:	40021437          	lui	s0,0x40021
 	SystemInit();
- 77c:	3745                	jal	71c <SystemInit>
+ 77e:	3f79                	jal	71c <SystemInit>
 	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
- 77e:	4c5c                	lw	a5,28(s0)
+ 780:	4c5c                	lw	a5,28(s0)
 
 	// Set GPIO OUTPUT 10MHz, Aleternate Function (Multiplex)
 	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
- 780:	45a5                	li	a1,9
- 782:	4509                	li	a0,2
+ 782:	45a5                	li	a1,9
+ 784:	4509                	li	a0,2
 	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
- 784:	0017e793          	ori	a5,a5,1
- 788:	cc5c                	sw	a5,28(s0)
+ 786:	0017e793          	ori	a5,a5,1
+ 78a:	cc5c                	sw	a5,28(s0)
 	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
- 78a:	3e41                	jal	31a <gpio_set_mode>
+ 78c:	3679                	jal	31a <gpio_set_mode>
 
 	// Reset TIM2, Inits all registers
 	RCC->APB1PRSTR |= RCC_APB1Periph_TIM2;
- 78c:	481c                	lw	a5,16(s0)
+ 78e:	481c                	lw	a5,16(s0)
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
 
 	// Set Prescaler to ~17KHz. More efficient switching
 	TIM2->PSC = 0x000A;
- 78e:	4729                	li	a4,10
+ 790:	4729                	li	a4,10
 	// Set the Sample Register(s) for all channels at once
 	GPIO_ADC1->SAMPTR1 = cycles;
 	GPIO_ADC1->SAMPTR2 = cycles;
 
 	// Enable the ADC, and set the triggering to external
 	GPIO_ADC1->CTLR2 |= ADC_ADON | ADC_EXTSEL;
- 790:	000e06b7          	lui	a3,0xe0
+ 792:	000e06b7          	lui	a3,0xe0
 	RCC->APB1PRSTR |= RCC_APB1Periph_TIM2;
- 794:	0017e793          	ori	a5,a5,1
- 798:	c81c                	sw	a5,16(s0)
+ 796:	0017e793          	ori	a5,a5,1
+ 79a:	c81c                	sw	a5,16(s0)
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
- 79a:	481c                	lw	a5,16(s0)
- 79c:	0685                	addi	a3,a3,1 # e0001 <lib_gpioctrl.c.9b7c6186+0xdd15d>
- 79e:	9bf9                	andi	a5,a5,-2
- 7a0:	c81c                	sw	a5,16(s0)
+ 79c:	481c                	lw	a5,16(s0)
+ 79e:	0685                	addi	a3,a3,1 # e0001 <lib_gpioctrl.c.9b7c6186+0xdcf48>
+ 7a0:	9bf9                	andi	a5,a5,-2
+ 7a2:	c81c                	sw	a5,16(s0)
 	TIM2->PSC = 0x000A;
- 7a2:	400007b7          	lui	a5,0x40000
- 7a6:	02e79423          	sh	a4,40(a5) # 40000028 <_eusrstack+0x1ffff828>
+ 7a4:	400007b7          	lui	a5,0x40000
+ 7a8:	02e79423          	sh	a4,40(a5) # 40000028 <_eusrstack+0x1ffff828>
 	// Set PWM Max Value (Autoreload Value)
 	TIM2->ATRLR = 254;
- 7aa:	0fe00713          	li	a4,254
- 7ae:	02e79623          	sh	a4,44(a5)
+ 7ac:	0fe00713          	li	a4,254
+ 7b0:	02e79623          	sh	a4,44(a5)
 
 	// Set the Compare Capture Register for Channel 3
 	// TIM2_OC3M = 0b111 - PWM Mode 2 - Enable Preload
 	TIM2->CHCTLR2 |= TIM_OC3M_2 | TIM_OC3M_1 | TIM_OC3M_0 | TIM_OC3PE;
- 7b2:	01c7d703          	lhu	a4,28(a5)
- 7b6:	07876713          	ori	a4,a4,120
- 7ba:	00e79e23          	sh	a4,28(a5)
+ 7b4:	01c7d703          	lhu	a4,28(a5)
+ 7b8:	07876713          	ori	a4,a4,120
+ 7bc:	00e79e23          	sh	a4,28(a5)
 
 	// Enable auto-reload
 	TIM2->CTLR1 |= TIM_ARPE;
- 7be:	0007d703          	lhu	a4,0(a5)
- 7c2:	08076713          	ori	a4,a4,128
- 7c6:	00e79023          	sh	a4,0(a5)
+ 7c0:	0007d703          	lhu	a4,0(a5)
+ 7c4:	08076713          	ori	a4,a4,128
+ 7c8:	00e79023          	sh	a4,0(a5)
 
 	// Enable channel output, polarity is ACTIVE_HIGH
 	TIM2->CCER |= TIM_CC3E | TIM_CC3P;
- 7ca:	0207d703          	lhu	a4,32(a5)
- 7ce:	30076713          	ori	a4,a4,768
- 7d2:	02e79023          	sh	a4,32(a5)
+ 7cc:	0207d703          	lhu	a4,32(a5)
+ 7d0:	30076713          	ori	a4,a4,768
+ 7d4:	02e79023          	sh	a4,32(a5)
 
 	// Initialise Counter
 	TIM2->SWEVGR |= TIM_UG;
- 7d6:	0147d703          	lhu	a4,20(a5)
- 7da:	00176713          	ori	a4,a4,1
- 7de:	00e79a23          	sh	a4,20(a5)
+ 7d8:	0147d703          	lhu	a4,20(a5)
+ 7dc:	00176713          	ori	a4,a4,1
+ 7e0:	00e79a23          	sh	a4,20(a5)
 
 	// Enable TIM2
 	TIM2->CTLR1 |= TIM_CEN;
- 7e2:	0007d703          	lhu	a4,0(a5)
- 7e6:	00176713          	ori	a4,a4,1
- 7ea:	00e79023          	sh	a4,0(a5)
+ 7e4:	0007d703          	lhu	a4,0(a5)
+ 7e8:	00176713          	ori	a4,a4,1
+ 7ec:	00e79023          	sh	a4,0(a5)
 
 
 __attribute__((always_inline))
 static inline void pwm_set_duty(const uint32_t duty)
 {
 	TIM2->CH3CVR = duty;
- 7ee:	0207ae23          	sw	zero,60(a5)
+ 7f0:	0207ae23          	sw	zero,60(a5)
 	GPIO_RCC->APB2PCENR |= RCC_APB2Periph_ADC1;
- 7f2:	4c1c                	lw	a5,24(s0)
+ 7f4:	4c1c                	lw	a5,24(s0)
 	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
- 7f4:	7741                	lui	a4,0xffff0
- 7f6:	7ff70713          	addi	a4,a4,2047 # ffff07ff <_eusrstack+0xdffeffff>
+ 7f6:	7741                	lui	a4,0xffff0
+ 7f8:	7ff70713          	addi	a4,a4,2047 # ffff07ff <_eusrstack+0xdffeffff>
 	GPIO_RCC->APB2PCENR |= RCC_APB2Periph_ADC1;
- 7fa:	2007e793          	ori	a5,a5,512
- 7fe:	cc1c                	sw	a5,24(s0)
+ 7fc:	2007e793          	ori	a5,a5,512
+ 800:	cc1c                	sw	a5,24(s0)
 	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
- 800:	405c                	lw	a5,4(s0)
- 802:	8ff9                	and	a5,a5,a4
- 804:	c05c                	sw	a5,4(s0)
+ 802:	405c                	lw	a5,4(s0)
+ 804:	8ff9                	and	a5,a5,a4
+ 806:	c05c                	sw	a5,4(s0)
 	GPIO_RCC->CFGR0 |= div;
- 806:	405c                	lw	a5,4(s0)
+ 808:	405c                	lw	a5,4(s0)
 	GPIO_ADC1->SAMPTR1 = cycles;
- 808:	24925737          	lui	a4,0x24925
- 80c:	92470713          	addi	a4,a4,-1756 # 24924924 <_eusrstack+0x4924124>
+ 80a:	24925737          	lui	a4,0x24925
+ 80e:	92470713          	addi	a4,a4,-1756 # 24924924 <_eusrstack+0x4924124>
 	GPIO_RCC->CFGR0 |= div;
- 810:	c05c                	sw	a5,4(s0)
+ 812:	c05c                	sw	a5,4(s0)
 	GPIO_RCC->APB2PRSTR |=  RCC_APB2Periph_ADC1;
- 812:	445c                	lw	a5,12(s0)
- 814:	2007e793          	ori	a5,a5,512
- 818:	c45c                	sw	a5,12(s0)
+ 814:	445c                	lw	a5,12(s0)
+ 816:	2007e793          	ori	a5,a5,512
+ 81a:	c45c                	sw	a5,12(s0)
 	GPIO_RCC->APB2PRSTR &= ~RCC_APB2Periph_ADC1;
- 81a:	445c                	lw	a5,12(s0)
- 81c:	dff7f793          	andi	a5,a5,-513
- 820:	c45c                	sw	a5,12(s0)
+ 81c:	445c                	lw	a5,12(s0)
+ 81e:	dff7f793          	andi	a5,a5,-513
+ 822:	c45c                	sw	a5,12(s0)
 	GPIO_ADC1->RSQR1 = 0;
- 822:	400127b7          	lui	a5,0x40012
- 826:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
- 82a:	0207a623          	sw	zero,44(a5)
+ 824:	400127b7          	lui	a5,0x40012
+ 828:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+ 82c:	0207a623          	sw	zero,44(a5)
 	GPIO_ADC1->RSQR2 = 0;
- 82e:	0207a823          	sw	zero,48(a5)
+ 830:	0207a823          	sw	zero,48(a5)
 	GPIO_ADC1->RSQR3 = 0;
- 832:	0207aa23          	sw	zero,52(a5)
+ 834:	0207aa23          	sw	zero,52(a5)
 	GPIO_ADC1->SAMPTR1 = cycles;
- 836:	c7d8                	sw	a4,12(a5)
+ 838:	c7d8                	sw	a4,12(a5)
 	GPIO_ADC1->SAMPTR2 = cycles;
- 838:	cb98                	sw	a4,16(a5)
+ 83a:	cb98                	sw	a4,16(a5)
 	GPIO_ADC1->CTLR2 |= ADC_ADON | ADC_EXTSEL;
- 83a:	4798                	lw	a4,8(a5)
- 83c:	8f55                	or	a4,a4,a3
- 83e:	c798                	sw	a4,8(a5)
+ 83c:	4798                	lw	a4,8(a5)
+ 83e:	8f55                	or	a4,a4,a3
+ 840:	c798                	sw	a4,8(a5)
 	
 	// Reset calibration, wait for it to finish
 	GPIO_ADC1->CTLR2 |= ADC_RSTCAL;
- 840:	4798                	lw	a4,8(a5)
- 842:	00876713          	ori	a4,a4,8
- 846:	c798                	sw	a4,8(a5)
+ 842:	4798                	lw	a4,8(a5)
+ 844:	00876713          	ori	a4,a4,8
+ 848:	c798                	sw	a4,8(a5)
 	while(GPIO_ADC1->CTLR2 & ADC_RSTCAL);
- 848:	4798                	lw	a4,8(a5)
- 84a:	8b21                	andi	a4,a4,8
- 84c:	ff75                	bnez	a4,848 <main+0xd8>
+ 84a:	4798                	lw	a4,8(a5)
+ 84c:	8b21                	andi	a4,a4,8
+ 84e:	ff75                	bnez	a4,84a <main+0xda>
 
 	// Calibrate the ADC, want for it to finish
 	GPIO_ADC1->CTLR2 |= ADC_CAL;
- 84e:	4798                	lw	a4,8(a5)
- 850:	00476713          	ori	a4,a4,4
- 854:	c798                	sw	a4,8(a5)
+ 850:	4798                	lw	a4,8(a5)
+ 852:	00476713          	ori	a4,a4,4
+ 856:	c798                	sw	a4,8(a5)
 	while(GPIO_ADC1->CTLR2 & ADC_CAL);
- 856:	40012737          	lui	a4,0x40012
- 85a:	40070713          	addi	a4,a4,1024 # 40012400 <_eusrstack+0x20011c00>
- 85e:	471c                	lw	a5,8(a4)
- 860:	8b91                	andi	a5,a5,4
- 862:	fff5                	bnez	a5,85e <main+0xee>
+ 858:	40012737          	lui	a4,0x40012
+ 85c:	40070713          	addi	a4,a4,1024 # 40012400 <_eusrstack+0x20011c00>
+ 860:	471c                	lw	a5,8(a4)
+ 862:	8b91                	andi	a5,a5,4
+ 864:	fff5                	bnez	a5,860 <main+0xf0>
 	gpio_set_mode(OPAMP_CHA1_NEG, INPUT_FLOATING);
- 864:	4591                	li	a1,4
- 866:	10000513          	li	a0,256
- 86a:	3c45                	jal	31a <gpio_set_mode>
+ 866:	4591                	li	a1,4
+ 868:	10000513          	li	a0,256
+ 86c:	347d                	jal	31a <gpio_set_mode>
 	gpio_set_mode(OPAMP_CHA1_POS, INPUT_FLOATING);
- 86c:	4591                	li	a1,4
- 86e:	20000513          	li	a0,512
- 872:	3465                	jal	31a <gpio_set_mode>
+ 86e:	4591                	li	a1,4
+ 870:	20000513          	li	a0,512
+ 874:	345d                	jal	31a <gpio_set_mode>
 	gpio_set_mode(OPAMP_CHA2_POS, INPUT_FLOATING);
- 874:	4591                	li	a1,4
- 876:	70300513          	li	a0,1795
- 87a:	3445                	jal	31a <gpio_set_mode>
+ 876:	4591                	li	a1,4
+ 878:	70300513          	li	a0,1795
+ 87c:	3c79                	jal	31a <gpio_set_mode>
 	gpio_set_mode(THERM_ADC_PIN,  INPUT_ANALOG);
- 87c:	4581                	li	a1,0
- 87e:	50300513          	li	a0,1283
- 882:	3c61                	jal	31a <gpio_set_mode>
+ 87e:	4581                	li	a1,0
+ 880:	50300513          	li	a0,1283
+ 884:	3c59                	jal	31a <gpio_set_mode>
 	gpio_set_mode(BSENS_ADC_PIN,  INPUT_ANALOG);
- 884:	4581                	li	a1,0
- 886:	60300513          	li	a0,1539
- 88a:	3c41                	jal	31a <gpio_set_mode>
+ 886:	4581                	li	a1,0
+ 888:	60300513          	li	a0,1539
+ 88c:	3479                	jal	31a <gpio_set_mode>
 	gpio_set_mode(OPAMP_ADC_PIN,  INPUT_ANALOG);	
- 88c:	4581                	li	a1,0
- 88e:	40300513          	li	a0,1027
- 892:	3461                	jal	31a <gpio_set_mode>
+ 88e:	4581                	li	a1,0
+ 890:	40300513          	li	a0,1027
+ 894:	3459                	jal	31a <gpio_set_mode>
 	GPIO_EXTEN->EXTEN_CTR |= GPIO_EXTEN_OPA_EN;
- 894:	400247b7          	lui	a5,0x40024
- 898:	80078793          	addi	a5,a5,-2048 # 40023800 <_eusrstack+0x20023000>
- 89c:	4398                	lw	a4,0(a5)
- 89e:	66c1                	lui	a3,0x10
- 8a0:	8f55                	or	a4,a4,a3
- 8a2:	c398                	sw	a4,0(a5)
+ 896:	400247b7          	lui	a5,0x40024
+ 89a:	80078793          	addi	a5,a5,-2048 # 40023800 <_eusrstack+0x20023000>
+ 89e:	4398                	lw	a4,0(a5)
+ 8a0:	66c1                	lui	a3,0x10
+ 8a2:	8f55                	or	a4,a4,a3
+ 8a4:	c398                	sw	a4,0(a5)
 		(GPIO_EXTEN->EXTEN_CTR & ~GPIO_EXTEN_OPA_PSEL) |
- 8a4:	4398                	lw	a4,0(a5)
- 8a6:	fffc06b7          	lui	a3,0xfffc0
- 8aa:	16fd                	addi	a3,a3,-1 # fffbffff <_eusrstack+0xdffbf7ff>
- 8ac:	8f75                	and	a4,a4,a3
+ 8a6:	4398                	lw	a4,0(a5)
+ 8a8:	fffc06b7          	lui	a3,0xfffc0
+ 8ac:	16fd                	addi	a3,a3,-1 # fffbffff <_eusrstack+0xdffbf7ff>
+ 8ae:	8f75                	and	a4,a4,a3
 	GPIO_EXTEN->EXTEN_CTR =
- 8ae:	c398                	sw	a4,0(a5)
+ 8b0:	c398                	sw	a4,0(a5)
 		(GPIO_EXTEN->EXTEN_CTR & ~GPIO_EXTEN_OPA_NSEL) |
- 8b0:	4398                	lw	a4,0(a5)
- 8b2:	7681                	lui	a3,0xfffe0
- 8b4:	16fd                	addi	a3,a3,-1 # fffdffff <_eusrstack+0xdffdf7ff>
- 8b6:	8f75                	and	a4,a4,a3
+ 8b2:	4398                	lw	a4,0(a5)
+ 8b4:	7681                	lui	a3,0xfffe0
+ 8b6:	16fd                	addi	a3,a3,-1 # fffdffff <_eusrstack+0xdffdf7ff>
+ 8b8:	8f75                	and	a4,a4,a3
 	GPIO_EXTEN->EXTEN_CTR =
- 8b8:	c398                	sw	a4,0(a5)
+ 8ba:	c398                	sw	a4,0(a5)
 	SysTick->CTLR = 0x0000;
- 8ba:	e000f7b7          	lui	a5,0xe000f
+ 8bc:	e000f7b7          	lui	a5,0xe000f
 	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
- 8be:	6731                	lui	a4,0xc
+ 8c0:	6731                	lui	a4,0xc
 	SysTick->CTLR = 0x0000;
- 8c0:	0007a023          	sw	zero,0(a5) # e000f000 <_eusrstack+0xc000e800>
+ 8c2:	0007a023          	sw	zero,0(a5) # e000f000 <_eusrstack+0xc000e800>
 	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
- 8c4:	b7f70713          	addi	a4,a4,-1153 # bb7f <lib_gpioctrl.c.9b7c6186+0x8cdb>
- 8c8:	cb98                	sw	a4,16(a5)
+ 8c6:	b7f70713          	addi	a4,a4,-1153 # bb7f <lib_gpioctrl.c.9b7c6186+0x8ac6>
+ 8ca:	cb98                	sw	a4,16(a5)
 	SysTick->CNT = 0x00000000;
- 8ca:	0007a423          	sw	zero,8(a5)
+ 8cc:	0007a423          	sw	zero,8(a5)
 	g_systick_millis = 0x00000000;
- 8ce:	c001a223          	sw	zero,-1020(gp) # 20000000 <g_systick_millis>
+ 8d0:	c001aa23          	sw	zero,-1004(gp) # 20000010 <g_systick_millis>
 	SysTick->CTLR |= SYSTICK_CTLR_STE   |  // Enable Counter
- 8d2:	4398                	lw	a4,0(a5)
- 8d4:	00776713          	ori	a4,a4,7
- 8d8:	c398                	sw	a4,0(a5)
+ 8d4:	4398                	lw	a4,0(a5)
+ 8d6:	00776713          	ori	a4,a4,7
+ 8da:	c398                	sw	a4,0(a5)
 	NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
- 8da:	e000e7b7          	lui	a5,0xe000e
- 8de:	6705                	lui	a4,0x1
- 8e0:	10e7a023          	sw	a4,256(a5) # e000e100 <_eusrstack+0xc000d900>
+ 8dc:	e000e7b7          	lui	a5,0xe000e
+ 8e0:	6705                	lui	a4,0x1
+ 8e2:	10e7a023          	sw	a4,256(a5) # e000e100 <_eusrstack+0xc000d900>
 inline uint16_t gpio_analog_read(const GPIO_ANALOG_CHANNEL chan)
 {
 	// Set rule channel conversion for single conversion on passed channel
 	// GPIO_ADC1->RSQR1 = 0;
 	// GPIO_ADC1->RSQR2 = 0;
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
- 8e4:	400127b7          	lui	a5,0x40012
- 8e8:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
- 8ec:	4715                	li	a4,5
- 8ee:	dbd8                	sw	a4,52(a5)
+ 8e6:	400127b7          	lui	a5,0x40012
+ 8ea:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+ 8ee:	4715                	li	a4,5
+ 8f0:	dbd8                	sw	a4,52(a5)
 
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
- 8f0:	4798                	lw	a4,8(a5)
- 8f2:	004006b7          	lui	a3,0x400
- 8f6:	8f55                	or	a4,a4,a3
- 8f8:	c798                	sw	a4,8(a5)
+ 8f2:	4798                	lw	a4,8(a5)
+ 8f4:	004006b7          	lui	a3,0x400
+ 8f8:	8f55                	or	a4,a4,a3
+ 8fa:	c798                	sw	a4,8(a5)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
- 8fa:	4398                	lw	a4,0(a5)
- 8fc:	8b09                	andi	a4,a4,2
- 8fe:	df75                	beqz	a4,8fa <main+0x18a>
+ 8fc:	4398                	lw	a4,0(a5)
+ 8fe:	8b09                	andi	a4,a4,2
+ 900:	df75                	beqz	a4,8fc <main+0x18c>
 
 	// Get the resulting data from the ADC
 	return GPIO_ADC1->RDATAR;
- 900:	47e4                	lw	s1,76(a5)
+ 902:	47f8                	lw	a4,76(a5)
 	if(adc >= thermistor_pair[0].adc)
- 902:	3f000793          	li	a5,1008
+ 904:	3f000793          	li	a5,1008
 		return thermistor_pair[0].temp_c;
- 906:	4601                	li	a2,0
- 908:	04c2                	slli	s1,s1,0x10
- 90a:	80c1                	srli	s1,s1,0x10
+ 908:	4601                	li	a2,0
+ 90a:	0742                	slli	a4,a4,0x10
+ 90c:	8341                	srli	a4,a4,0x10
 	if(adc >= thermistor_pair[0].adc)
- 90c:	0697e363          	bltu	a5,s1,972 <main+0x202>
+ 90e:	06e7e263          	bltu	a5,a4,972 <main+0x202>
 	if(adc <= thermistor_pair[therm_max_index].adc)
- 910:	02500793          	li	a5,37
+ 912:	02500793          	li	a5,37
 		return thermistor_pair[therm_max_index].temp_c;
- 914:	12c00613          	li	a2,300
+ 916:	12c00613          	li	a2,300
 	if(adc <= thermistor_pair[therm_max_index].adc)
- 918:	0497fd63          	bgeu	a5,s1,972 <main+0x202>
- 91c:	6585                	lui	a1,0x1
- 91e:	9d458513          	addi	a0,a1,-1580 # 9d4 <thermistor_pair>
- 922:	4781                	li	a5,0
- 924:	9d458593          	addi	a1,a1,-1580
+ 91a:	04e7fc63          	bgeu	a5,a4,972 <main+0x202>
+ 91e:	6585                	lui	a1,0x1
+ 920:	a8858613          	addi	a2,a1,-1400 # a88 <thermistor_pair>
+ 924:	4781                	li	a5,0
+ 926:	a8858593          	addi	a1,a1,-1400
 	for(uint16_t ti = 0; ti < therm_max_index; ti++)
- 928:	04b00313          	li	t1,75
+ 92a:	04b00513          	li	a0,75
 		adc0  = thermistor_pair[ti].adc;
- 92c:	00255683          	lhu	a3,2(a0)
+ 92e:	00265403          	lhu	s0,2(a2)
 		if(adc <= adc0 && adc >= adc1)
- 930:	00178713          	addi	a4,a5,1
- 934:	0696e163          	bltu	a3,s1,996 <main+0x226>
+ 932:	00178693          	addi	a3,a5,1
+ 936:	06e46e63          	bltu	s0,a4,9b2 <main+0x242>
 		adc1  = thermistor_pair[ti + 1].adc;
- 938:	00655603          	lhu	a2,6(a0)
+ 93a:	00665483          	lhu	s1,6(a2)
 		if(adc <= adc0 && adc >= adc1)
- 93c:	04c4ed63          	bltu	s1,a2,996 <main+0x226>
+ 93e:	06976a63          	bltu	a4,s1,9b2 <main+0x242>
 			temp0 = thermistor_pair[ti].temp_c;
- 940:	078a                	slli	a5,a5,0x2
+ 942:	078a                	slli	a5,a5,0x2
 			temp1 = thermistor_pair[ti + 1].temp_c;
- 942:	070a                	slli	a4,a4,0x2
+ 944:	068a                	slli	a3,a3,0x2
 			temp0 = thermistor_pair[ti].temp_c;
- 944:	97ae                	add	a5,a5,a1
+ 946:	97ae                	add	a5,a5,a1
 			temp1 = thermistor_pair[ti + 1].temp_c;
- 946:	972e                	add	a4,a4,a1
+ 948:	96ae                	add	a3,a3,a1
 			temp0 = thermistor_pair[ti].temp_c;
- 948:	0007d403          	lhu	s0,0(a5)
+ 94a:	0007d603          	lhu	a2,0(a5)
 			output = temp0 + (uint32_t)(adc0 - adc) * (temp1 - temp0) / (adc0 - adc1);
- 94c:	00075503          	lhu	a0,0(a4) # 1000 <_data_lma+0x4d4>
- 950:	409685b3          	sub	a1,a3,s1
- 954:	c232                	sw	a2,4(sp)
- 956:	8d01                	sub	a0,a0,s0
- 958:	c036                	sw	a3,0(sp)
- 95a:	f46ff0ef          	jal	a0 <__mulsi3>
- 95e:	4612                	lw	a2,4(sp)
- 960:	4682                	lw	a3,0(sp)
- 962:	40c685b3          	sub	a1,a3,a2
- 966:	f5aff0ef          	jal	c0 <__hidden___udivsi3>
- 96a:	00a40633          	add	a2,s0,a0
+ 94e:	0006d503          	lhu	a0,0(a3) # 400000 <lib_gpioctrl.c.9b7c6186+0x3fcf47>
+ 952:	40e405b3          	sub	a1,s0,a4
+ 956:	c23a                	sw	a4,4(sp)
+ 958:	8d11                	sub	a0,a0,a2
+ 95a:	c032                	sw	a2,0(sp)
+ 95c:	f44ff0ef          	jal	a0 <__mulsi3>
+ 960:	409405b3          	sub	a1,s0,s1
+ 964:	f5cff0ef          	jal	c0 <__hidden___udivsi3>
+ 968:	4602                	lw	a2,0(sp)
+			break;
+ 96a:	4712                	lw	a4,4(sp)
+			output = temp0 + (uint32_t)(adc0 - adc) * (temp1 - temp0) / (adc0 - adc1);
+ 96c:	962a                	add	a2,a2,a0
  96e:	0642                	slli	a2,a2,0x10
  970:	8241                	srli	a2,a2,0x10
-		printf("adc: %d      temp: %d\n", therm_adc, thermistor_adc_to_temp(therm_adc));
- 972:	6505                	lui	a0,0x1
- 974:	85a6                	mv	a1,s1
- 976:	b0450513          	addi	a0,a0,-1276 # b04 <thermistor_pair+0x130>
- 97a:	3341                	jal	6fa <printf>
-	uint32_t targend = SysTick->CNT + n;
- 97c:	e000f6b7          	lui	a3,0xe000f
- 980:	4698                	lw	a4,8(a3)
- 982:	016e37b7          	lui	a5,0x16e3
- 986:	60078793          	addi	a5,a5,1536 # 16e3600 <lib_gpioctrl.c.9b7c6186+0x16e075c>
- 98a:	973e                	add	a4,a4,a5
-	while( ((int32_t)( SysTick->CNT - targend )) < 0 );
- 98c:	469c                	lw	a5,8(a3)
- 98e:	8f99                	sub	a5,a5,a4
- 990:	fe07cee3          	bltz	a5,98c <main+0x21c>
- 994:	bf81                	j	8e4 <main+0x174>
+	int32_t iclamp = (255 * pid->scale) / pid->Ki;
+ 972:	c0418693          	addi	a3,gp,-1020 # 20000000 <heater_pid>
+ 976:	0066d783          	lhu	a5,6(a3)
+	int32_t error = t_temp - c_temp;
+ 97a:	4479                	li	s0,30
+ 97c:	c63a                	sw	a4,12(sp)
+	int32_t iclamp = (255 * pid->scale) / pid->Ki;
+ 97e:	c03e                	sw	a5,0(sp)
+ 980:	0026d783          	lhu	a5,2(a3)
+	int32_t error = t_temp - c_temp;
+ 984:	8c11                	sub	s0,s0,a2
+ 986:	c432                	sw	a2,8(sp)
+	int32_t iclamp = (255 * pid->scale) / pid->Ki;
+ 988:	c23e                	sw	a5,4(sp)
+ 98a:	4782                	lw	a5,0(sp)
+ 98c:	4592                	lw	a1,4(sp)
+ 98e:	00879513          	slli	a0,a5,0x8
+ 992:	8d1d                	sub	a0,a0,a5
+ 994:	f24ff0ef          	jal	b8 <__divsi3>
+	if(pid->_integral >  iclamp)   pid->_integral =  iclamp;
+ 998:	c0418693          	addi	a3,gp,-1020 # 20000000 <heater_pid>
+ 99c:	0086a303          	lw	t1,8(a3)
+ 9a0:	4622                	lw	a2,8(sp)
+ 9a2:	4732                	lw	a4,12(sp)
+ 9a4:	c0418493          	addi	s1,gp,-1020 # 20000000 <heater_pid>
+ 9a8:	00655b63          	bge	a0,t1,9be <main+0x24e>
+	if(pid->_integral < -iclamp)   pid->_integral = -iclamp;
+ 9ac:	c488                	sw	a0,8(s1)
+ 9ae:	832a                	mv	t1,a0
+ 9b0:	a819                	j	9c6 <main+0x256>
 	for(uint16_t ti = 0; ti < therm_max_index; ti++)
- 996:	87ba                	mv	a5,a4
- 998:	0511                	addi	a0,a0,4
- 99a:	f86719e3          	bne	a4,t1,92c <main+0x1bc>
+ 9b2:	87b6                	mv	a5,a3
+ 9b4:	0611                	addi	a2,a2,4
+ 9b6:	f6a69ce3          	bne	a3,a0,92e <main+0x1be>
 		return thermistor_pair[0].temp_c;
- 99e:	4601                	li	a2,0
- 9a0:	bfc9                	j	972 <main+0x202>
+ 9ba:	4601                	li	a2,0
+ 9bc:	bf5d                	j	972 <main+0x202>
+	if(pid->_integral < -iclamp)   pid->_integral = -iclamp;
+ 9be:	40a00533          	neg	a0,a0
+ 9c2:	fea345e3          	blt	t1,a0,9ac <main+0x23c>
+	int32_t derivative = (error - pid->_prev_error);
+ 9c6:	44c8                	lw	a0,12(s1)
+	int32_t D = (int32_t)pid->Kd * derivative;
+ 9c8:	0044d583          	lhu	a1,4(s1)
+ 9cc:	cc3a                	sw	a4,24(sp)
+ 9ce:	40a40533          	sub	a0,s0,a0
+ 9d2:	ca32                	sw	a2,20(sp)
+ 9d4:	c41a                	sw	t1,8(sp)
+ 9d6:	ecaff0ef          	jal	a0 <__mulsi3>
+ 9da:	c82a                	sw	a0,16(sp)
+	int32_t P = (int32_t)pid->Kp * error;
+ 9dc:	0004d503          	lhu	a0,0(s1)
+ 9e0:	85a2                	mv	a1,s0
+ 9e2:	ebeff0ef          	jal	a0 <__mulsi3>
+	int32_t I = (int32_t)pid->Ki * pid->_integral;
+ 9e6:	4322                	lw	t1,8(sp)
+	int32_t P = (int32_t)pid->Kp * error;
+ 9e8:	c62a                	sw	a0,12(sp)
+	int32_t I = (int32_t)pid->Ki * pid->_integral;
+ 9ea:	4512                	lw	a0,4(sp)
+ 9ec:	859a                	mv	a1,t1
+ 9ee:	eb2ff0ef          	jal	a0 <__mulsi3>
+	int32_t output = (P + I + D) / pid->scale;
+ 9f2:	46b2                	lw	a3,12(sp)
+ 9f4:	42c2                	lw	t0,16(sp)
+ 9f6:	4582                	lw	a1,0(sp)
+ 9f8:	9536                	add	a0,a0,a3
+ 9fa:	9516                	add	a0,a0,t0
+ 9fc:	ebcff0ef          	jal	b8 <__divsi3>
+ a00:	86aa                	mv	a3,a0
+	if(output < 255 && output > 0)
+ a02:	0fd00593          	li	a1,253
+ a06:	157d                	addi	a0,a0,-1
+ a08:	4652                	lw	a2,20(sp)
+ a0a:	4762                	lw	a4,24(sp)
+ a0c:	02a5e963          	bltu	a1,a0,a3e <main+0x2ce>
+		pid->_integral += error;
+ a10:	4322                	lw	t1,8(sp)
+ a12:	9322                	add	t1,t1,s0
+ a14:	0064a423          	sw	t1,8(s1)
+		printf("adc: %d\ttemp: %d\tpid: %d\n", therm_adc, curr_temp, pwm_amount);
+ a18:	6505                	lui	a0,0x1
+ a1a:	85ba                	mv	a1,a4
+ a1c:	bb850513          	addi	a0,a0,-1096 # bb8 <thermistor_pair+0x130>
+	pid->_prev_error = error;
+ a20:	c4c0                	sw	s0,12(s1)
+		printf("adc: %d\ttemp: %d\tpid: %d\n", therm_adc, curr_temp, pwm_amount);
+ a22:	39e1                	jal	6fa <printf>
+	uint32_t targend = SysTick->CNT + n;
+ a24:	e000f6b7          	lui	a3,0xe000f
+ a28:	4698                	lw	a4,8(a3)
+ a2a:	016e37b7          	lui	a5,0x16e3
+ a2e:	60078793          	addi	a5,a5,1536 # 16e3600 <lib_gpioctrl.c.9b7c6186+0x16e0547>
+ a32:	973e                	add	a4,a4,a5
+	while( ((int32_t)( SysTick->CNT - targend )) < 0 );
+ a34:	469c                	lw	a5,8(a3)
+ a36:	8f99                	sub	a5,a5,a4
+ a38:	fe07cee3          	bltz	a5,a34 <main+0x2c4>
+ a3c:	b56d                	j	8e6 <main+0x176>
+		if(output > 255)   output = 255;
+ a3e:	0ff00593          	li	a1,255
+ a42:	00d5d463          	bge	a1,a3,a4a <main+0x2da>
+ a46:	86ae                	mv	a3,a1
+ a48:	bfc1                	j	a18 <main+0x2a8>
+		if(output < 0)     output = 0;
+ a4a:	fff6c593          	not	a1,a3
+ a4e:	85fd                	srai	a1,a1,0x1f
+ a50:	8eed                	and	a3,a3,a1
+ a52:	b7d9                	j	a18 <main+0x2a8>
 
-000009a2 <SysTick_Handler>:
+00000a54 <SysTick_Handler>:
 {
- 9a2:	1151                	addi	sp,sp,-12
- 9a4:	c03e                	sw	a5,0(sp)
+ a54:	1151                	addi	sp,sp,-12
+ a56:	c03e                	sw	a5,0(sp)
 	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
- 9a6:	e000f7b7          	lui	a5,0xe000f
+ a58:	e000f7b7          	lui	a5,0xe000f
 {
- 9aa:	c23a                	sw	a4,4(sp)
+ a5c:	c23a                	sw	a4,4(sp)
 	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
- 9ac:	4b98                	lw	a4,16(a5)
+ a5e:	4b98                	lw	a4,16(a5)
 {
- 9ae:	c436                	sw	a3,8(sp)
+ a60:	c436                	sw	a3,8(sp)
 	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
- 9b0:	66b1                	lui	a3,0xc
- 9b2:	b8068693          	addi	a3,a3,-1152 # bb80 <lib_gpioctrl.c.9b7c6186+0x8cdc>
- 9b6:	9736                	add	a4,a4,a3
- 9b8:	cb98                	sw	a4,16(a5)
+ a62:	66b1                	lui	a3,0xc
+ a64:	b8068693          	addi	a3,a3,-1152 # bb80 <lib_gpioctrl.c.9b7c6186+0x8ac7>
+ a68:	9736                	add	a4,a4,a3
+ a6a:	cb98                	sw	a4,16(a5)
 	SysTick->SR = 0x00000000;
- 9ba:	0007a223          	sw	zero,4(a5) # e000f004 <_eusrstack+0xc000e804>
+ a6c:	0007a223          	sw	zero,4(a5) # e000f004 <_eusrstack+0xc000e804>
 	g_systick_millis++;
- 9be:	c041a783          	lw	a5,-1020(gp) # 20000000 <g_systick_millis>
+ a70:	c141a783          	lw	a5,-1004(gp) # 20000010 <g_systick_millis>
 }
- 9c2:	46a2                	lw	a3,8(sp)
+ a74:	46a2                	lw	a3,8(sp)
 	g_systick_millis++;
- 9c4:	0785                	addi	a5,a5,1
- 9c6:	c0f1a223          	sw	a5,-1020(gp) # 20000000 <g_systick_millis>
+ a76:	0785                	addi	a5,a5,1
+ a78:	c0f1aa23          	sw	a5,-1004(gp) # 20000010 <g_systick_millis>
 }
- 9ca:	4712                	lw	a4,4(sp)
- 9cc:	4782                	lw	a5,0(sp)
- 9ce:	0131                	addi	sp,sp,12
- 9d0:	30200073          	mret
+ a7c:	4712                	lw	a4,4(sp)
+ a7e:	4782                	lw	a5,0(sp)
+ a80:	0131                	addi	sp,sp,12
+ a82:	30200073          	mret
+	...
 
-000009d4 <thermistor_pair>:
- 9d4:	03f10000 03ee0004 03ea0008 03e5000c     ................
- 9e4:	03e00010 03da0014 03d30018 03cb001c     ................
- 9f4:	03c20020 03b70024 03ac0028 039f002c      ...$...(...,...
- a04:	03900030 03800034 036f0038 035c003c     0...4...8.o.<.\.
- a14:	03480040 03330044 031c0048 0304004c     @.H.D.3.H...L...
- a24:	02eb0050 02d10054 02b60058 029b005c     P...T...X...\...
- a34:	027f0060 02630064 02470068 022c006c     `...d.c.h.G.l.,.
- a44:	02100070 01f50074 01db0078 01c1007c     p...t...x...|...
- a54:	01a80080 01900084 01790088 0163008c     ..........y...c.
- a64:	014f0090 013b0094 01280098 0116009c     ..O...;...(.....
- a74:	010500a0 00f500a4 00e600a8 00d800ac     ................
- a84:	00cb00b0 00bf00b4 00b300b8 00a800bc     ................
- a94:	009e00c0 009500c4 008c00c8 008400cc     ................
- aa4:	007c00d0 007500d4 006e00d8 006800dc     ..|...u...n...h.
- ab4:	006200e0 005c00e4 005700e8 005300ec     ..b...\...W...S.
- ac4:	004e00f0 004a00f4 004600f8 004200fc     ..N...J...F...B.
- ad4:	003f0100 003c0104 00390108 0036010c     ..?...<...9...6.
- ae4:	00330110 00310114 002e0118 002c011c     ..3...1.......,.
- af4:	002a0120 00280124 00260128 0025012c      .*.$.(.(.&.,.%.
- b04:	3a636461 20642520 20202020 6d657420     adc: %d      tem
- b14:	25203a70 00000a64                       p: %d...
+00000a88 <thermistor_pair>:
+ a88:	03f10000 03ee0004 03ea0008 03e5000c     ................
+ a98:	03e00010 03da0014 03d30018 03cb001c     ................
+ aa8:	03c20020 03b70024 03ac0028 039f002c      ...$...(...,...
+ ab8:	03900030 03800034 036f0038 035c003c     0...4...8.o.<.\.
+ ac8:	03480040 03330044 031c0048 0304004c     @.H.D.3.H...L...
+ ad8:	02eb0050 02d10054 02b60058 029b005c     P...T...X...\...
+ ae8:	027f0060 02630064 02470068 022c006c     `...d.c.h.G.l.,.
+ af8:	02100070 01f50074 01db0078 01c1007c     p...t...x...|...
+ b08:	01a80080 01900084 01790088 0163008c     ..........y...c.
+ b18:	014f0090 013b0094 01280098 0116009c     ..O...;...(.....
+ b28:	010500a0 00f500a4 00e600a8 00d800ac     ................
+ b38:	00cb00b0 00bf00b4 00b300b8 00a800bc     ................
+ b48:	009e00c0 009500c4 008c00c8 008400cc     ................
+ b58:	007c00d0 007500d4 006e00d8 006800dc     ..|...u...n...h.
+ b68:	006200e0 005c00e4 005700e8 005300ec     ..b...\...W...S.
+ b78:	004e00f0 004a00f4 004600f8 004200fc     ..N...J...F...B.
+ b88:	003f0100 003c0104 00390108 0036010c     ..?...<...9...6.
+ b98:	00330110 00310114 002e0118 002c011c     ..3...1.......,.
+ ba8:	002a0120 00280124 00260128 0025012c      .*.$.(.(.&.,.%.
+ bb8:	3a636461 09642520 706d6574 6425203a     adc: %d.temp: %d
+ bc8:	64697009 6425203a 0000000a              .pid: %d....
 
-00000b1c <GPIO_PORT_MAP>:
- b1c:	40010800 00000000 40011000 40011400     ...@.......@...@
+00000bd4 <GPIO_PORT_MAP>:
+ bd4:	40010800 00000000 40011000 40011400     ...@.......@...@
