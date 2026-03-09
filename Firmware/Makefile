@@ -359,4 +359,5 @@ flash: $(BUILD_DIR)/$(TARGET).bin
 	#$(MINICHLINK) -D               # Disable NRST, use ad GPIO
 	$(MINICHLINK) -w $< flash -b
 
-
+gen_lut :
+	python $(SRC_DIR)/generate_thermistor_lut.py $(SRC_DIR)/thermistor_lut.h

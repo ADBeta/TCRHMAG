@@ -1,4 +1,5 @@
 import math
+import sys
 
 # TODO: Use Steinhart-Hard or some other method for more accuracy
 
@@ -21,7 +22,7 @@ B  = 3950                              # Thermistor Gain
 
 
 ### Output Variables ###
-outfile    = "./thermistor_lut.h"      # Output Filename
+outfile    = "./thermistor_lut.h"      # Output Filename (Default)
 outtype    = "ADC"
 mintemp    =  0                        # Minimum Temperature to start   (°C)
 maxtemp    =  300                      # Maximum Temperature to end     (°C)
@@ -30,7 +31,7 @@ tempstep   =  4                        # Temperature Steps in the array (°C)
 
 ### Microcontroller Variables (if using ADC Mode) ###
 adc_max    =  1023                     # Maximum value the ADC Can read
-mcu_vcc    =  3.3                      # Microcontroller input voltage
+mcu_vcc    =  5.0                      # Microcontroller input voltage
 
 
 # Converts a given Temperature in Degrees Celsius to a Resistance Value (Ohms)
@@ -50,7 +51,10 @@ def resistance_to_adc(RES):
     return min(adc_max, max(0, round(adc)))
 
 
-
+### Main ######################################################################
+# If there is output, reaplce outfile with it
+if len(sys.argv) != 1:
+    outfile = sys.argv[1]
 
 try:
     of = open(outfile, "w", encoding="utf-8")
