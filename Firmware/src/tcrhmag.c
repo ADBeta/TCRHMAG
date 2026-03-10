@@ -20,14 +20,14 @@
 *
 *
 *
-* Ver 0.2    07 Mar 2026
+* Ver 0.2    10 Mar 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
 #include "thermistor_lut.h"
 #include "lib_gpioctrl.h"
 #include "lib_pid.h"
-#include "opamp.h"
+#include "battery.h"
 
 
 #include "stdio.h"
@@ -45,9 +45,9 @@
 #define THERM_ADC_PIN                 GPIO_A5
 #define THERM_ADC_CH                  GPIO_ADC_A5
 #define BSENS_ADC_PIN                 GPIO_A6
-#define BSENS_ADC_CH                  GPIO_ADC_A6
+//#define BSENS_ADC_CH                GPIO_ADC_A6
 #define OPAMP_ADC_PIN                 GPIO_A7
-#define OPAMP_ADC_CH                  GPIO_ADC_A7
+//#define OPAMP_ADC_CH                GPIO_ADC_A7
 
 #define PWM_CHANNEL_LED               2
 #define PWM_CHANNEL_HEATER            3
@@ -168,9 +168,11 @@ int main(void)
 
 
 	// TODO:
-	// Initialise the Internal OpAmp and set it to use CH1+ & CH1-
+	// Print "Booting" or something to screen
 	gpio_init_opamp();
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
+	opamp_calibrate();
+
 
 
 
@@ -180,7 +182,7 @@ int main(void)
 
 	// TODO:
 	// Initialise the IWDT to prevent a lockup - 250ms
-	iwdg_init(0x04, 0x9B);
+	//iwdg_init(0x04, 0x9B);
 
 
 
@@ -243,7 +245,7 @@ int main(void)
 			pwm_set_duty(PWM_CHANNEL_HEATER, (uint8_t)heater_pwm);
 		
 		
-			printf("temp: %d\tpwm: %lu\n", g_measured_temperature, heater_pwm);
+			printf("vbatt: %d\tcurrent: %d\ttemp: %d\tpwm: %lu\n", g_battery_voltage_mv, g_battery_current_ma, g_measured_temperature, heater_pwm);
 
 			millis_prev_pid_temp_update = g_systick_millis;
 		}
@@ -252,9 +254,16 @@ int main(void)
 		/// Battery Checking ////////////////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_battery_check > MILLIS_BATTERY_CHECK)
 		{
-			// TODO: 
-			// Get Battery Voltage and Current
+			uint16_t system_mv = gpio_read_system_mv();
+
+			g_battery_voltage_mv = battery_read_mv(system_mv);
+			g_battery_current_ma = opamp_read_rsense_ma(system_mv);
+
+			// TODO:
+			// Check overcurrent/undervoltage etc and lockout if limits are hit
 			// Re-calibrate the opamp ever x number of cycles, or at voltage delta points??
+			
+
 			millis_prev_battery_check = g_systick_millis;
 		}
 
