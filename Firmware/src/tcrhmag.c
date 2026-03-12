@@ -20,7 +20,7 @@
 *
 *
 *
-* Ver 0.2    10 Mar 2026
+* Ver 0.4    12 Mar 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -42,6 +42,10 @@
 #define OPAMP_CHA2_POS                GPIO_PD7
 #define PWM_OUT                       GPIO_PC0
 
+#define ROTENC_SW_PIN                 GPIO_PC3
+#define ROTENC_A_PIN                  GPIO_PC4
+#define ROTENC_B_PIN                  GPIO_PC5
+
 #define THERM_ADC_PIN                 GPIO_A5
 #define THERM_ADC_CH                  GPIO_ADC_A5
 #define BSENS_ADC_PIN                 GPIO_A6
@@ -53,8 +57,11 @@
 #define PWM_CHANNEL_HEATER            3
 
 
+
 /*** Timing Values ***********************************************************/
 #define MILLIS_LED_UPDATE            25
+#define MILLIS_ROTENC_CHECK          1
+#define MILLIS_BUTTON_CHECK          50
 #define MILLIS_PID_TEMP_UPDATE       100
 #define MILLIS_BATTERY_CHECK         250
 
@@ -67,17 +74,31 @@ volatile uint32_t g_systick_millis         = 0;
 /// System Status and Settings ////////////////////////////////////////////////
 // System //////
 static bool       g_heater_enabled                          = false;
+static bool       g_control_lockout                         = false;
+static int16_t    g_rotary_encoder_clicks                   = 0;
 // Battery /////
-static uint16_t   g_battery_voltage_mv;
-static uint16_t   g_battery_current_ma;
-// TODO:
-#define           BATTERY_OVERCURRENT_SHUTDOWN_MA           7500
-#define           BATTERY_UNDERVOLTAGE_WARNING_MV           1
-#define           BATTERY_UNDERVOLTAGE_SHUTDOWN_MV          2
+static uint16_t   g_battery_voltage_mv                      = 0;
+static uint16_t   g_battery_current_ma                      = 0;
+static uint8_t    g_battery_percentage                      = 0;
+#define           BATTERY_OVERCURRENT_SHUTDOWN_MA           5500
+#define           BATTERY_UNDERVOLTAGE_WARNING_MV           16000
+#define           BATTERY_UNDERVOLTAGE_SHUTDOWN_MV          15200
 // Heater //////
-static uint16_t   g_target_temperature;
-static uint16_t   g_measured_temperature;
+static uint16_t   g_target_temperature                      = 0;
+static uint16_t   g_measured_temperature                    = 0;
+#define           SETTING_TEMPERATURE_MINIMUM               50
+#define           SETTING_TEMPERATURE_MAXIMUM               220
+#define           SETTING_TEMPERATURE_INCRIMENT             5
 
+
+/// @brief Gray Code Lookup Table for the Rotary Encoder
+static const int8_t rotenc_table[16] = 
+{
+	 0,  -1,   1,   0,
+	 1,   0,   0,  -1,
+	-1,   0,   0,   1,
+	 0,   1,  -1,   0
+};
 
 
 /*** Function Declarations ***************************************************/
@@ -153,6 +174,11 @@ int main(void)
 	pwm_set_duty(PWM_CHANNEL_LED, 0xFF);
 	pwm_set_duty(PWM_CHANNEL_HEATER, 0x00);
 
+	// Set the Rotary Encoder Pins to INPUT_PULLUP
+	gpio_set_mode(ROTENC_SW_PIN, INPUT_PULLUP);
+	gpio_set_mode(ROTENC_A_PIN,  INPUT_PULLUP);
+	gpio_set_mode(ROTENC_B_PIN,  INPUT_PULLUP);
+
 	// Initiliase the ADC to use 24MHz clock, and Sample for 43 Clock Cycles
 	gpio_init_adc(ADC_CLOCK_DIV_2, ADC_SAMPLE_CYCLES_43);
 
@@ -206,11 +232,13 @@ int main(void)
 
 
 	// TODO:
-	g_heater_enabled = true;
-	g_target_temperature = 200;
+	//g_heater_enabled = true;
+	g_target_temperature = 100;
 
 
 	uint32_t millis_prev_led_update        = 0;
+	uint32_t millis_prev_rotenc_check      = 0;
+	uint32_t millis_prev_button_check      = 0;
 	uint32_t millis_prev_pid_temp_update   = 0;
 	uint32_t millis_prev_battery_check     = 0;
 
@@ -225,9 +253,43 @@ int main(void)
 		}
 
 
+		/// User Control Input Checks ///////////////////////////////////////////////
+		if(g_systick_millis - millis_prev_rotenc_check > MILLIS_ROTENC_CHECK)
+		{
+			static int8_t accumulator = 0;
+
+			// Read A and B Pins, use their state as bits in a mask. [AB]
+			static int8_t rotenc_prev_bitmask = 0x00;
+			       int8_t rotenc_curr_bitmask = (gpio_digital_read(ROTENC_A_PIN) << 1) | gpio_digital_read(ROTENC_B_PIN);
+
+			// Convert the bitmasks into an index into the Gray Table, then add the
+			// value at that index into the accumulator
+			uint8_t idx = (rotenc_prev_bitmask << 2) | rotenc_curr_bitmask;
+			accumulator += rotenc_table[idx];
+
+			// If the Accumulator has incrimented or decrimented by the number of clicks
+			// per indent (4), incriment or decriment the global value
+			if(accumulator >=  4) { g_rotary_encoder_clicks++; accumulator -= 4; }
+			if(accumulator <= -4) { g_rotary_encoder_clicks--; accumulator += 4; }
+
+			rotenc_prev_bitmask = rotenc_curr_bitmask;
+			millis_prev_rotenc_check = g_systick_millis;
+		}
+
+		if(g_systick_millis - millis_prev_button_check > MILLIS_BUTTON_CHECK)
+		{
+
+			millis_prev_button_check = g_systick_millis;
+		}
+
+
 		/// PID and Temp Update /////////////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_pid_temp_update > MILLIS_PID_TEMP_UPDATE)
 		{
+			
+			printf("Ticks: %d\n", g_rotary_encoder_clicks);
+
+
 			static uint16_t   thermistor_adc;
 			static int32_t    heater_pwm;
 
@@ -245,7 +307,7 @@ int main(void)
 			pwm_set_duty(PWM_CHANNEL_HEATER, (uint8_t)heater_pwm);
 		
 		
-			printf("vbatt: %d\tcurrent: %d\ttemp: %d\tpwm: %lu\n", g_battery_voltage_mv, g_battery_current_ma, g_measured_temperature, heater_pwm);
+			//printf("vbatt: %d\tperc: %d\tcurrent: %d\ttemp: %d\tpwm: %lu\n", g_battery_voltage_mv, g_battery_percentage, g_battery_current_ma, g_measured_temperature, heater_pwm);
 
 			millis_prev_pid_temp_update = g_systick_millis;
 		}
@@ -257,12 +319,19 @@ int main(void)
 			uint16_t system_mv = gpio_read_system_mv();
 
 			g_battery_voltage_mv = battery_read_mv(system_mv);
-			g_battery_current_ma = opamp_read_rsense_ma(system_mv);
-
-			// TODO:
-			// Check overcurrent/undervoltage etc and lockout if limits are hit
-			// Re-calibrate the opamp ever x number of cycles, or at voltage delta points??
+			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
+			g_battery_current_ma = battery_read_average_ma(system_mv);
 			
+			// TODO:
+			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
+			// threshold value - or if the current is higher than the shutdown threshold
+			// And disable the user controls so it cannot be renabled until reboot
+			if(  (g_battery_voltage_mv <= BATTERY_UNDERVOLTAGE_SHUTDOWN_MV) ||
+			     (g_battery_current_ma >= BATTERY_OVERCURRENT_SHUTDOWN_MA)  )
+			{
+				g_heater_enabled   = false;
+				g_control_lockout  = true;
+			}
 
 			millis_prev_battery_check = g_systick_millis;
 		}
