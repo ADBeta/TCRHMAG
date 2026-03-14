@@ -1,76 +1,76 @@
 Archive member included to satisfy reference by file (symbol)
 
 ./toolkit/lib/libgcc.a(_divdi3.o)
-                              /tmp/cctrXJrc.ltrans0.ltrans.o (__divdi3)
+                              /tmp/ccFLB7l0.ltrans0.ltrans.o (__divdi3)
 ./toolkit/lib/libgcc.a(muldi3.o)
-                              /tmp/cctrXJrc.ltrans0.ltrans.o (__mulsi3)
+                              /tmp/ccFLB7l0.ltrans0.ltrans.o (__mulsi3)
 ./toolkit/lib/libgcc.a(div.o)
-                              /tmp/cctrXJrc.ltrans0.ltrans.o (__divsi3)
+                              /tmp/ccFLB7l0.ltrans0.ltrans.o (__divsi3)
 ./toolkit/lib/libgcc.a(_clz.o)
                               ./toolkit/lib/libgcc.a(_divdi3.o) (__clz_tab)
 
 Discarded input sections
 
- .text          0x00000000        0x0 /tmp/cctrXJrc.ltrans0.ltrans.o
- .data          0x00000000        0x0 /tmp/cctrXJrc.ltrans0.ltrans.o
- .bss           0x00000000        0x0 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.vprintf  0x00000000       0x16 /tmp/cctrXJrc.ltrans0.ltrans.o
+ .text          0x00000000        0x0 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .data          0x00000000        0x0 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .bss           0x00000000        0x0 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.vprintf  0x00000000       0x16 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.mini_vsnprintf
-                0x00000000       0x42 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x42 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.snprintf
-                0x00000000       0x1c /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.sprintf  0x00000000       0x26 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.memset   0x00000000       0x12 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strcpy   0x00000000       0x14 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strncpy  0x00000000       0x1c /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strcmp   0x00000000       0x1a /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strncmp  0x00000000       0x2e /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strchr   0x00000000       0x16 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strrchr  0x00000000       0x3c /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.memcpy   0x00000000       0x1c /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.memcmp   0x00000000       0x20 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.memmove  0x00000000       0x5e /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.memchr   0x00000000       0x1a /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strnlen  0x00000000       0x2a /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x1c /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.sprintf  0x00000000       0x26 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.memset   0x00000000       0x12 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strcpy   0x00000000       0x14 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strncpy  0x00000000       0x1c /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strcmp   0x00000000       0x1a /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strncmp  0x00000000       0x2e /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strchr   0x00000000       0x16 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strrchr  0x00000000       0x3c /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.memcpy   0x00000000       0x1c /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.memcmp   0x00000000       0x20 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.memmove  0x00000000       0x5e /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.memchr   0x00000000       0x1a /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strnlen  0x00000000       0x2a /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.twoway_strstr
-                0x00000000      0x232 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.strstr   0x00000000      0x11c /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000      0x232 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.strstr   0x00000000      0x11c /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.puts.str1.4
-                0x00000000        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.puts     0x00000000       0x40 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.setjmp   0x00000000       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.longjmp  0x00000000       0x14 /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.putchar  0x00000000       0x68 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.puts     0x00000000       0x40 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.setjmp   0x00000000       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.longjmp  0x00000000       0x14 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.putchar  0x00000000       0x68 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.APBAHBPrescTable.lto_priv.0
-                0x00000000       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.ADCPrescTable.lto_priv.0
-                0x00000000       0x14 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x14 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.APBAHBPrescTable.lto_priv.1
-                0x00000000       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.ADCPrescTable.lto_priv.1
-                0x00000000       0x14 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x14 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.APBAHBPrescTable.lto_priv.2
-                0x00000000       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.ADCPrescTable.lto_priv.2
-                0x00000000       0x14 /tmp/cctrXJrc.ltrans0.ltrans.o
- .comment       0x00000000       0x24 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x14 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .comment       0x00000000       0x24 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .note.GNU-stack
-                0x00000000        0x0 /tmp/cctrXJrc.ltrans0.ltrans.o
- .comment       0x00000000       0x24 /tmp/ccYaRKwY.debug.temp.o
+                0x00000000        0x0 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .comment       0x00000000       0x24 /tmp/ccwLAJD1.debug.temp.o
  .note.GNU-stack
-                0x00000000        0x0 /tmp/ccYaRKwY.debug.temp.o
- .comment       0x00000000       0x24 /tmp/cca0qMWf.debug.temp.o
+                0x00000000        0x0 /tmp/ccwLAJD1.debug.temp.o
+ .comment       0x00000000       0x24 /tmp/cc6Vv5yq.debug.temp.o
  .note.GNU-stack
-                0x00000000        0x0 /tmp/cca0qMWf.debug.temp.o
- .comment       0x00000000       0x24 /tmp/ccMJJ6cp.debug.temp.o
+                0x00000000        0x0 /tmp/cc6Vv5yq.debug.temp.o
+ .comment       0x00000000       0x24 /tmp/ccQJCKxG.debug.temp.o
  .note.GNU-stack
-                0x00000000        0x0 /tmp/ccMJJ6cp.debug.temp.o
- .comment       0x00000000       0x24 /tmp/cciO1vFy.debug.temp.o
+                0x00000000        0x0 /tmp/ccQJCKxG.debug.temp.o
+ .comment       0x00000000       0x24 /tmp/ccDGMg8I.debug.temp.o
  .note.GNU-stack
-                0x00000000        0x0 /tmp/cciO1vFy.debug.temp.o
- .comment       0x00000000       0x24 /tmp/ccmh6LQY.debug.temp.o
+                0x00000000        0x0 /tmp/ccDGMg8I.debug.temp.o
+ .comment       0x00000000       0x24 /tmp/cca1DMFJ.debug.temp.o
  .note.GNU-stack
-                0x00000000        0x0 /tmp/ccmh6LQY.debug.temp.o
+                0x00000000        0x0 /tmp/cca1DMFJ.debug.temp.o
  .data          0x00000000        0x0 ./toolkit/lib/libgcc.a(_divdi3.o)
  .bss           0x00000000        0x0 ./toolkit/lib/libgcc.a(_divdi3.o)
  .comment       0x00000000       0x1c ./toolkit/lib/libgcc.a(_divdi3.o)
@@ -93,17 +93,17 @@ RAM              0x20000000         0x00000800         xrw
 
 Linker script and memory map
 
-LOAD /tmp/ccd9PnwS.o
-LOAD /tmp/cctrXJrc.ltrans0.ltrans.o
-LOAD /tmp/ccYaRKwY.debug.temp.o
-LOAD /tmp/cca0qMWf.debug.temp.o
-LOAD /tmp/ccMJJ6cp.debug.temp.o
-LOAD /tmp/cciO1vFy.debug.temp.o
-LOAD /tmp/ccmh6LQY.debug.temp.o
-LOAD /tmp/cc3V6PM4.o
-LOAD /tmp/ccjGLohr.o
-LOAD /tmp/cc6FVrnZ.o
-LOAD /tmp/ccd095R9.o
+LOAD /tmp/ccPigSg1.o
+LOAD /tmp/ccFLB7l0.ltrans0.ltrans.o
+LOAD /tmp/ccwLAJD1.debug.temp.o
+LOAD /tmp/cc6Vv5yq.debug.temp.o
+LOAD /tmp/ccQJCKxG.debug.temp.o
+LOAD /tmp/ccDGMg8I.debug.temp.o
+LOAD /tmp/cca1DMFJ.debug.temp.o
+LOAD /tmp/cc50jPZQ.o
+LOAD /tmp/ccxRUhr8.o
+LOAD /tmp/ccTpkTfc.o
+LOAD /tmp/ccQElxFA.o
 LOAD ./toolkit/lib/libgcc.a
 LOAD ./toolkit/lib/libgcc.a
 LOAD ./toolkit/lib/libgcc.a
@@ -112,14 +112,14 @@ LOAD ./toolkit/lib/libgcc.a
                 0x00000000                        _sinit = .
                 0x00000000                        . = ALIGN (0x4)
  *(SORT_NONE(.init))
- .init          0x00000000       0x9e /tmp/cctrXJrc.ltrans0.ltrans.o
+ .init          0x00000000       0x9e /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x00000000                InterruptVectorDefault
                 0x00000000                InterruptVector
                 0x000000a0                        . = ALIGN (0x4)
  *fill*         0x0000009e        0x2 
                 0x000000a0                        _einit = .
 
-.text           0x000000a0     0x1484
+.text           0x000000a0     0x14f8
                 0x000000a0                        . = ALIGN (0x4)
  *(.text)
  .text          0x000000a0      0x482 ./toolkit/lib/libgcc.a(_divdi3.o)
@@ -136,29 +136,29 @@ LOAD ./toolkit/lib/libgcc.a
                 0x00000594                __modsi3
  *(.text.*)
  .text.mini_pad
-                0x000005ba       0x8a /tmp/cctrXJrc.ltrans0.ltrans.o
- .text._puts    0x00000644       0x40 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x000005ba       0x8a /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text._puts    0x00000644       0x40 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.PrintHex
-                0x00000684       0x5a /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000684       0x5a /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.mini_itoa.part.0
-                0x000006de       0xc0 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x000006de       0xc0 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.gpio_set_mode
-                0x0000079e       0x5c /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x0000079e       0x5c /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.gpio_set_opamp_inputs.constprop.0
-                0x000007fa       0x24 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x000007fa       0x24 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.DelaySysTick.constprop.0
-                0x0000081e       0x1a /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x0000081e       0x1a /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.internal_handle_input.constprop.0
-                0x00000838        0xa /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000838        0xa /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text._write.constprop.0
-                0x00000842       0xe4 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000842       0xe4 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.__puts_uart
-                0x00000926       0x14 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000926       0x14 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .text.handle_reset
-                0x0000093a       0x72 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x0000093a       0x72 /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x0000093a                handle_reset
  .text.vector_handler
-                0x000009ac       0x5a /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x000009ac       0x5a /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x000009ac                EXTI2_IRQHandler
                 0x000009ac                TIM8_TRG_COM_IRQHandler
                 0x000009ac                TIM8_CC_IRQHandler
@@ -194,7 +194,6 @@ LOAD ./toolkit/lib/libgcc.a
                 0x000009ac                TAMPER_IRQHandler
                 0x000009ac                TMR0_IRQHandler
                 0x000009ac                AWU_IRQHandler
-                0x000009ac                EXTI7_0_IRQHandler
                 0x000009ac                CAN2_RX0_IRQHandler
                 0x000009ac                OSCWakeUp_IRQHandler
                 0x000009ac                TIM8_UP_IRQHandler
@@ -293,58 +292,59 @@ LOAD ./toolkit/lib/libgcc.a
                 0x000009ac                DMA2_Channel3_IRQHandler
                 0x000009f8                NMI_Handler
                 0x000009f8                NMI_RCC_CSS_IRQHandler
- .text.strlen   0x00000a06       0x12 /tmp/cctrXJrc.ltrans0.ltrans.o
+ .text.strlen   0x00000a06       0x12 /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x00000a06                strlen
  .text.mini_vpprintf
-                0x00000a18      0x1bc /tmp/cctrXJrc.ltrans0.ltrans.o
- .text.printf   0x00000bd4       0x24 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000a18      0x1bc /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.printf   0x00000bd4       0x24 /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x00000bd4                printf
  .text.SystemInit
-                0x00000bf8       0x54 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000bf8       0x54 /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x00000bf8                SystemInit
  .text.startup.main
-                0x00000c4c      0x632 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000c4c      0x5de /tmp/ccFLB7l0.ltrans0.ltrans.o
                 0x00000c4c                main
  .text.SysTick_Handler
-                0x0000127e       0x32 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x0000122a       0x32 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .text.EXTI7_0_IRQHandler
+                0x0000125c       0xc8 /tmp/ccFLB7l0.ltrans0.ltrans.o
  *(.rodata)
- *fill*         0x000012b0        0x0 
- .rodata        0x000012b0      0x130 /tmp/cctrXJrc.ltrans0.ltrans.o
- .rodata        0x000013e0      0x100 ./toolkit/lib/libgcc.a(_clz.o)
-                0x000013e0                __clz_tab
+ *fill*         0x00001324        0x0 
+ .rodata        0x00001324      0x130 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .rodata        0x00001454      0x100 ./toolkit/lib/libgcc.a(_clz.o)
+                0x00001454                __clz_tab
  *(.rodata*)
  .rodata.main.str1.4
-                0x000014e0       0x23 /tmp/cctrXJrc.ltrans0.ltrans.o
- *fill*         0x00001503        0x1 
+                0x00001554       0x24 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.GPIO_PORT_MAP
-                0x00001504       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00001578       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .rodata.rotenc_table
-                0x00001514       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00001588       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
  *(.gnu.linkonce.t.*)
-                0x00001524                        . = ALIGN (0x4)
+                0x00001598                        . = ALIGN (0x4)
 
-.rela.dyn       0x00001524        0x0
+.rela.dyn       0x00001598        0x0
  .rela.text.handle_reset
-                0x00001524        0x0 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00001598        0x0 /tmp/ccFLB7l0.ltrans0.ltrans.o
 
-.fini           0x00001524        0x0
+.fini           0x00001598        0x0
  *(SORT_NONE(.fini))
-                0x00001524                        . = ALIGN (0x4)
+                0x00001598                        . = ALIGN (0x4)
                 [!provide]                        PROVIDE (_etext = .)
                 [!provide]                        PROVIDE (_eitcm = .)
 
-.preinit_array  0x00001524        0x0
+.preinit_array  0x00001598        0x0
                 [!provide]                        PROVIDE (__preinit_array_start = .)
  *(.preinit_array)
                 [!provide]                        PROVIDE (__preinit_array_end = .)
 
-.init_array     0x00001524        0x0
+.init_array     0x00001598        0x0
                 [!provide]                        PROVIDE (__init_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.init_array.*) SORT_BY_INIT_PRIORITY(.ctors.*))
  *(.init_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .ctors)
                 [!provide]                        PROVIDE (__init_array_end = .)
 
-.fini_array     0x00001524        0x0
+.fini_array     0x00001598        0x0
                 [!provide]                        PROVIDE (__fini_array_start = .)
  *(SORT_BY_INIT_PRIORITY(.fini_array.*) SORT_BY_INIT_PRIORITY(.dtors.*))
  *(.fini_array EXCLUDE_FILE(*crtend?.o *crtend.o *crtbegin?.o *crtbegin.o) .dtors)
@@ -364,15 +364,15 @@ LOAD ./toolkit/lib/libgcc.a
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
 
-.dalign         0x20000000        0x0 load address 0x00001524
+.dalign         0x20000000        0x0 load address 0x00001598
                 0x20000000                        . = ALIGN (0x4)
                 0x20000000                        PROVIDE (_data_vma = .)
 
-.dlalign        0x00001524        0x0
-                0x00001524                        . = ALIGN (0x4)
-                0x00001524                        PROVIDE (_data_lma = .)
+.dlalign        0x00001598        0x0
+                0x00001598                        . = ALIGN (0x4)
+                0x00001598                        PROVIDE (_data_lma = .)
 
-.data           0x20000000        0x8 load address 0x00001524
+.data           0x20000000        0x8 load address 0x00001598
                 0x20000000                        . = ALIGN (0x4)
                 0x200003fc                        __global_pointer$ = (. + 0x3fc)
  *(.gnu.linkonce.r.*)
@@ -380,14 +380,17 @@ LOAD ./toolkit/lib/libgcc.a
  *(.gnu.linkonce.d.*)
                 0x20000000                        . = ALIGN (0x8)
  *(.sdata .sdata.*)
- .sdata.led_val.0
-                0x20000000        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
- .sdata.led_inc.1
-                0x20000002        0x1 /tmp/cctrXJrc.ltrans0.ltrans.o
+ .sdata.rotenc_prev_bitmask.1
+                0x20000000        0x1 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ *fill*         0x20000001        0x1 
+ .sdata.led_val.2
+                0x20000002        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .sdata.led_inc.3
+                0x20000004        0x1 /tmp/ccFLB7l0.ltrans0.ltrans.o
  *(.sdata2*)
  *(.gnu.linkonce.s.*)
                 0x20000008                        . = ALIGN (0x8)
- *fill*         0x20000003        0x5 
+ *fill*         0x20000005        0x3 
  *(.srodata.cst16)
  *(.srodata.cst8)
  *(.srodata.cst4)
@@ -396,46 +399,45 @@ LOAD ./toolkit/lib/libgcc.a
                 0x20000008                        . = ALIGN (0x4)
                 0x20000008                        PROVIDE (_edata = .)
 
-.bss            0x20000008       0x34 load address 0x0000152c
+.bss            0x20000008       0x30 load address 0x000015a0
                 0x20000008                        . = ALIGN (0x4)
                 0x20000008                        PROVIDE (_sbss = .)
  *(.sbss*)
+ .sbss.accumulator.0
+                0x20000008        0x1 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ *fill*         0x20000009        0x1 
  .sbss._opamp_calibration_gain
-                0x20000008        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x2000000a        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .sbss._opamp_calibration_offset
-                0x2000000a        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x2000000c        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .sbss.average_index.0
-                0x2000000c        0x1 /tmp/cctrXJrc.ltrans0.ltrans.o
- *fill*         0x2000000d        0x3 
+                0x2000000e        0x1 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ *fill*         0x2000000f        0x1 
  .sbss.rolling_sum.1
-                0x20000010        0x4 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x20000010        0x4 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .sbss.g_battery_voltage_mv
-                0x20000014        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x20000014        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
  *fill*         0x20000016        0x2 
- .sbss.heater_pwm.2
-                0x20000018        0x4 /tmp/cctrXJrc.ltrans0.ltrans.o
+ .sbss.heater_pwm.4
+                0x20000018        0x4 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .sbss.g_rotary_encoder_clicks
-                0x2000001c        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
- .sbss.accumulator.4
-                0x2000001e        0x1 /tmp/cctrXJrc.ltrans0.ltrans.o
- .sbss.rotenc_prev_bitmask.5
-                0x2000001f        0x1 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x2000001c        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .sbss.g_heater_enabled
-                0x20000020        0x1 /tmp/cctrXJrc.ltrans0.ltrans.o
- *fill*         0x20000021        0x3 
+                0x2000001e        0x1 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ *fill*         0x2000001f        0x1 
  .sbss.g_systick_millis
-                0x20000024        0x4 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x20000020        0x4 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .sbss.g_target_temperature
-                0x20000028        0x2 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x20000024        0x2 /tmp/ccFLB7l0.ltrans0.ltrans.o
  *(.gnu.linkonce.sb.*)
  *(.bss*)
- *fill*         0x2000002a        0x2 
+ *fill*         0x20000026        0x2 
  .bss._average_current_buffer
-                0x2000002c       0x10 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x20000028       0x10 /tmp/ccFLB7l0.ltrans0.ltrans.o
  *(.gnu.linkonce.b.*)
  *(COMMON*)
-                0x2000003c                        . = ALIGN (0x4)
-                0x2000003c                        PROVIDE (_ebss = .)
+                0x20000038                        . = ALIGN (0x4)
+                0x20000038                        PROVIDE (_ebss = .)
                 [!provide]                        PROVIDE (_end = _ebss)
                 [!provide]                        PROVIDE (end = .)
                 0x20000800                        PROVIDE (_eusrstack = (ORIGIN (RAM) + LENGTH (RAM)))
@@ -451,7 +453,7 @@ OUTPUT(build/tcrhmag.elf elf32-littleriscv)
 .riscv.attributes
                 0x00000000       0x25
  .riscv.attributes
-                0x00000000       0x25 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000       0x25 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .riscv.attributes
                 0x00000025       0x21 ./toolkit/lib/libgcc.a(_divdi3.o)
  .riscv.attributes
@@ -461,101 +463,101 @@ OUTPUT(build/tcrhmag.elf elf32-littleriscv)
  .riscv.attributes
                 0x00000084       0x21 ./toolkit/lib/libgcc.a(_clz.o)
 
-.debug_info     0x00000000     0x4e79
- .debug_info    0x00000000     0x1817 /tmp/cctrXJrc.ltrans0.ltrans.o
- .debug_info    0x00001817     0x10b4 /tmp/ccYaRKwY.debug.temp.o
-                0x00001817                ch32fun.c.e1d0904f
- .debug_info    0x000028cb      0xeee /tmp/cca0qMWf.debug.temp.o
-                0x000028cb                tcrhmag.c.e6569760
- .debug_info    0x000037b9      0x35b /tmp/ccMJJ6cp.debug.temp.o
-                0x000037b9                battery.c.a40a2036
- .debug_info    0x00003b14      0x6db /tmp/cciO1vFy.debug.temp.o
-                0x00003b14                lib_gpioctrl.c.9b7c6186
- .debug_info    0x000041ef      0x1ae /tmp/ccmh6LQY.debug.temp.o
-                0x000041ef                lib_pid.c.7f95fc39
- .debug_info    0x0000439d      0x976 ./toolkit/lib/libgcc.a(_divdi3.o)
- .debug_info    0x00004d13       0x31 ./toolkit/lib/libgcc.a(muldi3.o)
- .debug_info    0x00004d44       0x5d ./toolkit/lib/libgcc.a(div.o)
- .debug_info    0x00004da1       0xd8 ./toolkit/lib/libgcc.a(_clz.o)
+.debug_info     0x00000000     0x4f37
+ .debug_info    0x00000000     0x17e2 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .debug_info    0x000017e2     0x10b4 /tmp/ccwLAJD1.debug.temp.o
+                0x000017e2                ch32fun.c.e1d0904f
+ .debug_info    0x00002896      0xfe1 /tmp/cc6Vv5yq.debug.temp.o
+                0x00002896                tcrhmag.c.66bf612f
+ .debug_info    0x00003877      0x35b /tmp/ccQJCKxG.debug.temp.o
+                0x00003877                battery.c.a40a2036
+ .debug_info    0x00003bd2      0x6db /tmp/ccDGMg8I.debug.temp.o
+                0x00003bd2                lib_gpioctrl.c.9b7c6186
+ .debug_info    0x000042ad      0x1ae /tmp/cca1DMFJ.debug.temp.o
+                0x000042ad                lib_pid.c.7f95fc39
+ .debug_info    0x0000445b      0x976 ./toolkit/lib/libgcc.a(_divdi3.o)
+ .debug_info    0x00004dd1       0x31 ./toolkit/lib/libgcc.a(muldi3.o)
+ .debug_info    0x00004e02       0x5d ./toolkit/lib/libgcc.a(div.o)
+ .debug_info    0x00004e5f       0xd8 ./toolkit/lib/libgcc.a(_clz.o)
 
-.debug_abbrev   0x00000000      0xdb8
- .debug_abbrev  0x00000000      0x217 /tmp/cctrXJrc.ltrans0.ltrans.o
- .debug_abbrev  0x00000217      0x258 /tmp/ccYaRKwY.debug.temp.o
- .debug_abbrev  0x0000046f      0x2e6 /tmp/cca0qMWf.debug.temp.o
- .debug_abbrev  0x00000755      0x14a /tmp/ccMJJ6cp.debug.temp.o
- .debug_abbrev  0x0000089f      0x18b /tmp/cciO1vFy.debug.temp.o
- .debug_abbrev  0x00000a2a       0xe5 /tmp/ccmh6LQY.debug.temp.o
- .debug_abbrev  0x00000b0f      0x1e9 ./toolkit/lib/libgcc.a(_divdi3.o)
- .debug_abbrev  0x00000cf8       0x28 ./toolkit/lib/libgcc.a(muldi3.o)
- .debug_abbrev  0x00000d20       0x28 ./toolkit/lib/libgcc.a(div.o)
- .debug_abbrev  0x00000d48       0x70 ./toolkit/lib/libgcc.a(_clz.o)
+.debug_abbrev   0x00000000      0xdc7
+ .debug_abbrev  0x00000000      0x216 /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .debug_abbrev  0x00000216      0x258 /tmp/ccwLAJD1.debug.temp.o
+ .debug_abbrev  0x0000046e      0x2f6 /tmp/cc6Vv5yq.debug.temp.o
+ .debug_abbrev  0x00000764      0x14a /tmp/ccQJCKxG.debug.temp.o
+ .debug_abbrev  0x000008ae      0x18b /tmp/ccDGMg8I.debug.temp.o
+ .debug_abbrev  0x00000a39       0xe5 /tmp/cca1DMFJ.debug.temp.o
+ .debug_abbrev  0x00000b1e      0x1e9 ./toolkit/lib/libgcc.a(_divdi3.o)
+ .debug_abbrev  0x00000d07       0x28 ./toolkit/lib/libgcc.a(muldi3.o)
+ .debug_abbrev  0x00000d2f       0x28 ./toolkit/lib/libgcc.a(div.o)
+ .debug_abbrev  0x00000d57       0x70 ./toolkit/lib/libgcc.a(_clz.o)
 
 .debug_loclists
-                0x00000000     0x276c
+                0x00000000     0x26aa
  .debug_loclists
-                0x00000000     0x1a0f /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000     0x194d /tmp/ccFLB7l0.ltrans0.ltrans.o
  .debug_loclists
-                0x00001a0f      0xd5d ./toolkit/lib/libgcc.a(_divdi3.o)
+                0x0000194d      0xd5d ./toolkit/lib/libgcc.a(_divdi3.o)
 
-.debug_aranges  0x00000000      0x1e0
+.debug_aranges  0x00000000      0x1e8
  .debug_aranges
-                0x00000000      0x168 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000      0x170 /tmp/ccFLB7l0.ltrans0.ltrans.o
  .debug_aranges
-                0x00000168       0x20 ./toolkit/lib/libgcc.a(_divdi3.o)
+                0x00000170       0x20 ./toolkit/lib/libgcc.a(_divdi3.o)
  .debug_aranges
-                0x00000188       0x20 ./toolkit/lib/libgcc.a(muldi3.o)
+                0x00000190       0x20 ./toolkit/lib/libgcc.a(muldi3.o)
  .debug_aranges
-                0x000001a8       0x20 ./toolkit/lib/libgcc.a(div.o)
+                0x000001b0       0x20 ./toolkit/lib/libgcc.a(div.o)
  .debug_aranges
-                0x000001c8       0x18 ./toolkit/lib/libgcc.a(_clz.o)
+                0x000001d0       0x18 ./toolkit/lib/libgcc.a(_clz.o)
 
 .debug_rnglists
-                0x00000000      0x3fb
+                0x00000000      0x403
  .debug_rnglists
-                0x00000000      0x305 /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000      0x30d /tmp/ccFLB7l0.ltrans0.ltrans.o
  .debug_rnglists
-                0x00000305       0xf6 ./toolkit/lib/libgcc.a(_divdi3.o)
+                0x0000030d       0xf6 ./toolkit/lib/libgcc.a(_divdi3.o)
 
-.debug_line     0x00000000     0x4614
- .debug_line    0x00000000     0x39c5 /tmp/cctrXJrc.ltrans0.ltrans.o
- .debug_line    0x000039c5       0x72 /tmp/ccYaRKwY.debug.temp.o
- .debug_line    0x00003a37       0x77 /tmp/cca0qMWf.debug.temp.o
- .debug_line    0x00003aae       0x68 /tmp/ccMJJ6cp.debug.temp.o
- .debug_line    0x00003b16       0x51 /tmp/cciO1vFy.debug.temp.o
- .debug_line    0x00003b67       0x51 /tmp/ccmh6LQY.debug.temp.o
- .debug_line    0x00003bb8      0x850 ./toolkit/lib/libgcc.a(_divdi3.o)
- .debug_line    0x00004408       0x7a ./toolkit/lib/libgcc.a(muldi3.o)
- .debug_line    0x00004482      0x153 ./toolkit/lib/libgcc.a(div.o)
- .debug_line    0x000045d5       0x3f ./toolkit/lib/libgcc.a(_clz.o)
+.debug_line     0x00000000     0x476d
+ .debug_line    0x00000000     0x3b1e /tmp/ccFLB7l0.ltrans0.ltrans.o
+ .debug_line    0x00003b1e       0x72 /tmp/ccwLAJD1.debug.temp.o
+ .debug_line    0x00003b90       0x77 /tmp/cc6Vv5yq.debug.temp.o
+ .debug_line    0x00003c07       0x68 /tmp/ccQJCKxG.debug.temp.o
+ .debug_line    0x00003c6f       0x51 /tmp/ccDGMg8I.debug.temp.o
+ .debug_line    0x00003cc0       0x51 /tmp/cca1DMFJ.debug.temp.o
+ .debug_line    0x00003d11      0x850 ./toolkit/lib/libgcc.a(_divdi3.o)
+ .debug_line    0x00004561       0x7a ./toolkit/lib/libgcc.a(muldi3.o)
+ .debug_line    0x000045db      0x153 ./toolkit/lib/libgcc.a(div.o)
+ .debug_line    0x0000472e       0x3f ./toolkit/lib/libgcc.a(_clz.o)
 
-.debug_str      0x00000000     0x170c
- .debug_str     0x00000000     0x170c /tmp/cctrXJrc.ltrans0.ltrans.o
+.debug_str      0x00000000     0x1768
+ .debug_str     0x00000000     0x1768 /tmp/ccFLB7l0.ltrans0.ltrans.o
                                 0x195 (size before relaxing)
- .debug_str     0x0000170c      0x6c0 /tmp/ccYaRKwY.debug.temp.o
- .debug_str     0x0000170c      0xd52 /tmp/cca0qMWf.debug.temp.o
- .debug_str     0x0000170c      0x415 /tmp/ccMJJ6cp.debug.temp.o
- .debug_str     0x0000170c      0x7a4 /tmp/cciO1vFy.debug.temp.o
- .debug_str     0x0000170c      0x1bc /tmp/ccmh6LQY.debug.temp.o
- .debug_str     0x0000170c      0x276 ./toolkit/lib/libgcc.a(_divdi3.o)
- .debug_str     0x0000170c       0xac ./toolkit/lib/libgcc.a(muldi3.o)
- .debug_str     0x0000170c       0xd9 ./toolkit/lib/libgcc.a(div.o)
- .debug_str     0x0000170c      0x19b ./toolkit/lib/libgcc.a(_clz.o)
+ .debug_str     0x00001768      0x6c0 /tmp/ccwLAJD1.debug.temp.o
+ .debug_str     0x00001768      0xda6 /tmp/cc6Vv5yq.debug.temp.o
+ .debug_str     0x00001768      0x415 /tmp/ccQJCKxG.debug.temp.o
+ .debug_str     0x00001768      0x7a4 /tmp/ccDGMg8I.debug.temp.o
+ .debug_str     0x00001768      0x1bc /tmp/cca1DMFJ.debug.temp.o
+ .debug_str     0x00001768      0x276 ./toolkit/lib/libgcc.a(_divdi3.o)
+ .debug_str     0x00001768       0xac ./toolkit/lib/libgcc.a(muldi3.o)
+ .debug_str     0x00001768       0xd9 ./toolkit/lib/libgcc.a(div.o)
+ .debug_str     0x00001768      0x19b ./toolkit/lib/libgcc.a(_clz.o)
 
 .debug_line_str
                 0x00000000      0x2bc
  .debug_line_str
-                0x00000000      0x2bc /tmp/cctrXJrc.ltrans0.ltrans.o
+                0x00000000      0x2bc /tmp/ccFLB7l0.ltrans0.ltrans.o
                                 0x103 (size before relaxing)
  .debug_line_str
-                0x000002bc      0x152 /tmp/ccYaRKwY.debug.temp.o
+                0x000002bc      0x152 /tmp/ccwLAJD1.debug.temp.o
  .debug_line_str
-                0x000002bc      0x137 /tmp/cca0qMWf.debug.temp.o
+                0x000002bc      0x137 /tmp/cc6Vv5yq.debug.temp.o
  .debug_line_str
-                0x000002bc      0x112 /tmp/ccMJJ6cp.debug.temp.o
+                0x000002bc      0x112 /tmp/ccQJCKxG.debug.temp.o
  .debug_line_str
-                0x000002bc       0xd0 /tmp/cciO1vFy.debug.temp.o
+                0x000002bc       0xd0 /tmp/ccDGMg8I.debug.temp.o
  .debug_line_str
-                0x000002bc       0xc1 /tmp/ccmh6LQY.debug.temp.o
+                0x000002bc       0xc1 /tmp/cca1DMFJ.debug.temp.o
  .debug_line_str
                 0x000002bc      0x126 ./toolkit/lib/libgcc.a(_divdi3.o)
  .debug_line_str
@@ -565,5 +567,5 @@ OUTPUT(build/tcrhmag.elf elf32-littleriscv)
  .debug_line_str
                 0x000002bc      0x126 ./toolkit/lib/libgcc.a(_clz.o)
 
-.debug_frame    0x00000000      0x3ec
- .debug_frame   0x00000000      0x3ec /tmp/cctrXJrc.ltrans0.ltrans.o
+.debug_frame    0x00000000      0x424
+ .debug_frame   0x00000000      0x424 /tmp/ccFLB7l0.ltrans0.ltrans.o

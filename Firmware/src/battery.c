@@ -28,7 +28,7 @@ static uint16_t _average_current_buffer[AVG_SAMPLES] = {0x00};
 void opamp_calibrate(void)
 {
 	// Measure the offset of the OpAmp at 0 Input (While PWM Off)
-	Delay_Ms(1000);
+	Delay_Ms(500);
 	_opamp_calibration_offset = gpio_analog_read(OPAMP_ADC_CH);
 
 	// Use Channel 2 of the OpAmp - this is a resistor divider to create
@@ -38,7 +38,7 @@ void opamp_calibrate(void)
 	
 	// Switch to CH2 Positive Input and wait for it to stabilise
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH2_POS, GPIO_OPAMP_CH1_NEG);
-	Delay_Ms(1000);
+	Delay_Ms(500);
 
 	// Calculate the delta between the expected value and the read value
 	int32_t delta = gpio_analog_read(OPAMP_ADC_CH) - _opamp_calibration_offset;
@@ -50,7 +50,7 @@ void opamp_calibrate(void)
 
 	// Switch back to CH1 Positive and wait for it to settle
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
-	Delay_Ms(1000);
+	Delay_Ms(500);
 }
 
 

@@ -60,10 +60,22 @@
 
 /*** Timing Values ***********************************************************/
 #define MILLIS_LED_UPDATE            25
-#define MILLIS_ROTENC_CHECK          1
-#define MILLIS_BUTTON_CHECK          50
+#define MILLIS_USER_INPUT_UPDATE     50
 #define MILLIS_PID_TEMP_UPDATE       100
 #define MILLIS_BATTERY_CHECK         250
+
+
+
+/*** Typedefs and Structures *************************************************/
+typedef enum {
+	DISPLAY_MODE_BOOTUP           = 0,
+	DISPLAY_MODE_CHANGE_TEMP,
+	DISPLAY_MODE_CHANGE_KP,
+	DISPLAY_MODE_CHANGE_KI,
+	DISPLAY_MODE_CHANGE_KD,
+	DISPLAY_MODE_LOCKOUT
+} display_mode_e;
+
 
 
 /*** Global Variables ********************************************************/
@@ -73,22 +85,22 @@ volatile uint32_t g_systick_millis         = 0;
 
 /// System Status and Settings ////////////////////////////////////////////////
 // System //////
-static bool       g_heater_enabled                          = false;
-static bool       g_control_lockout                         = false;
-static int16_t    g_rotary_encoder_clicks                   = 0;
+static bool                g_heater_enabled                          = false;
+static bool                g_control_lockout                         = false;
+static volatile int16_t    g_rotary_encoder_clicks                   = 0;
 // Battery /////
-static uint16_t   g_battery_voltage_mv                      = 0;
-static uint16_t   g_battery_current_ma                      = 0;
-static uint8_t    g_battery_percentage                      = 0;
-#define           BATTERY_OVERCURRENT_SHUTDOWN_MA           5500
-#define           BATTERY_UNDERVOLTAGE_WARNING_MV           16000
-#define           BATTERY_UNDERVOLTAGE_SHUTDOWN_MV          15200
+static uint16_t            g_battery_voltage_mv                      = 0;
+static uint16_t            g_battery_current_ma                      = 0;
+static uint8_t             g_battery_percentage                      = 0;
+#define                    BATTERY_OVERCURRENT_SHUTDOWN_MA           5500
+#define                    BATTERY_UNDERVOLTAGE_WARNING_MV           16000
+#define                    BATTERY_UNDERVOLTAGE_SHUTDOWN_MV          15200
 // Heater //////
-static uint16_t   g_target_temperature                      = 0;
-static uint16_t   g_measured_temperature                    = 0;
-#define           SETTING_TEMPERATURE_MINIMUM               50
-#define           SETTING_TEMPERATURE_MAXIMUM               220
-#define           SETTING_TEMPERATURE_INCRIMENT             5
+static uint16_t            g_target_temperature                      = 0;
+static uint16_t            g_measured_temperature                    = 0;
+#define                    SETTING_TEMPERATURE_MINIMUM               50
+#define                    SETTING_TEMPERATURE_MAXIMUM               220
+#define                    SETTING_TEMPERATURE_INCRIMENT             5
 
 
 /// @brief Gray Code Lookup Table for the Rotary Encoder
@@ -99,6 +111,7 @@ static const int8_t rotenc_table[16] =
 	-1,   0,   0,   1,
 	 0,   1,  -1,   0
 };
+
 
 
 /*** Function Declarations ***************************************************/
@@ -113,6 +126,13 @@ static void systick_init(void);
 /// @return none
 __attribute__((interrupt))
 void SysTick_Handler(void);
+
+
+/// @brief EXTI Pin Change Interrupt - Handles the Rotary Encoder stepping
+/// @param None
+/// @return None
+__attribute__((interrupt)) 
+void EXTI7_0_IRQHandler(void);
 
 
 /// @brief Initialises the watchdog with prescaler and reset value
@@ -159,7 +179,6 @@ static void update_led(const bool fading);
 
 
 
-
 /*** Main ********************************************************************/
 int main(void)
 {
@@ -192,7 +211,6 @@ int main(void)
 	gpio_set_mode(OPAMP_ADC_PIN,  INPUT_ANALOG);	
 
 
-
 	// TODO:
 	// Print "Booting" or something to screen
 	gpio_init_opamp();
@@ -200,6 +218,20 @@ int main(void)
 	opamp_calibrate();
 
 
+	/*** Pin Change Interrupts (Rotary Encoder) **********/
+	// Enable AFIO and CH4 and CH5 on PORTC
+	RCC->APB2PCENR |= RCC_APB2Periph_AFIO;
+	AFIO->EXTICR    = AFIO_EXTICR_EXTI4_PC | AFIO_EXTICR_EXTI5_PC;
+	
+	// Enable IRQ on Channel 4 & 5, Rising or Falling Edge
+	EXTI->INTENR    = EXTI_INTENR_MR4 | EXTI_INTENR_MR5;
+	EXTI->RTENR     = EXTI_RTENR_TR4  | EXTI_RTENR_TR5;
+	EXTI->FTENR     = EXTI_FTENR_TR4  | EXTI_FTENR_TR5;
+
+	// Clear IRQ Flags before enabling for safety
+	EXTI->INTFR = 0x00000030;
+	// Enable the EXTI0-7 Interrupt Group in NVIC
+	NVIC_EnableIRQ(EXTI7_0_IRQn);
 
 
 	/*** Timers and Watchdog *****************************/
@@ -237,10 +269,11 @@ int main(void)
 
 
 	uint32_t millis_prev_led_update        = 0;
-	uint32_t millis_prev_rotenc_check      = 0;
-	uint32_t millis_prev_button_check      = 0;
+	uint32_t millis_prev_user_input_update = 0;
 	uint32_t millis_prev_pid_temp_update   = 0;
 	uint32_t millis_prev_battery_check     = 0;
+
+
 
 
 	while(true)
@@ -254,42 +287,16 @@ int main(void)
 
 
 		/// User Control Input Checks ///////////////////////////////////////////////
-		if(g_systick_millis - millis_prev_rotenc_check > MILLIS_ROTENC_CHECK)
+		if(g_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
 		{
-			static int8_t accumulator = 0;
-
-			// Read A and B Pins, use their state as bits in a mask. [AB]
-			static int8_t rotenc_prev_bitmask = 0x00;
-			       int8_t rotenc_curr_bitmask = (gpio_digital_read(ROTENC_A_PIN) << 1) | gpio_digital_read(ROTENC_B_PIN);
-
-			// Convert the bitmasks into an index into the Gray Table, then add the
-			// value at that index into the accumulator
-			uint8_t idx = (rotenc_prev_bitmask << 2) | rotenc_curr_bitmask;
-			accumulator += rotenc_table[idx];
-
-			// If the Accumulator has incrimented or decrimented by the number of clicks
-			// per indent (4), incriment or decriment the global value
-			if(accumulator >=  4) { g_rotary_encoder_clicks++; accumulator -= 4; }
-			if(accumulator <= -4) { g_rotary_encoder_clicks--; accumulator += 4; }
-
-			rotenc_prev_bitmask = rotenc_curr_bitmask;
-			millis_prev_rotenc_check = g_systick_millis;
-		}
-
-		if(g_systick_millis - millis_prev_button_check > MILLIS_BUTTON_CHECK)
-		{
-
-			millis_prev_button_check = g_systick_millis;
+			printf("Clicks: %d\n", g_rotary_encoder_clicks);
+			millis_prev_user_input_update = g_systick_millis;
 		}
 
 
 		/// PID and Temp Update /////////////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_pid_temp_update > MILLIS_PID_TEMP_UPDATE)
 		{
-			
-			printf("Ticks: %d\n", g_rotary_encoder_clicks);
-
-
 			static uint16_t   thermistor_adc;
 			static int32_t    heater_pwm;
 
@@ -407,6 +414,41 @@ void SysTick_Handler(void)
 
 	// Increment the milliseconds count
 	g_systick_millis++;
+}
+
+
+__attribute__((interrupt))
+void EXTI7_0_IRQHandler(void)
+{
+	// Trigger on CH4 and CH5
+	if((EXTI->INTFR & 0x00000010) || (EXTI->INTFR & 0x00000020))
+	{
+		// Read the PORT Input Register to get the Pinm Bits
+		uint32_t portc_read = GPIOC->INDR;
+
+		// Clear whichever flag was hit
+		if(EXTI->INTFR & 0x10) EXTI->INTFR = 0x10;
+		if(EXTI->INTFR & 0x20) EXTI->INTFR = 0x20;
+
+		// Accumulate transitions per detend (usually 4) 
+		static int8_t accumulator     = 0;
+		
+		// Read A and B Pins (PC4 & PC5), use their state as bits in a bitmask. [AB]
+		static int8_t rotenc_prev_bitmask = 0b11;
+		       int8_t rotenc_curr_bitmask = (((portc_read >> 4) & 1) << 1) | ((portc_read >> 5) & 1);
+
+		// Convert the bitmasks into a step value using the Gray Code Table
+		int8_t step = rotenc_table[ (rotenc_prev_bitmask << 2) | rotenc_curr_bitmask ];
+		accumulator += step;
+
+		// If the Accumulator has incrimented or decrimented by the number of clicks
+		// per indent (4), incriment or decriment the global value
+		     if(accumulator >=  4) { g_rotary_encoder_clicks++; accumulator -= 4; }
+		else if(accumulator <= -4) { g_rotary_encoder_clicks--; accumulator += 4; }
+	
+		// Update the prev bitmask for the next interrupt
+		rotenc_prev_bitmask = rotenc_curr_bitmask;
+	}
 }
 
 
