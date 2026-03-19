@@ -1,6 +1,8 @@
 /******************************************************************************
-*
-*
+* PID Thermally Controlled Ryobi Hot Melt Adhesive Gun (HMAG)
+* Uses OLED Display to show the Battery and Temperature Status, with
+* Rotary Encoder for UI Inputs 
+* See the GitHub for full documentation: https://github.com/ADBeta/TCRHMAG
 *
 *
 * Pinout:
@@ -10,6 +12,9 @@
 * PC0    PWM Out           (TIM2 CH3)
 * PC1    I2C SDA
 * PC2    I2C_SCL
+* PC3    Rotary Encoder Switch
+* PC4    Rotary Encoder A
+* PC5    Rotary Encoder B
 *
 * PD3    LED Out           (TIM2 CH2)
 * PD4    OPAMP_ADC         (ADC7)
@@ -18,22 +23,25 @@
 * PD7    OPAMP_CH2+
 *
 *
-*
-*
-* Ver 0.4    12 Mar 2026
+* Ver 0.6    19 Mar 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
 #include "thermistor_lut.h"
 #include "lib_gpioctrl.h"
+#include "lib_i2c.h"
 #include "lib_pid.h"
 #include "battery.h"
+#include "oled.h"
 
 
-#include "stdio.h"
-#include "string.h"
-#include "stdbool.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
 
+
+/*** Macro Functons **********************************************************/
+#define CLAMP(x, min, max) ((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
 
 
 /*** Pin Definitions *********************************************************/
@@ -85,22 +93,23 @@ volatile uint32_t g_systick_millis         = 0;
 
 /// System Status and Settings ////////////////////////////////////////////////
 // System //////
-static bool                g_heater_enabled                          = false;
-static bool                g_control_lockout                         = false;
-static volatile int16_t    g_rotary_encoder_clicks                   = 0;
+static display_mode_e      g_display_mode                        = DISPLAY_MODE_BOOTUP;
+static bool                g_heater_enabled                      = false;
+static bool                g_control_lockout                     = false;
+static volatile int16_t    g_rotary_encoder_clicks               = 0;
 // Battery /////
-static uint16_t            g_battery_voltage_mv                      = 0;
-static uint16_t            g_battery_current_ma                      = 0;
-static uint8_t             g_battery_percentage                      = 0;
-#define                    BATTERY_OVERCURRENT_SHUTDOWN_MA           5500
-#define                    BATTERY_UNDERVOLTAGE_WARNING_MV           16000
-#define                    BATTERY_UNDERVOLTAGE_SHUTDOWN_MV          15200
+#define                    BATTERY_OVERCURRENT_SHUTDOWN_MA       5500
+#define                    BATTERY_UNDERVOLTAGE_WARNING_MV       16000
+#define                    BATTERY_UNDERVOLTAGE_SHUTDOWN_MV      15200
+static uint16_t            g_battery_voltage_mv                  = 0;
+static uint16_t            g_battery_current_ma                  = 0;
+static uint8_t             g_battery_percentage                  = 0;
 // Heater //////
-static uint16_t            g_target_temperature                      = 0;
-static uint16_t            g_measured_temperature                    = 0;
-#define                    SETTING_TEMPERATURE_MINIMUM               50
-#define                    SETTING_TEMPERATURE_MAXIMUM               220
-#define                    SETTING_TEMPERATURE_INCRIMENT             5
+#define                    SETTING_TEMPERATURE_MINIMUM           50
+#define                    SETTING_TEMPERATURE_MAXIMUM           220
+#define                    SETTING_TEMPERATURE_INCRIMENT         5
+static int16_t             g_target_temperature                  = SETTING_TEMPERATURE_MINIMUM;
+static int16_t             g_measured_temperature                = 0;
 
 
 /// @brief Gray Code Lookup Table for the Rotary Encoder
@@ -179,20 +188,41 @@ static void update_led(const bool fading);
 
 
 
+
+
+
 /*** Main ********************************************************************/
 int main(void)
 {
 	SystemInit();
 
 	/*** IO Initialisation *******************************/
-	// Init the I2C Handler at 1MHz, then initialise the display
-	//i2c_init(I2C_CLK_1MHZ);
+	// I2C Setup for the OLED
+	i2c_device_t i2c_oled = {
+		.clkr = I2C_CLK_1MHZ,
+		.type = I2C_ADDR_7BIT,
+		.addr = 0x3C,
+		.regb = 1,
+		.tout = 2000,
+	};
+	i2c_init(&i2c_oled);
+
+	// Initialise the OLED, then display the BOOTING Screen
+	oled_init(&i2c_oled);
+
+
+	oled_loop();
+	
+
+
+
+
 
 	// Initialise PWM Channels. Turn off the Heater (CH3) and the LED on (CH2)
 	pwm_init();
-	pwm_set_duty(PWM_CHANNEL_LED, 0xFF);
+	pwm_set_duty(PWM_CHANNEL_LED,    0xFF);
 	pwm_set_duty(PWM_CHANNEL_HEATER, 0x00);
-
+	
 	// Set the Rotary Encoder Pins to INPUT_PULLUP
 	gpio_set_mode(ROTENC_SW_PIN, INPUT_PULLUP);
 	gpio_set_mode(ROTENC_A_PIN,  INPUT_PULLUP);
@@ -265,7 +295,6 @@ int main(void)
 
 	// TODO:
 	//g_heater_enabled = true;
-	g_target_temperature = 100;
 
 
 	uint32_t millis_prev_led_update        = 0;
@@ -289,7 +318,19 @@ int main(void)
 		/// User Control Input Checks ///////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
 		{
-			printf("Clicks: %d\n", g_rotary_encoder_clicks);
+
+			//if(g_display_mode == DISPLAY_MODE_CHANGE_TEMP)
+			//{
+				// Incriment / Decriment the Target Temp by the current clicks
+				// Limit to min and max values, then reset clicks
+				int16_t inc = g_rotary_encoder_clicks * SETTING_TEMPERATURE_INCRIMENT;
+				g_target_temperature = CLAMP(g_target_temperature + inc, 
+								             SETTING_TEMPERATURE_MINIMUM, 
+								             SETTING_TEMPERATURE_MAXIMUM);
+				g_rotary_encoder_clicks = 0;
+				
+			//}
+
 			millis_prev_user_input_update = g_systick_millis;
 		}
 
@@ -312,9 +353,6 @@ int main(void)
 			// If the heater is disabled, set PWM value to 0 (OFF)
 			if(!g_heater_enabled) heater_pwm = 0x00;
 			pwm_set_duty(PWM_CHANNEL_HEATER, (uint8_t)heater_pwm);
-		
-		
-			//printf("vbatt: %d\tperc: %d\tcurrent: %d\ttemp: %d\tpwm: %lu\n", g_battery_voltage_mv, g_battery_percentage, g_battery_current_ma, g_measured_temperature, heater_pwm);
 
 			millis_prev_pid_temp_update = g_systick_millis;
 		}
@@ -329,7 +367,7 @@ int main(void)
 			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
 			g_battery_current_ma = battery_read_average_ma(system_mv);
 			
-			// TODO:
+
 			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
 			// threshold value - or if the current is higher than the shutdown threshold
 			// And disable the user controls so it cannot be renabled until reboot
@@ -338,6 +376,7 @@ int main(void)
 			{
 				g_heater_enabled   = false;
 				g_control_lockout  = true;
+				g_display_mode     = DISPLAY_MODE_LOCKOUT;
 			}
 
 			millis_prev_battery_check = g_systick_millis;

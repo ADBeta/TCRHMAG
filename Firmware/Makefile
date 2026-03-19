@@ -356,7 +356,7 @@ clean :
 compile: $(BUILD_DIR)/$(TARGET).bin
 
 flash: $(BUILD_DIR)/$(TARGET).bin
-	#$(MINICHLINK) -D               # Disable NRST, use ad GPIO
+	$(MINICHLINK) -D               # Disable NRST, use ad GPIO
 	$(MINICHLINK) -w $< flash -b
 
 gen_lut :
