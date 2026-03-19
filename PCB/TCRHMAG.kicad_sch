@@ -6,8 +6,8 @@
 	(paper "A4")
 	(title_block
 		(title "TCRHMAG")
-		(date "2026-03-10")
-		(rev "MkI")
+		(date "2026-03-19")
+		(rev "MkII")
 		(company "ADBeta")
 	)
 	(lib_symbols
@@ -2471,8 +2471,8 @@
 		(uuid "593b1809-4e3b-4507-8556-7fc9b4d4513e")
 	)
 	(no_connect
-		(at 90.805 130.175)
-		(uuid "689e04b9-b960-4c7e-ad03-e7f047e8dd77")
+		(at 90.805 127.635)
+		(uuid "adc92e94-5538-459e-8390-1421a2c98042")
 	)
 	(no_connect
 		(at 70.485 142.875)
@@ -3460,7 +3460,7 @@
 	)
 	(wire
 		(pts
-			(xy 90.805 127.635) (xy 111.125 127.635)
+			(xy 90.805 130.175) (xy 111.125 130.175)
 		)
 		(stroke
 			(width 0)
@@ -4109,7 +4109,7 @@
 		(uuid "d133e47f-6263-44c3-bbeb-372eebf8324b")
 	)
 	(label "MCU_SWIO"
-		(at 111.125 127.635 180)
+		(at 111.125 130.175 180)
 		(effects
 			(font
 				(size 1.27 1.27)
