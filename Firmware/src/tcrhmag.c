@@ -71,6 +71,7 @@
 #define MILLIS_USER_INPUT_UPDATE     50
 #define MILLIS_PID_TEMP_UPDATE       100
 #define MILLIS_BATTERY_CHECK         250
+#define MILLIS_DISPLAY_UPDATE        200
 
 
 
@@ -190,6 +191,11 @@ static void update_led(const bool fading);
 
 
 
+uint8_t _oled_buffer[8][128] = {0x00};
+
+
+
+
 
 /*** Main ********************************************************************/
 int main(void)
@@ -209,13 +215,6 @@ int main(void)
 
 	// Initialise the OLED, then display the BOOTING Screen
 	oled_init(&i2c_oled);
-
-
-	oled_loop();
-	
-
-
-
 
 
 	// Initialise PWM Channels. Turn off the Heater (CH3) and the LED on (CH2)
@@ -301,9 +300,13 @@ int main(void)
 	uint32_t millis_prev_user_input_update = 0;
 	uint32_t millis_prev_pid_temp_update   = 0;
 	uint32_t millis_prev_battery_check     = 0;
+	uint32_t millis_prev_display_update    = 0;
 
 
 
+
+
+	
 
 	while(true)
 	{
@@ -380,6 +383,17 @@ int main(void)
 			}
 
 			millis_prev_battery_check = g_systick_millis;
+		}
+
+
+		/// Display Update and Redraw ///////////////////////////////////////////////
+		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
+		{
+		
+			oled_draw_battery_info(g_battery_voltage_mv, g_battery_percentage);
+			oled_update();
+			
+			millis_prev_display_update = g_systick_millis;
 		}
 
 
