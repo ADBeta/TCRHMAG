@@ -191,9 +191,6 @@ static void update_led(const bool fading);
 
 
 
-uint8_t _oled_buffer[8][128] = {0x00};
-
-
 
 
 
@@ -267,10 +264,8 @@ int main(void)
 	// Initialise the SysTick to get millis() funcitonality
 	systick_init();
 
-	// TODO:
 	// Initialise the IWDT to prevent a lockup - 250ms
-	//iwdg_init(0x04, 0x9B);
-
+	iwdg_init(0x04, 0x9B);
 
 
 	// TODO:
@@ -302,10 +297,6 @@ int main(void)
 	uint32_t millis_prev_battery_check     = 0;
 	uint32_t millis_prev_display_update    = 0;
 
-
-
-
-
 	
 
 	while(true)
@@ -314,6 +305,11 @@ int main(void)
 		if(g_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
 		{
 			update_led(g_heater_enabled);
+
+			// TODO:
+			oled_update();
+			
+
 			millis_prev_led_update = g_systick_millis;
 		}
 
@@ -369,11 +365,16 @@ int main(void)
 			g_battery_voltage_mv = battery_read_mv(system_mv);
 			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
 			g_battery_current_ma = battery_read_average_ma(system_mv);
-			
+
+
+			// TODO:
+			oled_draw_battery_info(g_battery_voltage_mv, g_battery_current_ma, g_battery_percentage);
+			printf("%d\n", g_battery_voltage_mv);
 
 			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
 			// threshold value - or if the current is higher than the shutdown threshold
 			// And disable the user controls so it cannot be renabled until reboot
+			// TODO: Display modes for low volt and high current
 			if(  (g_battery_voltage_mv <= BATTERY_UNDERVOLTAGE_SHUTDOWN_MV) ||
 			     (g_battery_current_ma >= BATTERY_OVERCURRENT_SHUTDOWN_MA)  )
 			{
@@ -381,6 +382,8 @@ int main(void)
 				g_control_lockout  = true;
 				g_display_mode     = DISPLAY_MODE_LOCKOUT;
 			}
+
+
 
 			millis_prev_battery_check = g_systick_millis;
 		}
@@ -390,9 +393,11 @@ int main(void)
 		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
 		{
 		
-			oled_draw_battery_info(g_battery_voltage_mv, g_battery_percentage);
-			oled_update();
+			oled_draw_battery_info(g_battery_current_ma,
+						           g_battery_voltage_mv,
+						           g_battery_percentage);
 			
+
 			millis_prev_display_update = g_systick_millis;
 		}
 
