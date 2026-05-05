@@ -1,1 +1,6 @@
+# Build outputs
+build/
+
+# Tooling
+compile_commands.json
 .clangd

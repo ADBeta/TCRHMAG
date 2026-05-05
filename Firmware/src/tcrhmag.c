@@ -36,7 +36,6 @@
 
 
 #include <stdio.h>
-#include <string.h>
 #include <stdbool.h>
 
 
@@ -305,11 +304,6 @@ int main(void)
 		if(g_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
 		{
 			update_led(g_heater_enabled);
-
-			// TODO:
-			oled_update();
-			
-
 			millis_prev_led_update = g_systick_millis;
 		}
 
@@ -366,9 +360,6 @@ int main(void)
 			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
 			g_battery_current_ma = battery_read_average_ma(system_mv);
 
-
-			// TODO:
-			oled_draw_battery_info(g_battery_voltage_mv, g_battery_current_ma, g_battery_percentage);
 			printf("%d\n", g_battery_voltage_mv);
 
 			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
@@ -393,10 +384,11 @@ int main(void)
 		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
 		{
 		
-			oled_draw_battery_info(g_battery_current_ma,
-						           g_battery_voltage_mv,
+			oled_draw_battery_info(g_battery_voltage_mv,
+						           g_battery_current_ma,
 						           g_battery_percentage);
 			
+			oled_update();
 
 			millis_prev_display_update = g_systick_millis;
 		}
@@ -429,10 +421,10 @@ static void iwdg_init(const uint8_t prescaler, const uint16_t rst_val)
 }
 
 
+
 __attribute__((always_inline))
 static inline void iwdg_feed(void)
 { IWDG->CTLR = 0xAAAA; }
-
 
 
 
