@@ -174,12 +174,13 @@ oled_err_t oled_draw_battery_info(const uint16_t batt_mv,
 
 	
 
-	append_formatted_2dp_string(batt_mv, &topbar_str[0]);
+	// The Current being drawn is always top left
+	append_formatted_2dp_string(batt_ma, &topbar_str[0]);
+	topbar_str[5] = 'A';
 
 
 
 	// Draw the modified strings to the framebuffer
 	font8x8_to_framebuffer(topbar_str, (uint8_t *)&_oled_buffer[0][0]);
-	//font8x8_to_framebuffer(percent_str, (uint8_t *)&_oled_buffer[7][96]);
 	return OLED_OK;
 }
