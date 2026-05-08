@@ -55,14 +55,29 @@ oled_err_t oled_update(void);
 
 
 /*** Drawing API Functions ***************************************************/
-/// @brief Draws the Battery Information to the top of the display
-/// @param vbat_ma, Battery Current in milliamps
-/// @param vbat_mv, Battery voltage in millivolts
-/// @param vbat_pc, Battery Percentage
+/// @brief Clears the Battery Info bar to an empty state
+/// @param None
 /// @return None
-oled_err_t oled_draw_battery_info(const uint16_t batt_mv,
-	                              const uint16_t batt_ma, 
-								  const uint16_t batt_pc);
+void oled_clear_battery_info(void);
+
+
+/// @brief Draws the Current Draw from the Battery to the OLED
+/// @param batt_ma, Battery Current in milliamps
+/// @return None
+void oled_draw_battery_current(const uint16_t batt_ma);
+
+
+/// @brief Draws the Voltage of the Battery to the OLED
+/// @param batt_mv, Battery Voltage in millivolts
+/// @return None
+void oled_draw_battery_voltage(const uint16_t batt_mv);
+
+
+/// @brief Draws the Battery Percentage to the OLED
+/// @param batt_perc, Battery Percentage. 0-100, specifically 
+/// 0%-25%, 25%-50%, 50%-75%, 75%-100%
+/// @return None
+void oled_draw_battery_percent(const uint8_t batt_perc);
 
 
 

@@ -383,11 +383,11 @@ int main(void)
 		/// Display Update and Redraw ///////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
 		{
-		
-			oled_draw_battery_info(g_battery_voltage_mv,
-						           g_battery_current_ma,
-						           g_battery_percentage);
-			
+			oled_clear_battery_info();
+			oled_draw_battery_current(g_battery_current_ma);
+			oled_draw_battery_voltage(g_battery_voltage_mv);
+//			static uint8_t perc = 100;
+//			oled_draw_battery_percent(perc--);
 			oled_update();
 
 			millis_prev_display_update = g_systick_millis;

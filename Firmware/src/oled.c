@@ -31,6 +31,25 @@ static uint8_t _oled_buffer[OLED_PAGES][OLED_WIDTH];
 
 
 /*** Font Data ***************************************************************/
+/// @brief 6x8 Battery Percentage Icon font
+static const uint8_t font6x8_battperc_data[][6] = {
+	{0x3C, 0xE7, 0x81, 0xBD, 0xBD, 0xBD},     // Filled Top Bar
+	{0x3C, 0xE7, 0x81, 0x81, 0x81, 0x81},     // Empty Top Bar
+	{0xBD, 0xBD, 0xBD, 0xBD, 0xBD, 0xBD},     // Filled Middle Bar
+	{0x81, 0x81, 0x81, 0x81, 0x81, 0x81},     // Empty Middle Bar
+	{0xBD, 0xBD, 0xBD, 0xBD, 0x81, 0xFF},     // Filled Bottom Bar
+	{0x81, 0x81, 0x81, 0x81, 0x81, 0xFF}      // Empty Bottom Bar
+};
+
+#define FONT6x8_BATTPERC_FILLED_TOP      font6x8_battperc_data[0]
+#define FONT6x8_BATTPERC_EMPTY_TOP       font6x8_battperc_data[1]
+#define FONT6x8_BATTPERC_FILLED_MIDDLE   font6x8_battperc_data[2]
+#define FONT6x8_BATTPERC_EMPTY_MIDDLE    font6x8_battperc_data[3]
+#define FONT6x8_BATTPERC_FILLED_BOTTOM   font6x8_battperc_data[4]
+#define FONT6x8_BATTPERC_EMPTY_BOTTOM    font6x8_battperc_data[5]
+
+
+
 /// @brief 8x8 Limited Number/Symbol font for battery readout
 static const uint8_t font8x8_data[][8] = {
 	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},   // ' '
@@ -166,21 +185,38 @@ oled_err_t oled_update(void)
 
 
 /*** Drawing API Functions ***************************************************/
-oled_err_t oled_draw_battery_info(const uint16_t batt_mv,
-								  const uint16_t batt_ma, 
-								  const uint16_t vbat_pc)
+void oled_clear_battery_info(void)
 {
-	static char topbar_str[17] = "                ";
-
-	
-
-	// The Current being drawn is always top left
-	append_formatted_2dp_string(batt_ma, &topbar_str[0]);
-	topbar_str[5] = 'A';
+	memset(&_oled_buffer[0][0], 0x00, OLED_WIDTH);
+}
 
 
+void oled_draw_battery_current(const uint16_t batt_ma)
+{
+	static char current_str[7] = "00.00A";
+	append_formatted_2dp_string(batt_ma, &current_str[0]);
+	font8x8_to_framebuffer(current_str, (uint8_t *)&_oled_buffer[0][0]);
+}
 
-	// Draw the modified strings to the framebuffer
-	font8x8_to_framebuffer(topbar_str, (uint8_t *)&_oled_buffer[0][0]);
-	return OLED_OK;
+
+void oled_draw_battery_voltage(const uint16_t batt_mv)
+{
+	static char voltage_str[7] = "00.00V";
+	append_formatted_2dp_string(batt_mv, &voltage_str[0]);
+	font8x8_to_framebuffer(voltage_str, (uint8_t *)&_oled_buffer[0][82]);
+}
+
+
+void oled_draw_battery_percent(const uint8_t batt_perc)
+{
+	const uint8_t *font_ptr = NULL;
+
+	font_ptr = (batt_perc >= 75) ? FONT6x8_BATTPERC_FILLED_TOP : FONT6x8_BATTPERC_EMPTY_TOP;
+	memcpy(&_oled_buffer[0][110], font_ptr, 6);
+
+	font_ptr = (batt_perc >= 50) ? FONT6x8_BATTPERC_FILLED_MIDDLE : FONT6x8_BATTPERC_EMPTY_MIDDLE;
+	memcpy(&_oled_buffer[0][116], font_ptr, 6);
+
+	font_ptr = (batt_perc >= 25) ? FONT6x8_BATTPERC_FILLED_BOTTOM : FONT6x8_BATTPERC_EMPTY_BOTTOM;
+	memcpy(&_oled_buffer[0][122], font_ptr, 6);
 }
