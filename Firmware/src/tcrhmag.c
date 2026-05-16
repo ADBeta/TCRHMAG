@@ -5,7 +5,7 @@
 * See the GitHub for full documentation: https://github.com/ADBeta/TCRHMAG
 *
 *
-* Pinout:
+* ---- Pinout ----
 * PA1    OPAMP_CH1-
 * PA2    OPAMP_CH1+
 *
@@ -22,8 +22,14 @@
 * PD6    Battery Sense     (ADC6)
 * PD7    OPAMP_CH2+
 *
+* ---- TODO ----
+* - Add UI for PID adjust
+* - Store the previous Target temp in flash
+* - Boot splash screen ?
+* - Emergency error screen
+* - Control heater enabled via UI
 *
-* Ver 0.7    06 May 2026
+* Ver 1.0    16 May 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -70,7 +76,7 @@
 #define MILLIS_USER_INPUT_UPDATE     50
 #define MILLIS_PID_TEMP_UPDATE       100
 #define MILLIS_BATTERY_CHECK         250
-#define MILLIS_DISPLAY_UPDATE        200
+#define MILLIS_DISPLAY_UPDATE        250
 
 
 
@@ -188,11 +194,6 @@ static void update_led(const bool fading);
 
 
 
-
-
-
-
-
 /*** Main ********************************************************************/
 int main(void)
 {
@@ -208,10 +209,6 @@ int main(void)
 		.tout = 2000,
 	};
 	i2c_init(&i2c_oled);
-
-	// Initialise the OLED, then display the BOOTING Screen
-	oled_init(&i2c_oled);
-
 
 	// Initialise PWM Channels. Turn off the Heater (CH3) and the LED on (CH2)
 	pwm_init();
@@ -235,13 +232,12 @@ int main(void)
 	gpio_set_mode(BSENS_ADC_PIN,  INPUT_ANALOG);
 	gpio_set_mode(OPAMP_ADC_PIN,  INPUT_ANALOG);	
 
-
-	// TODO:
-	// Print "Booting" or something to screen
 	gpio_init_opamp();
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
 	opamp_calibrate();
 
+	// Initialise the OLED, then display the BOOTING Screen
+	oled_init(&i2c_oled);
 
 	/*** Pin Change Interrupts (Rotary Encoder) **********/
 	// Enable AFIO and CH4 and CH5 on PORTC
@@ -269,6 +265,7 @@ int main(void)
 
 	// TODO:
 	// Get user settings from flash
+
 	/*** PID Controller **********************************/
 	// Declare and initialise a PID Controller Struct for the Heater
 	pid_ctrl_t heater_pid =
@@ -283,20 +280,16 @@ int main(void)
 	};
 	pid_init(&heater_pid);
 
+	// TODO: Change via UI
+	g_heater_enabled = true;
 
 
-
-	// TODO:
-	//g_heater_enabled = true;
-
-
+	/*** Timing Variables *******************************/
 	uint32_t millis_prev_led_update        = 0;
 	uint32_t millis_prev_user_input_update = 0;
 	uint32_t millis_prev_pid_temp_update   = 0;
 	uint32_t millis_prev_battery_check     = 0;
 	uint32_t millis_prev_display_update    = 0;
-
-	
 
 	while(true)
 	{
@@ -312,8 +305,8 @@ int main(void)
 		if(g_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
 		{
 
-			//if(g_display_mode == DISPLAY_MODE_CHANGE_TEMP)
-			//{
+//			if(g_display_mode == DISPLAY_MODE_CHANGE_TEMP)
+//			{
 				// Incriment / Decriment the Target Temp by the current clicks
 				// Limit to min and max values, then reset clicks
 				int16_t inc = g_rotary_encoder_clicks * SETTING_TEMPERATURE_INCRIMENT;
@@ -321,8 +314,7 @@ int main(void)
 								             SETTING_TEMPERATURE_MINIMUM, 
 								             SETTING_TEMPERATURE_MAXIMUM);
 				g_rotary_encoder_clicks = 0;
-				
-			//}
+//			}
 
 			millis_prev_user_input_update = g_systick_millis;
 		}
@@ -360,8 +352,7 @@ int main(void)
 			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
 			g_battery_current_ma = battery_read_average_ma(system_mv);
 
-			printf("%d\n", g_battery_voltage_mv);
-
+/*
 			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
 			// threshold value - or if the current is higher than the shutdown threshold
 			// And disable the user controls so it cannot be renabled until reboot
@@ -373,8 +364,7 @@ int main(void)
 				g_control_lockout  = true;
 				g_display_mode     = DISPLAY_MODE_LOCKOUT;
 			}
-
-
+*/
 
 			millis_prev_battery_check = g_systick_millis;
 		}
@@ -388,6 +378,8 @@ int main(void)
 			oled_draw_battery_voltage(g_battery_voltage_mv);
 //			static uint8_t perc = 100;
 //			oled_draw_battery_percent(perc--);
+			
+			oled_draw_temperature(g_target_temperature, g_measured_temperature);
 			oled_update();
 
 			millis_prev_display_update = g_systick_millis;
@@ -400,8 +392,6 @@ int main(void)
 
 	return 0;
 }
-
-
 
 
 

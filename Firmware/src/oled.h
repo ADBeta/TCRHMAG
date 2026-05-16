@@ -3,7 +3,7 @@
 * for TCRHMAG
 * Really shitty design because I ran out of patience
 *
-* ADBeta (c)    04 May 2026    Ver 1.1
+* ADBeta (c)    16 May 2026    Ver 2.0
 ******************************************************************************/
 #ifndef TCRHMAG_OLED_H
 #define TCRHMAG_OLED_H
@@ -26,8 +26,6 @@ typedef enum {
 	OLED_UNSET_DEVICE,
 	OLED_INVALID_INPUT,
 	OLED_I2C_FAILED,
-
-
 } oled_err_t;
 
 
@@ -80,7 +78,11 @@ void oled_draw_battery_voltage(const uint16_t batt_mv);
 void oled_draw_battery_percent(const uint8_t batt_perc);
 
 
-
+/// @brief Draws the Temperature to the OLED
+/// @param target, Target temperature value
+/// @param actual, Actual temperature value
+/// @return None
+void oled_draw_temperature(const uint16_t target, const uint16_t actual);
 
 
 
