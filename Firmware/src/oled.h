@@ -10,6 +10,7 @@
 
 #include "lib_i2c.h"
 
+#include <stdbool.h>
 #include <stdint.h>
 
 /*** OLED Definitions ********************************************************/
@@ -53,6 +54,24 @@ oled_err_t oled_update(void);
 
 
 /*** Drawing API Functions ***************************************************/
+/// @brief Draws the Boot Screen onto the OLED
+/// @param None
+/// @return None
+void oled_draw_boot_screen(void);
+
+
+/// @brief Draws a screen to let the user know there was an error
+/// @param None
+/// @return None
+void oled_draw_error_screen(void);
+
+
+/// @brief Clears the whole display
+/// @param None
+/// @return None
+void oled_clear_display(void);
+
+
 /// @brief Clears the Battery Info bar to an empty state
 /// @param None
 /// @return None
@@ -84,6 +103,11 @@ void oled_draw_battery_percent(const uint8_t batt_perc);
 /// @return None
 void oled_draw_temperature(const uint16_t target, const uint16_t actual);
 
+
+/// @brief Draws an icon to let the user know if the Heater is on or off
+/// @param heater_on, boolean if the heater is enabled or not
+/// @return None
+void oled_draw_heater_state(const bool header_on);
 
 
 /*** Grpahics Data ***********************************************************/

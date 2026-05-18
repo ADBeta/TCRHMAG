@@ -287,6 +287,20 @@ oled_err_t oled_update(void)
 
 
 /*** Drawing API Functions ***************************************************/
+void oled_draw_boot_screen(void)
+{
+	font8x8_to_framebuffer("BOOTING", &_oled_buffer[2][36]);
+	font8x8_to_framebuffer("TCRHMAG", &_oled_buffer[3][36]);
+	font8x8_to_framebuffer("V1.1",    &_oled_buffer[4][48]);
+}
+
+
+void oled_clear_display(void)
+{
+	memset(&_oled_buffer[0][0], 0x00, OLED_WIDTH * OLED_PAGES);
+}
+
+
 void oled_clear_battery_info(void)
 {
 	memset(&_oled_buffer[0][0], 0x00, OLED_WIDTH);

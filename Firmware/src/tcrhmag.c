@@ -25,11 +25,9 @@
 * ---- TODO ----
 * - Add UI for PID adjust
 * - Store the previous Target temp in flash
-* - Boot splash screen ?
 * - Emergency error screen
-* - Control heater enabled via UI
 *
-* Ver 1.0    16 May 2026
+* Ver 1.1    17 May 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -80,15 +78,26 @@
 
 
 
+/*** Misc Definitions ********************************************************/
+#define LED_MINIMUM_PWM              30
+#define LED_MAXIMUM_PWM              255
+
 /*** Typedefs and Structures *************************************************/
 typedef enum {
-	DISPLAY_MODE_BOOTUP           = 0,
-	DISPLAY_MODE_CHANGE_TEMP,
-	DISPLAY_MODE_CHANGE_KP,
-	DISPLAY_MODE_CHANGE_KI,
-	DISPLAY_MODE_CHANGE_KD,
-	DISPLAY_MODE_LOCKOUT
-} display_mode_e;
+	SYSTEM_STATE_BOOT                      = 0,
+	SYSTEM_STATE_HEATER_DISABLED,
+	SYSTEM_STATE_HEATER_ENABLED,
+	SYSTEM_STATE_ERROR_LOCKOUT
+} system_state_e;
+
+	
+typedef enum {
+	UI_MODE_UNSET                          = 0,
+	UI_MODE_CHANGE_TEMP,
+	UI_MODE_CHANGE_KP,
+	UI_MODE_CHANGE_KI,
+	UI_MODE_CHANGE_KD,
+} user_input_mode_e;
 
 
 
@@ -99,9 +108,8 @@ volatile uint32_t g_systick_millis         = 0;
 
 /// System Status and Settings ////////////////////////////////////////////////
 // System //////
-static display_mode_e      g_display_mode                        = DISPLAY_MODE_BOOTUP;
-static bool                g_heater_enabled                      = false;
-static bool                g_control_lockout                     = false;
+static system_state_e      g_system_state                        = SYSTEM_STATE_BOOT;
+static user_input_mode_e   g_user_input_mode                     = UI_MODE_CHANGE_TEMP;
 static volatile int16_t    g_rotary_encoder_clicks               = 0;
 // Battery /////
 #define                    BATTERY_OVERCURRENT_SHUTDOWN_MA       5500
@@ -115,7 +123,7 @@ static uint8_t             g_battery_percentage                  = 0;
 #define                    SETTING_TEMPERATURE_MAXIMUM           220
 #define                    SETTING_TEMPERATURE_INCRIMENT         5
 static int16_t             g_target_temperature                  = SETTING_TEMPERATURE_MINIMUM;
-static int16_t             g_measured_temperature                = 0;
+static int16_t             g_actual_temperature                  = 0;
 
 
 /// @brief Gray Code Lookup Table for the Rotary Encoder
@@ -186,13 +194,6 @@ static void pwm_set_duty(const uint8_t ch, const uint32_t duty);
 static uint16_t thermistor_adc_to_temp(const uint16_t adc);
 
 
-/// @brief Updates the LEDs current PWM Value depending on if the system is
-/// running, and other status events
-/// @param fading, bool enable/disable value
-/// @return None
-static void update_led(const bool fading);
-
-
 
 /*** Main ********************************************************************/
 int main(void)
@@ -210,9 +211,15 @@ int main(void)
 	};
 	i2c_init(&i2c_oled);
 
+	// Initialise the OLED, then display the BOOTING Screen
+	Delay_Ms(20);
+	oled_init(&i2c_oled);
+	oled_draw_boot_screen();
+	oled_update();
+
 	// Initialise PWM Channels. Turn off the Heater (CH3) and the LED on (CH2)
 	pwm_init();
-	pwm_set_duty(PWM_CHANNEL_LED,    0xFF);
+	pwm_set_duty(PWM_CHANNEL_LED,    0x00);
 	pwm_set_duty(PWM_CHANNEL_HEATER, 0x00);
 	
 	// Set the Rotary Encoder Pins to INPUT_PULLUP
@@ -236,8 +243,6 @@ int main(void)
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
 	opamp_calibrate();
 
-	// Initialise the OLED, then display the BOOTING Screen
-	oled_init(&i2c_oled);
 
 	/*** Pin Change Interrupts (Rotary Encoder) **********/
 	// Enable AFIO and CH4 and CH5 on PORTC
@@ -281,8 +286,9 @@ int main(void)
 	pid_init(&heater_pid);
 
 	// TODO: Change via UI
-	g_heater_enabled = true;
-
+	g_system_state    = SYSTEM_STATE_HEATER_DISABLED;
+	g_user_input_mode = UI_MODE_CHANGE_TEMP;
+	
 
 	/*** Timing Variables *******************************/
 	uint32_t millis_prev_led_update        = 0;
@@ -291,31 +297,88 @@ int main(void)
 	uint32_t millis_prev_battery_check     = 0;
 	uint32_t millis_prev_display_update    = 0;
 
+
 	while(true)
 	{
-		/// LED Update //////////////////////////////////////////////////////////////
+		/// LED Update ////////////////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
 		{
-			update_led(g_heater_enabled);
+			static int16_t led_val = 0;
+			static int8_t  led_inc = 5;
+	
+			switch(g_system_state)
+			{
+				case SYSTEM_STATE_HEATER_DISABLED:
+					led_val = LED_MINIMUM_PWM;
+					break;
+
+				case SYSTEM_STATE_HEATER_ENABLED:
+					led_val += led_inc;
+					if(led_val >= LED_MAXIMUM_PWM || led_val <= LED_MINIMUM_PWM)
+					{
+						led_val = (led_val >= LED_MAXIMUM_PWM) ? LED_MAXIMUM_PWM : LED_MINIMUM_PWM;
+						led_inc = -led_inc;
+					}
+					break;
+
+				// TODO: flashing
+				case SYSTEM_STATE_ERROR_LOCKOUT:
+					break;
+
+				default:
+					led_val = 0;
+					break;
+			}
+
+			// Set the LED PWM
+			pwm_set_duty(PWM_CHANNEL_LED, (uint8_t)led_val);
+
 			millis_prev_led_update = g_systick_millis;
 		}
 
 
-		/// User Control Input Checks ///////////////////////////////////////////////
+		/// User Control Input Checks /////////////////////////////////////////
 		if(g_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
 		{
+			// Determine if the RENC button has been pressed
+			       GPIO_STATE c_button_state = gpio_digital_read(ROTENC_SW_PIN);
+			static GPIO_STATE p_button_state = true;
+			bool button_pressed = (p_button_state && !c_button_state);
+			p_button_state = c_button_state;
 
-//			if(g_display_mode == DISPLAY_MODE_CHANGE_TEMP)
-//			{
-				// Incriment / Decriment the Target Temp by the current clicks
-				// Limit to min and max values, then reset clicks
-				int16_t inc = g_rotary_encoder_clicks * SETTING_TEMPERATURE_INCRIMENT;
-				g_target_temperature = CLAMP(g_target_temperature + inc, 
-								             SETTING_TEMPERATURE_MINIMUM, 
-								             SETTING_TEMPERATURE_MAXIMUM);
-				g_rotary_encoder_clicks = 0;
-//			}
 
+			// If the system in is the error state, ignore all user inputs
+			if(g_system_state != SYSTEM_STATE_ERROR_LOCKOUT)
+			{
+				//TODO: Move UI stuff to helper function and .h for neatness
+			
+
+				switch(g_user_input_mode)
+				{
+					case UI_MODE_CHANGE_TEMP:
+						// Incriment / Decriment the Target Temp by the current clicks
+						// Limit to min and max values, then reset clicks
+						g_target_temperature += g_rotary_encoder_clicks * SETTING_TEMPERATURE_INCRIMENT;
+						g_target_temperature = CLAMP(g_target_temperature, SETTING_TEMPERATURE_MINIMUM, SETTING_TEMPERATURE_MAXIMUM);
+						// Toggle ENABLE if button was pressed
+						if(button_pressed)
+						{
+							if(g_system_state == SYSTEM_STATE_HEATER_DISABLED)
+							{
+								g_system_state = SYSTEM_STATE_HEATER_ENABLED;
+							} else if(g_system_state == SYSTEM_STATE_HEATER_ENABLED) {
+								g_system_state = SYSTEM_STATE_HEATER_DISABLED;
+							}
+						}
+						break;
+
+
+					default:
+						break;
+				}
+			}
+
+			g_rotary_encoder_clicks = 0;
 			millis_prev_user_input_update = g_systick_millis;
 		}
 
@@ -329,14 +392,14 @@ int main(void)
 			// Get the RAW ADC Value from the Thermistor, and convert it to an
 			// interpolated Temperature
 			thermistor_adc = gpio_analog_read(THERM_ADC_CH);
-			g_measured_temperature = thermistor_adc_to_temp(thermistor_adc);
+			g_actual_temperature = thermistor_adc_to_temp(thermistor_adc);
 		
 			// Calculate the PWM Value needed for the heater using PID - regardless
 			// of enabled state to keep the PID loop up-to-date
-			heater_pwm = pid_calculate(&heater_pid, g_measured_temperature, g_target_temperature);
+			heater_pwm = pid_calculate(&heater_pid, g_actual_temperature, g_target_temperature);
 			
 			// If the heater is disabled, set PWM value to 0 (OFF)
-			if(!g_heater_enabled) heater_pwm = 0x00;
+			if(g_system_state == SYSTEM_STATE_HEATER_DISABLED) heater_pwm = 0x00;
 			pwm_set_duty(PWM_CHANNEL_HEATER, (uint8_t)heater_pwm);
 
 			millis_prev_pid_temp_update = g_systick_millis;
@@ -353,6 +416,7 @@ int main(void)
 			g_battery_current_ma = battery_read_average_ma(system_mv);
 
 /*
+			// TODO: Lockout after ~10 measurments outside of ok threshold
 			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
 			// threshold value - or if the current is higher than the shutdown threshold
 			// And disable the user controls so it cannot be renabled until reboot
@@ -360,9 +424,10 @@ int main(void)
 			if(  (g_battery_voltage_mv <= BATTERY_UNDERVOLTAGE_SHUTDOWN_MV) ||
 			     (g_battery_current_ma >= BATTERY_OVERCURRENT_SHUTDOWN_MA)  )
 			{
-				g_heater_enabled   = false;
-				g_control_lockout  = true;
-				g_display_mode     = DISPLAY_MODE_LOCKOUT;
+				g_heater_enabled      = false;
+				g_target_temperature  = 0;
+				g_led_mode            = LED_MODE_ERROR;
+				g_display_mode        = DISPLAY_MODE_LOCKOUT;
 			}
 */
 
@@ -373,17 +438,28 @@ int main(void)
 		/// Display Update and Redraw ///////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
 		{
-			oled_clear_battery_info();
+			static user_input_mode_e p_user_input_mode = UI_MODE_UNSET;
+			if(p_user_input_mode != g_user_input_mode)
+			{
+				oled_clear_display();
+				p_user_input_mode = g_user_input_mode;
+			}
+
+
 			oled_draw_battery_current(g_battery_current_ma);
 			oled_draw_battery_voltage(g_battery_voltage_mv);
 //			static uint8_t perc = 100;
 //			oled_draw_battery_percent(perc--);
 			
-			oled_draw_temperature(g_target_temperature, g_measured_temperature);
-			oled_update();
+			oled_draw_temperature(g_target_temperature, g_actual_temperature);
+			
 
+
+
+			oled_update();
 			millis_prev_display_update = g_systick_millis;
 		}
+
 
 
 		// Keep the Watchdog fed and happy :)
@@ -534,17 +610,8 @@ static void pwm_init(void)
 
 static  void pwm_set_duty(const uint8_t ch, const uint32_t duty)
 {
-	switch(ch)
-	{
-		case 2:
-			TIM2->CH2CVR = duty;
-			break;
-		case 3:
-			TIM2->CH3CVR = duty;
-			break;
-		default:
-			break;
-	}
+	static volatile uint32_t *tim_ptr[2] = { &TIM2->CH2CVR, &TIM2->CH3CVR };
+	*tim_ptr[ch] = duty;
 }
 
 
@@ -592,30 +659,3 @@ static uint16_t thermistor_adc_to_temp(const uint16_t adc)
 	return output;
 }
 
-
-static void update_led(const bool fading)
-{
-	#define LED_MIN_VAL   40
-	#define LED_MAX_VAL   255
-
-	static int16_t led_val = LED_MIN_VAL;
-	static int8_t  led_inc = 5;
-	
-	// If the system is running, Fade the LED in and out steadily
-	if(fading)
-	{
-		led_val += led_inc;
-
-		// Flip to decrimenting if maximum is hit
-		if(led_val >= LED_MAX_VAL) { led_val = LED_MAX_VAL; led_inc = -led_inc; }
-
-		// Flip to incrimenting if the minimum is hit
-		if(led_val <= LED_MIN_VAL) { led_val = LED_MIN_VAL; led_inc = -led_inc; }
-
-	// If the system isn't running, set the LED to maximum value
-	} else { led_val = LED_MAX_VAL; }
-
-
-	// Set the LED PWM to the calculated value
-	pwm_set_duty(PWM_CHANNEL_LED, (uint8_t)led_val);
-}
