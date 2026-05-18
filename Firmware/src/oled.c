@@ -20,6 +20,12 @@
 			return OLED_I2C_FAILED;									 \
 	} while(0)
 
+#define OLED_PRINT_8X8_CENTERED(row, str)                            \
+	do {                                                             \
+		uint8_t _x = (OLED_WIDTH - ((sizeof(str) - 1) * 8)) / 2;            \
+		font8x8_to_framebuffer((str), &_oled_buffer[(row)][_x]);     \
+	} while (0)
+
 
 
 /*** Static Variables ********************************************************/
@@ -289,9 +295,16 @@ oled_err_t oled_update(void)
 /*** Drawing API Functions ***************************************************/
 void oled_draw_boot_screen(void)
 {
-	font8x8_to_framebuffer("BOOTING", &_oled_buffer[2][36]);
-	font8x8_to_framebuffer("TCRHMAG", &_oled_buffer[3][36]);
-	font8x8_to_framebuffer("V1.1",    &_oled_buffer[4][48]);
+	OLED_PRINT_8X8_CENTERED(2, "BOOTING");
+	OLED_PRINT_8X8_CENTERED(3, "TCRHMAG");
+	OLED_PRINT_8X8_CENTERED(4, "V1.2");
+}
+
+
+void oled_draw_error_screen()
+{
+	OLED_PRINT_8X8_CENTERED(3, "SYSTEM ERROR");
+	OLED_PRINT_8X8_CENTERED(4, "SAFETY LOCKOUT");
 }
 
 

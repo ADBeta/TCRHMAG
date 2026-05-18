@@ -27,7 +27,7 @@
 * - Store the previous Target temp in flash
 * - Emergency error screen
 *
-* Ver 1.1    17 May 2026
+* Ver 1.2    18 May 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -64,8 +64,8 @@
 #define OPAMP_ADC_PIN                 GPIO_A7
 //#define OPAMP_ADC_CH                GPIO_ADC_A7
 
-#define PWM_CHANNEL_LED               2
-#define PWM_CHANNEL_HEATER            3
+#define PWM_CHANNEL_LED               0
+#define PWM_CHANNEL_HEATER            1
 
 
 
@@ -97,6 +97,7 @@ typedef enum {
 	UI_MODE_CHANGE_KP,
 	UI_MODE_CHANGE_KI,
 	UI_MODE_CHANGE_KD,
+	UI_MODE_ERROR
 } user_input_mode_e;
 
 
@@ -363,6 +364,8 @@ int main(void)
 						// Toggle ENABLE if button was pressed
 						if(button_pressed)
 						{
+
+							// TODO: Neater
 							if(g_system_state == SYSTEM_STATE_HEATER_DISABLED)
 							{
 								g_system_state = SYSTEM_STATE_HEATER_ENABLED;
@@ -399,7 +402,8 @@ int main(void)
 			heater_pwm = pid_calculate(&heater_pid, g_actual_temperature, g_target_temperature);
 			
 			// If the heater is disabled, set PWM value to 0 (OFF)
-			if(g_system_state == SYSTEM_STATE_HEATER_DISABLED) heater_pwm = 0x00;
+			if(g_system_state == SYSTEM_STATE_HEATER_DISABLED || g_system_state == SYSTEM_STATE_ERROR_LOCKOUT) 
+				heater_pwm = 0x00;
 			pwm_set_duty(PWM_CHANNEL_HEATER, (uint8_t)heater_pwm);
 
 			millis_prev_pid_temp_update = g_systick_millis;
@@ -415,7 +419,7 @@ int main(void)
 			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
 			g_battery_current_ma = battery_read_average_ma(system_mv);
 
-/*
+
 			// TODO: Lockout after ~10 measurments outside of ok threshold
 			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
 			// threshold value - or if the current is higher than the shutdown threshold
@@ -424,12 +428,11 @@ int main(void)
 			if(  (g_battery_voltage_mv <= BATTERY_UNDERVOLTAGE_SHUTDOWN_MV) ||
 			     (g_battery_current_ma >= BATTERY_OVERCURRENT_SHUTDOWN_MA)  )
 			{
-				g_heater_enabled      = false;
 				g_target_temperature  = 0;
-				g_led_mode            = LED_MODE_ERROR;
-				g_display_mode        = DISPLAY_MODE_LOCKOUT;
+				g_user_input_mode	  = UI_MODE_ERROR;
+				g_system_state        = SYSTEM_STATE_ERROR_LOCKOUT;
 			}
-*/
+
 
 			millis_prev_battery_check = g_systick_millis;
 		}
@@ -445,15 +448,25 @@ int main(void)
 				p_user_input_mode = g_user_input_mode;
 			}
 
+			switch(g_user_input_mode)
+			{
+				case UI_MODE_CHANGE_TEMP:
+					oled_draw_battery_current(g_battery_current_ma);
+					oled_draw_battery_voltage(g_battery_voltage_mv);
+//					static uint8_t perc = 100;
+//					oled_draw_battery_percent(perc--);
+					oled_draw_temperature(g_target_temperature, g_actual_temperature);
+					break;
 
-			oled_draw_battery_current(g_battery_current_ma);
-			oled_draw_battery_voltage(g_battery_voltage_mv);
-//			static uint8_t perc = 100;
-//			oled_draw_battery_percent(perc--);
-			
-			oled_draw_temperature(g_target_temperature, g_actual_temperature);
-			
+				case UI_MODE_ERROR:
+					oled_draw_battery_current(g_battery_current_ma);
+					oled_draw_battery_voltage(g_battery_voltage_mv);
+					oled_draw_error_screen();
+					break;
 
+				default:
+					break;
+			}
 
 
 			oled_update();
