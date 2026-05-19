@@ -27,7 +27,7 @@
 * - Store the previous Target temp in flash
 * - Emergency error screen
 *
-* Ver 1.2    18 May 2026
+* Ver 1.3    19 May 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -79,8 +79,11 @@
 
 
 /*** Misc Definitions ********************************************************/
+#define LED_OFF_PWM                  0
 #define LED_MINIMUM_PWM              30
 #define LED_MAXIMUM_PWM              255
+#define LED_FLASH_TICKS              10
+
 
 /*** Typedefs and Structures *************************************************/
 typedef enum {
@@ -304,8 +307,9 @@ int main(void)
 		/// LED Update ////////////////////////////////////////////////////////
 		if(g_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
 		{
-			static int16_t led_val = 0;
-			static int8_t  led_inc = 5;
+			static int16_t led_val   = 0;
+			static int8_t  led_inc   = 5;
+			static uint8_t led_ticks = LED_FLASH_TICKS;
 	
 			switch(g_system_state)
 			{
@@ -322,12 +326,16 @@ int main(void)
 					}
 					break;
 
-				// TODO: flashing
 				case SYSTEM_STATE_ERROR_LOCKOUT:
+					if(--led_ticks == 0)
+					{
+						led_val = (led_val == LED_OFF_PWM) ? LED_MAXIMUM_PWM : LED_OFF_PWM;
+						led_ticks = LED_FLASH_TICKS;
+					}
 					break;
 
 				default:
-					led_val = 0;
+					led_val = LED_OFF_PWM;
 					break;
 			}
 
@@ -456,6 +464,7 @@ int main(void)
 //					static uint8_t perc = 100;
 //					oled_draw_battery_percent(perc--);
 					oled_draw_temperature(g_target_temperature, g_actual_temperature);
+					oled_draw_heater_state(g_system_state == SYSTEM_STATE_HEATER_ENABLED);
 					break;
 
 				case UI_MODE_ERROR:

@@ -364,3 +364,12 @@ void oled_draw_temperature(const uint16_t target, const uint16_t actual)
 	font8x8_to_framebuffer("~~~~ ACTUAL ~~~~",  &_oled_buffer[5][0]);
 	font16x16_to_framebuffer(actual_str,        &_oled_buffer[6][24]);
 }
+
+void oled_draw_heater_state(const bool heater_on)
+{
+	static const uint8_t icon_on[8] =  { 0x3C, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C };
+	static const uint8_t icon_off[8] = { 0x3C, 0x66, 0xC3, 0x81, 0x81, 0xC3, 0x66, 0x3C };
+
+	const uint8_t *ptr = heater_on ? icon_on : icon_off;
+	memcpy(&_oled_buffer[6][120], ptr, 8);	
+}

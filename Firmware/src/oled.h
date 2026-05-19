@@ -107,7 +107,7 @@ void oled_draw_temperature(const uint16_t target, const uint16_t actual);
 /// @brief Draws an icon to let the user know if the Heater is on or off
 /// @param heater_on, boolean if the heater is enabled or not
 /// @return None
-void oled_draw_heater_state(const bool header_on);
+void oled_draw_heater_state(const bool heater_on);
 
 
 /*** Grpahics Data ***********************************************************/
