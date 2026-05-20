@@ -27,7 +27,7 @@
 * - Store the previous Target temp in flash
 * - Emergency error screen
 *
-* Ver 1.3    19 May 2026
+* Ver 1.4    20 May 2026
 * (c) ADBeta 2026
 ******************************************************************************/
 #include "ch32fun.h"
@@ -116,9 +116,6 @@ static system_state_e      g_system_state                        = SYSTEM_STATE_
 static user_input_mode_e   g_user_input_mode                     = UI_MODE_CHANGE_TEMP;
 static volatile int16_t    g_rotary_encoder_clicks               = 0;
 // Battery /////
-#define                    BATTERY_OVERCURRENT_SHUTDOWN_MA       5500
-#define                    BATTERY_UNDERVOLTAGE_WARNING_MV       16000
-#define                    BATTERY_UNDERVOLTAGE_SHUTDOWN_MV      15200
 static uint16_t            g_battery_voltage_mv                  = 0;
 static uint16_t            g_battery_current_ma                  = 0;
 static uint8_t             g_battery_percentage                  = 0;
@@ -427,19 +424,21 @@ int main(void)
 			g_battery_percentage = battery_calc_battery_percent(g_battery_voltage_mv);
 			g_battery_current_ma = battery_read_average_ma(system_mv);
 
-
-			// TODO: Lockout after ~10 measurments outside of ok threshold
-			// Stop the Heater Driver if the Battery Voltage drops below the shutdown
-			// threshold value - or if the current is higher than the shutdown threshold
-			// And disable the user controls so it cannot be renabled until reboot
-			// TODO: Display modes for low volt and high current
-			if(  (g_battery_voltage_mv <= BATTERY_UNDERVOLTAGE_SHUTDOWN_MV) ||
-			     (g_battery_current_ma >= BATTERY_OVERCURRENT_SHUTDOWN_MA)  )
+			// If the battery voltage drops below the minimum, or the current
+			// goes above maximum, put the glue gun into a lockout state to
+			// failsafe. Also starts to cooldown
+			static uint8_t error_ticks = 10;
+			if( (g_battery_voltage_mv <= BATTERY_EMPTY_MV) || 
+				(g_battery_current_ma >= BATTERY_OVERCURRENT_MA) )
 			{
-				g_target_temperature  = 0;
-				g_user_input_mode	  = UI_MODE_ERROR;
-				g_system_state        = SYSTEM_STATE_ERROR_LOCKOUT;
-			}
+				if(--error_ticks == 0)
+				{
+					g_target_temperature  = 0;
+					g_user_input_mode	  = UI_MODE_ERROR;
+					g_system_state        = SYSTEM_STATE_ERROR_LOCKOUT;
+				}
+			} else
+				error_ticks = 10;	
 
 
 			millis_prev_battery_check = g_systick_millis;
