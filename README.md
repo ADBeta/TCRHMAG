@@ -2,7 +2,7 @@
 
 An Upgrade Control Board for the R18GLU Hot Glue Gun to provide PID Temperature
 Control, and display battery voltage, battery current.  
-It also improves battery life to ---- on a 1.5Ah Ryobi Battery (At 150c).
+It also improves battery life to 1hr 45min on a 1.5Ah Ryobi Battery (At 150c).
 
 
 ## Features

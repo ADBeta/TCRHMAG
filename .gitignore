@@ -4,3 +4,20 @@ build/
 # Tooling
 compile_commands.json
 .clangd
+
+# KiCAD Files
+PCB/.history
+*-backups/
+*.bak
+*.bck
+*.kicad_prl
+*.kicad_prl-bak
+*.kicad_pro-bak
+*.autosave
+_autosave-*
+
+# KiCad 3D/cache/temp
+*.kicad_pcb-bak
+*.tmp
+*.lck
+fp-info-cache
