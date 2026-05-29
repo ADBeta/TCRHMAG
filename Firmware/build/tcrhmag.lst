@@ -16,7 +16,7 @@ Disassembly of section .init:
    8:	00000d82          	.word	0x00000d82
    c:	00000d2e          	.word	0x00000d2e
 	...
-  30:	00001aa8          	.word	0x00001aa8
+  30:	00001b90          	.word	0x00001b90
   34:	00000000          	.word	0x00000000
   38:	00000d2e          	.word	0x00000d2e
   3c:	00000000          	.word	0x00000000
@@ -24,7 +24,7 @@ Disassembly of section .init:
   44:	00000d2e          	.word	0x00000d2e
   48:	00000d2e          	.word	0x00000d2e
   4c:	00000d2e          	.word	0x00000d2e
-  50:	00001ada          	.word	0x00001ada
+  50:	00001ac8          	.word	0x00001ac8
   54:	00000d2e          	.word	0x00000d2e
   58:	00000d2e          	.word	0x00000d2e
   5c:	00000d2e          	.word	0x00000d2e
@@ -75,7 +75,7 @@ Disassembly of section .text:
       e2:	84ae                	mv	s1,a1
       e4:	2a069563          	bnez	a3,38e <__divdi3+0x2ee>
       e8:	6689                	lui	a3,0x2
-      ea:	d0068693          	addi	a3,a3,-768 # 1d00 <__clz_tab>
+      ea:	d2068693          	addi	a3,a3,-736 # 1d20 <__clz_tab>
       ee:	0ec5f563          	bgeu	a1,a2,1d8 <__divdi3+0x138>
       f2:	67c1                	lui	a5,0x10
       f4:	0cf67b63          	bgeu	a2,a5,1ca <__divdi3+0x12a>
@@ -340,7 +340,7 @@ Disassembly of section .text:
      3a0:	078e                	slli	a5,a5,0x3
      3a2:	6709                	lui	a4,0x2
      3a4:	00f6d533          	srl	a0,a3,a5
-     3a8:	d0070713          	addi	a4,a4,-768 # 1d00 <__clz_tab>
+     3a8:	d2070713          	addi	a4,a4,-736 # 1d20 <__clz_tab>
      3ac:	972a                	add	a4,a4,a0
      3ae:	00074503          	lbu	a0,0(a4)
      3b2:	953e                	add	a0,a0,a5
@@ -437,7 +437,7 @@ Disassembly of section .text:
      4a6:	66c1                	lui	a3,0x10
      4a8:	07c2                	slli	a5,a5,0x10
      4aa:	8fcd                	or	a5,a5,a1
-     4ac:	fff68293          	addi	t0,a3,-1 # ffff <oled.c.c1a1d9e4+0xa1c1>
+     4ac:	fff68293          	addi	t0,a3,-1 # ffff <sysinit.c.f98e60a8+0x9b6a>
      4b0:	0057f433          	and	s0,a5,t0
      4b4:	005672b3          	and	t0,a2,t0
      4b8:	8241                	srli	a2,a2,0x10
@@ -468,7 +468,7 @@ Disassembly of section .text:
      4f8:	02a76063          	bltu	a4,a0,518 <__divdi3+0x478>
      4fc:	cca715e3          	bne	a4,a0,1c6 <__divdi3+0x126>
      500:	6741                	lui	a4,0x10
-     502:	177d                	addi	a4,a4,-1 # ffff <oled.c.c1a1d9e4+0xa1c1>
+     502:	177d                	addi	a4,a4,-1 # ffff <sysinit.c.f98e60a8+0x9b6a>
      504:	8c79                	and	s0,s0,a4
      506:	0442                	slli	s0,s0,0x10
      508:	00e3f733          	and	a4,t2,a4
@@ -476,7 +476,7 @@ Disassembly of section .text:
      510:	943a                	add	s0,s0,a4
      512:	4481                	li	s1,0
      514:	d8837ae3          	bgeu	t1,s0,2a8 <__divdi3+0x208>
-     518:	17fd                	addi	a5,a5,-1 # ffff <oled.c.c1a1d9e4+0xa1c1>
+     518:	17fd                	addi	a5,a5,-1 # ffff <sysinit.c.f98e60a8+0x9b6a>
      51a:	b175                	j	1c6 <__divdi3+0x126>
      51c:	4481                	li	s1,0
      51e:	4781                	li	a5,0
@@ -652,7 +652,7 @@ Disassembly of section .text:
      66e:	00178693          	addi	a3,a5,1
      672:	c254                	sw	a3,4(a2)
      674:	00e306b3          	add	a3,t1,a4
-     678:	0006c683          	lbu	a3,0(a3) # 10000 <oled.c.c1a1d9e4+0xa1c2>
+     678:	0006c683          	lbu	a3,0(a3) # 10000 <sysinit.c.f98e60a8+0x9b6b>
 	for (i = 0; i < len; i++) {
      67c:	0705                	addi	a4,a4,1
 		*(b->pbuffer ++) = s[i];
@@ -854,7 +854,7 @@ int mini_itoa(long value, unsigned int radix, int uppercase, int unsig, char *bu
 	GPIO_PORT_MAP[ byte[0] ]->CFGLR &=        ~(0x0F  << (4 * byte[1]));
      7c8:	6789                	lui	a5,0x2
      7ca:	070a                	slli	a4,a4,0x2
-     7cc:	26478793          	addi	a5,a5,612 # 2264 <GPIO_PORT_MAP>
+     7cc:	28478793          	addi	a5,a5,644 # 2284 <GPIO_PORT_MAP>
      7d0:	97ba                	add	a5,a5,a4
      7d2:	4398                	lw	a4,0(a5)
      7d4:	8121                	srli	a0,a0,0x8
@@ -906,7 +906,7 @@ static inline i2c_err_t i2c_error(void)
      81c:	cb19                	beqz	a4,832 <i2c_error+0x26>
      81e:	0147d703          	lhu	a4,20(a5)
      822:	66c1                	lui	a3,0x10
-     824:	eff68693          	addi	a3,a3,-257 # feff <oled.c.c1a1d9e4+0xa0c1>
+     824:	eff68693          	addi	a3,a3,-257 # feff <sysinit.c.f98e60a8+0x9a6a>
      828:	8f75                	and	a4,a4,a3
      82a:	00e79a23          	sh	a4,20(a5)
      82e:	4505                	li	a0,1
@@ -917,7 +917,7 @@ static inline i2c_err_t i2c_error(void)
      83a:	cb19                	beqz	a4,850 <i2c_error+0x44>
      83c:	0147d703          	lhu	a4,20(a5)
      840:	66c1                	lui	a3,0x10
-     842:	bff68693          	addi	a3,a3,-1025 # fbff <oled.c.c1a1d9e4+0x9dc1>
+     842:	bff68693          	addi	a3,a3,-1025 # fbff <sysinit.c.f98e60a8+0x976a>
      846:	8f75                	and	a4,a4,a3
      848:	00e79a23          	sh	a4,20(a5)
      84c:	4509                	li	a0,2
@@ -928,7 +928,7 @@ static inline i2c_err_t i2c_error(void)
      858:	cb19                	beqz	a4,86e <i2c_error+0x62>
      85a:	0147d703          	lhu	a4,20(a5)
      85e:	66c1                	lui	a3,0x10
-     860:	dff68693          	addi	a3,a3,-513 # fdff <oled.c.c1a1d9e4+0x9fc1>
+     860:	dff68693          	addi	a3,a3,-513 # fdff <sysinit.c.f98e60a8+0x996a>
      864:	8f75                	and	a4,a4,a3
      866:	00e79a23          	sh	a4,20(a5)
      86a:	450d                	li	a0,3
@@ -990,7 +990,7 @@ static void append_formatted_2dp_string(const uint16_t val, char *str)
      8c2:	c03e                	sw	a5,0(sp)
 	str[0] = (whole / 10) + '0';
      8c4:	3141                	jal	544 <__hidden___udivsi3>
-     8c6:	03050513          	addi	a0,a0,48 # 1000030 <oled.c.c1a1d9e4+0xffa1f2>
+     8c6:	03050513          	addi	a0,a0,48 # 1000030 <sysinit.c.f98e60a8+0xff9b9b>
      8ca:	00a40023          	sb	a0,0(s0)
 	str[1] = (whole % 10) + '0';
      8ce:	45a9                	li	a1,10
@@ -1098,7 +1098,7 @@ WEAK int _write(int fd, const char *buf, int size)
 		while( ( lastdmd = (*DMDATA0) ) & 0x80 )
      986:	e0000737          	lui	a4,0xe0000
 		if( tosend > 7 ) tosend = 7;
-     98a:	0685                	addi	a3,a3,1 # 100001 <oled.c.c1a1d9e4+0xfa1c3>
+     98a:	0685                	addi	a3,a3,1 # 100001 <sysinit.c.f98e60a8+0xf9b6c>
 		while( ( lastdmd = (*DMDATA0) ) & 0x80 )
      98c:	0f470713          	addi	a4,a4,244 # e00000f4 <_eusrstack+0xbffff8f4>
      990:	4310                	lw	a2,0(a4)
@@ -1216,7 +1216,7 @@ i2c_err_t i2c_write_reg(const i2c_device_t *dev,    const uint32_t reg,
      a56:	0007d683          	lhu	a3,0(a5)
 	return (status & status_mask) == status_mask; 
      a5a:	00030637          	lui	a2,0x30
-     a5e:	0605                	addi	a2,a2,1 # 30001 <oled.c.c1a1d9e4+0x2a1c3>
+     a5e:	0605                	addi	a2,a2,1 # 30001 <sysinit.c.f98e60a8+0x29b6c>
 	I2C1->CTLR1 |= I2C_CTLR1_START;
      a60:	1006e693          	ori	a3,a3,256
      a64:	00d79023          	sh	a3,0(a5)
@@ -1317,7 +1317,7 @@ i2c_err_t i2c_write_reg(const i2c_device_t *dev,    const uint32_t reg,
 	uint32_t status = (uint32_t)I2C1->STAR1 | (uint32_t)(I2C1->STAR2 << 16);
      b06:	40060613          	addi	a2,a2,1024 # 40005400 <_eusrstack+0x20004c00>
 	return (status & status_mask) == status_mask; 
-     b0a:	08268693          	addi	a3,a3,130 # 70082 <oled.c.c1a1d9e4+0x6a244>
+     b0a:	08268693          	addi	a3,a3,130 # 70082 <sysinit.c.f98e60a8+0x69bed>
 	uint32_t status = (uint32_t)I2C1->STAR1 | (uint32_t)(I2C1->STAR2 << 16);
      b0e:	01465503          	lhu	a0,20(a2)
      b12:	01865783          	lhu	a5,24(a2)
@@ -1365,7 +1365,7 @@ i2c_err_t i2c_write_reg(const i2c_device_t *dev,    const uint32_t reg,
 	uint32_t status = (uint32_t)I2C1->STAR1 | (uint32_t)(I2C1->STAR2 << 16);
      b6c:	863e                	mv	a2,a5
 	return (status & status_mask) == status_mask; 
-     b6e:	08268693          	addi	a3,a3,130 # 70082 <oled.c.c1a1d9e4+0x6a244>
+     b6e:	08268693          	addi	a3,a3,130 # 70082 <sysinit.c.f98e60a8+0x69bed>
 	uint32_t status = (uint32_t)I2C1->STAR1 | (uint32_t)(I2C1->STAR2 << 16);
      b72:	01465503          	lhu	a0,20(a2)
      b76:	01865783          	lhu	a5,24(a2)
@@ -1385,7 +1385,7 @@ i2c_err_t i2c_write_reg(const i2c_device_t *dev,    const uint32_t reg,
 	uint32_t status = (uint32_t)I2C1->STAR1 | (uint32_t)(I2C1->STAR2 << 16);
      b92:	40068693          	addi	a3,a3,1024 # 40005400 <_eusrstack+0x20004c00>
 	return (status & status_mask) == status_mask; 
-     b96:	08470713          	addi	a4,a4,132 # 70084 <oled.c.c1a1d9e4+0x6a246>
+     b96:	08470713          	addi	a4,a4,132 # 70084 <sysinit.c.f98e60a8+0x69bef>
 	uint32_t status = (uint32_t)I2C1->STAR1 | (uint32_t)(I2C1->STAR2 << 16);
      b9a:	0146d603          	lhu	a2,20(a3)
      b9e:	0186d783          	lhu	a5,24(a3)
@@ -1585,7 +1585,7 @@ asm volatile(
      cf2:	0511                	addi	a0,a0,4
      cf4:	feb54ee3          	blt	a0,a1,cf0 <handle_reset+0x34>
      cf8:	00001517          	auipc	a0,0x1
-     cfc:	57c50513          	addi	a0,a0,1404 # 2274 <_data_lma>
+     cfc:	59c50513          	addi	a0,a0,1436 # 2294 <_data_lma>
      d00:	c0418593          	addi	a1,gp,-1020 # 20000000 <rotenc_prev_bitmask.1>
      d04:	c4c18613          	addi	a2,gp,-948 # 20000048 <accumulator.0>
      d08:	00c58863          	beq	a1,a2,d18 <handle_reset+0x5c>
@@ -1980,7 +1980,7 @@ static void font16x16_to_framebuffer(const char *str, uint8_t *ptr)
      fca:	0131                	addi	sp,sp,12
      fcc:	8082                	ret
 		const char *lut_ptr = strchr(font16_16_lut, *str++);
-     fce:	24070513          	addi	a0,a4,576 # 2240 <font16_16_lut>
+     fce:	26070513          	addi	a0,a4,608 # 2260 <font16_16_lut>
      fd2:	37e1                	jal	f9a <strchr>
      fd4:	0405                	addi	s0,s0,1
 		if(lut_ptr == NULL) continue;
@@ -1988,9 +1988,9 @@ static void font16x16_to_framebuffer(const char *str, uint8_t *ptr)
      fd8:	6689                	lui	a3,0x2
      fda:	d175                	beqz	a0,fbe <font16x16_to_framebuffer.part.0+0xe>
 		const uint16_t *glyph = font16x16_data[lut_ptr - font16_16_lut];
-     fdc:	24070793          	addi	a5,a4,576 # 2240 <font16_16_lut>
+     fdc:	26070793          	addi	a5,a4,608 # 2260 <font16_16_lut>
      fe0:	40f507b3          	sub	a5,a0,a5
-     fe4:	02068613          	addi	a2,a3,32 # 2020 <font16x16_data>
+     fe4:	04068613          	addi	a2,a3,64 # 2040 <font16x16_data>
      fe8:	0796                	slli	a5,a5,0x5
      fea:	97b2                	add	a5,a5,a2
      fec:	02078513          	addi	a0,a5,32
@@ -2045,18 +2045,18 @@ static void font8x8_to_framebuffer(const char *str, uint8_t *ptr)
     1046:	8082                	ret
 		const char *lut_ptr = strchr(font8x8_lut, *str++);
     1048:	6789                	lui	a5,0x2
-    104a:	ff078513          	addi	a0,a5,-16 # 1ff0 <font8x8_lut>
+    104a:	01078513          	addi	a0,a5,16 # 2010 <font8x8_lut>
     104e:	0485                	addi	s1,s1,1
     1050:	37a9                	jal	f9a <strchr>
 		if(lut_ptr == NULL) continue;
     1052:	d17d                	beqz	a0,1038 <font8x8_to_framebuffer.part.0+0xc>
 		memcpy(ptr, font8x8_data[lut_ptr - font8x8_lut], sizeof(font8x8_data[0]));
     1054:	6789                	lui	a5,0x2
-    1056:	ff078793          	addi	a5,a5,-16 # 1ff0 <font8x8_lut>
+    1056:	01078793          	addi	a5,a5,16 # 2010 <font8x8_lut>
     105a:	40f507b3          	sub	a5,a0,a5
     105e:	6589                	lui	a1,0x2
     1060:	078e                	slli	a5,a5,0x3
-    1062:	e7858593          	addi	a1,a1,-392 # 1e78 <font8x8_data>
+    1062:	e9858593          	addi	a1,a1,-360 # 1e98 <font8x8_data>
     1066:	8522                	mv	a0,s0
     1068:	4621                	li	a2,8
     106a:	95be                	add	a1,a1,a5
@@ -2087,7 +2087,7 @@ static void font8x8_to_framebuffer(const char *str, uint8_t *ptr)
 		RCC->CFGR0 = BASE_CFGR0;
     1082:	0007a223          	sw	zero,4(a5) # 40021004 <_eusrstack+0x20020804>
 		RCC->CTLR  = BASE_CTLR | RCC_HSION | RCC_PLLON; 			// Use HSI, enable PLL.
-    1086:	08170713          	addi	a4,a4,129 # 1080081 <oled.c.c1a1d9e4+0x107a243>
+    1086:	08170713          	addi	a4,a4,129 # 1080081 <sysinit.c.f98e60a8+0x1079bec>
     108a:	c398                	sw	a4,0(a5)
 		FLASH->ACTLR = FLASH_ACTLR_LATENCY_1;       		// +1 Cycle Latency
 	#endif
@@ -2147,93 +2147,98 @@ int main(void)
 	SystemInit();
     10d0:	374d                	jal	1072 <SystemInit>
 
-	/*** IO Initialisation *******************************/
 	// I2C Setup for the OLED
 	i2c_device_t i2c_oled = {
     10d2:	1044                	addi	s1,sp,36
     10d4:	6589                	lui	a1,0x2
-    10d6:	cd458593          	addi	a1,a1,-812 # 1cd4 <thermistor_pair+0x130>
+    10d6:	cf458593          	addi	a1,a1,-780 # 1cf4 <thermistor_pair+0x130>
     10da:	4641                	li	a2,16
     10dc:	8526                	mv	a0,s1
     10de:	3f0d                	jal	1010 <memcpy>
 	_i2c_timeout = dev->tout;
     10e0:	7d000713          	li	a4,2000
-    10e4:	c4e1a823          	sw	a4,-944(gp) # 2000004c <_i2c_timeout>
 	RCC->APB1PRSTR |=  RCC_APB1Periph_I2C1;
-    10e8:	40021437          	lui	s0,0x40021
+    10e4:	40021437          	lui	s0,0x40021
+	_i2c_timeout = dev->tout;
+    10e8:	c4e1a823          	sw	a4,-944(gp) # 2000004c <_i2c_timeout>
+	RCC->APB1PRSTR |=  RCC_APB1Periph_I2C1;
     10ec:	481c                	lw	a5,16(s0)
-    10ee:	00200637          	lui	a2,0x200
+    10ee:	002006b7          	lui	a3,0x200
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_I2C1;
     10f2:	ffe00737          	lui	a4,0xffe00
 	RCC->APB1PRSTR |=  RCC_APB1Periph_I2C1;
-    10f6:	8fd1                	or	a5,a5,a2
+    10f6:	8fd5                	or	a5,a5,a3
     10f8:	c81c                	sw	a5,16(s0)
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_I2C1;
     10fa:	481c                	lw	a5,16(s0)
     10fc:	177d                	addi	a4,a4,-1 # ffdfffff <_eusrstack+0xdfdff7ff>
-    10fe:	8ff9                	and	a5,a5,a4
-    1100:	c81c                	sw	a5,16(s0)
-	RCC->APB1PCENR |= RCC_APB1Periph_I2C1;
-    1102:	4c5c                	lw	a5,28(s0)
-    1104:	8fd1                	or	a5,a5,a2
-    1106:	cc5c                	sw	a5,28(s0)
-	RCC->APB2PCENR |= I2C_PORT_RCC | RCC_APB2Periph_AFIO;
-    1108:	4c1c                	lw	a5,24(s0)
-	AFIO->PCFR1 &= ~(0x04400002);
-    110a:	fbc00637          	lui	a2,0xfbc00
-    110e:	1675                	addi	a2,a2,-3 # fbbffffd <_eusrstack+0xdbbff7fd>
-	RCC->APB2PCENR |= I2C_PORT_RCC | RCC_APB2Periph_AFIO;
-    1110:	0117e793          	ori	a5,a5,17
-    1114:	cc1c                	sw	a5,24(s0)
-	AFIO->PCFR1 &= ~(0x04400002);
-    1116:	400107b7          	lui	a5,0x40010
-    111a:	43d8                	lw	a4,4(a5)
-    111c:	8f71                	and	a4,a4,a2
-    111e:	c3d8                	sw	a4,4(a5)
-	AFIO->PCFR1 |= I2C_AFIO_REG;
-    1120:	43d8                	lw	a4,4(a5)
-	I2C_PORT->CFGLR &= ~(0x0F << (4 * I2C_PIN_SCL));
-    1122:	767d                	lui	a2,0xfffff
-    1124:	0ff60613          	addi	a2,a2,255 # fffff0ff <_eusrstack+0xdfffe8ff>
-	AFIO->PCFR1 |= I2C_AFIO_REG;
-    1128:	c3d8                	sw	a4,4(a5)
-	I2C_PORT->CFGLR &= ~(0x0F << (4 * I2C_PIN_SDA));
-    112a:	400117b7          	lui	a5,0x40011
-    112e:	4398                	lw	a4,0(a5)
-    1130:	f0f77713          	andi	a4,a4,-241
-    1134:	c398                	sw	a4,0(a5)
-	I2C_PORT->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_OD_AF) << (4 * I2C_PIN_SDA);	
-    1136:	4398                	lw	a4,0(a5)
-    1138:	0d076713          	ori	a4,a4,208
-    113c:	c398                	sw	a4,0(a5)
-	I2C_PORT->CFGLR &= ~(0x0F << (4 * I2C_PIN_SCL));
-    113e:	4398                	lw	a4,0(a5)
-    1140:	8f71                	and	a4,a4,a2
-    1142:	c398                	sw	a4,0(a5)
-	I2C_PORT->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_OD_AF) << (4 * I2C_PIN_SCL);
-    1144:	4398                	lw	a4,0(a5)
-    1146:	6605                	lui	a2,0x1
-    1148:	d0060613          	addi	a2,a2,-768 # d00 <handle_reset+0x44>
-    114c:	8f51                	or	a4,a4,a2
-    114e:	c398                	sw	a4,0(a5)
 	uint16_t i2c_conf = I2C1->CTLR2 & ~I2C_CTLR2_FREQ;
-    1150:	40005737          	lui	a4,0x40005
-    1154:	40475783          	lhu	a5,1028(a4) # 40005404 <_eusrstack+0x20004c04>
-    1158:	6641                	lui	a2,0x10
-    115a:	fc060613          	addi	a2,a2,-64 # ffc0 <oled.c.c1a1d9e4+0xa182>
+    10fe:	6641                	lui	a2,0x10
+	RCC->APB1PRSTR &= ~RCC_APB1Periph_I2C1;
+    1100:	8ff9                	and	a5,a5,a4
+    1102:	c81c                	sw	a5,16(s0)
+	RCC->APB1PCENR |= RCC_APB1Periph_I2C1;
+    1104:	4c5c                	lw	a5,28(s0)
+	uint16_t i2c_conf = I2C1->CTLR2 & ~I2C_CTLR2_FREQ;
+    1106:	fc060613          	addi	a2,a2,-64 # ffc0 <sysinit.c.f98e60a8+0x9b2b>
+	RCC->APB1PCENR |= RCC_APB1Periph_I2C1;
+    110a:	8fd5                	or	a5,a5,a3
+    110c:	cc5c                	sw	a5,28(s0)
+	RCC->APB2PCENR |= I2C_PORT_RCC | RCC_APB2Periph_AFIO;
+    110e:	4c1c                	lw	a5,24(s0)
+	AFIO->PCFR1 &= ~(0x04400002);
+    1110:	fbc006b7          	lui	a3,0xfbc00
+    1114:	16f5                	addi	a3,a3,-3 # fbbffffd <_eusrstack+0xdbbff7fd>
+	RCC->APB2PCENR |= I2C_PORT_RCC | RCC_APB2Periph_AFIO;
+    1116:	0117e793          	ori	a5,a5,17
+    111a:	cc1c                	sw	a5,24(s0)
+	AFIO->PCFR1 &= ~(0x04400002);
+    111c:	400107b7          	lui	a5,0x40010
+    1120:	43d8                	lw	a4,4(a5)
+    1122:	8f75                	and	a4,a4,a3
+    1124:	c3d8                	sw	a4,4(a5)
+	AFIO->PCFR1 |= I2C_AFIO_REG;
+    1126:	43d8                	lw	a4,4(a5)
+	I2C_PORT->CFGLR &= ~(0x0F << (4 * I2C_PIN_SCL));
+    1128:	76fd                	lui	a3,0xfffff
+    112a:	0ff68693          	addi	a3,a3,255 # fffff0ff <_eusrstack+0xdfffe8ff>
+	AFIO->PCFR1 |= I2C_AFIO_REG;
+    112e:	c3d8                	sw	a4,4(a5)
+	I2C_PORT->CFGLR &= ~(0x0F << (4 * I2C_PIN_SDA));
+    1130:	40011737          	lui	a4,0x40011
+    1134:	431c                	lw	a5,0(a4)
+    1136:	f0f7f793          	andi	a5,a5,-241
+    113a:	c31c                	sw	a5,0(a4)
+	I2C_PORT->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_OD_AF) << (4 * I2C_PIN_SDA);	
+    113c:	431c                	lw	a5,0(a4)
+    113e:	0d07e793          	ori	a5,a5,208
+    1142:	c31c                	sw	a5,0(a4)
+	I2C_PORT->CFGLR &= ~(0x0F << (4 * I2C_PIN_SCL));
+    1144:	431c                	lw	a5,0(a4)
+    1146:	8ff5                	and	a5,a5,a3
+    1148:	c31c                	sw	a5,0(a4)
+	I2C_PORT->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_OD_AF) << (4 * I2C_PIN_SCL);
+    114a:	431c                	lw	a5,0(a4)
+    114c:	6685                	lui	a3,0x1
+    114e:	d0068693          	addi	a3,a3,-768 # d00 <handle_reset+0x44>
+    1152:	8fd5                	or	a5,a5,a3
+    1154:	c31c                	sw	a5,0(a4)
+	uint16_t i2c_conf = I2C1->CTLR2 & ~I2C_CTLR2_FREQ;
+    1156:	400056b7          	lui	a3,0x40005
+    115a:	4046d783          	lhu	a5,1028(a3) # 40005404 <_eusrstack+0x20004c04>
     115e:	8ff1                	and	a5,a5,a2
 	i2c_conf |= (FUNCONF_SYSTEM_CORE_CLOCK / I2C_PRERATE) & I2C_CTLR2_FREQ;
     1160:	0307e793          	ori	a5,a5,48
 	I2C1->CTLR2 = i2c_conf;
-    1164:	40f71223          	sh	a5,1028(a4)
+    1164:	40f69223          	sh	a5,1028(a3)
 	I2C1->CKCFGR = i2c_conf;
     1168:	77e1                	lui	a5,0xffff8
     116a:	07c1                	addi	a5,a5,16 # ffff8010 <_eusrstack+0xdfff7810>
-    116c:	40f71e23          	sh	a5,1052(a4)
+    116c:	40f69e23          	sh	a5,1052(a3)
 	I2C1->CTLR1 |= I2C_CTLR1_PE;
-    1170:	40075783          	lhu	a5,1024(a4)
+    1170:	4006d783          	lhu	a5,1024(a3)
     1174:	0017e793          	ori	a5,a5,1
-    1178:	40f71023          	sh	a5,1024(a4)
+    1178:	40f69023          	sh	a5,1024(a3)
 	return i2c_error();
     117c:	e90ff0ef          	jal	80c <i2c_error>
 		.tout = 2000,
@@ -2243,14 +2248,14 @@ int main(void)
 	// Initialise the OLED, then display the BOOTING Screen
 	Delay_Ms(20);
     1180:	000ea537          	lui	a0,0xea
-    1184:	60050513          	addi	a0,a0,1536 # ea600 <oled.c.c1a1d9e4+0xe47c2>
+    1184:	60050513          	addi	a0,a0,1536 # ea600 <sysinit.c.f98e60a8+0xe416b>
     1188:	d56ff0ef          	jal	6de <DelaySysTick>
 	_oled_dev = dev;
     118c:	c491aa23          	sw	s1,-940(gp) # 20000050 <_oled_dev>
 	const uint8_t init_arr[] = {
     1190:	6789                	lui	a5,0x2
-    1192:	cd478693          	addi	a3,a5,-812 # 1cd4 <thermistor_pair+0x130>
-    1196:	01068593          	addi	a1,a3,16 # 40021010 <_eusrstack+0x20020810>
+    1192:	cf478313          	addi	t1,a5,-780 # 1cf4 <thermistor_pair+0x130>
+    1196:	01030593          	addi	a1,t1,16
     119a:	4665                	li	a2,25
     119c:	1848                	addi	a0,sp,52
     119e:	3d8d                	jal	1010 <memcpy>
@@ -2263,21 +2268,21 @@ int main(void)
 	if(str == NULL || ptr == NULL) return;
     11ac:	6509                	lui	a0,0x2
     11ae:	db418593          	addi	a1,gp,-588 # 200001b0 <_oled_buffer+0x124>
-    11b2:	e0050513          	addi	a0,a0,-512 # 1e00 <__clz_tab+0x100>
+    11b2:	e2050513          	addi	a0,a0,-480 # 1e20 <__clz_tab+0x100>
     11b6:	3d9d                	jal	102c <font8x8_to_framebuffer.part.0>
     11b8:	6509                	lui	a0,0x2
     11ba:	e3418593          	addi	a1,gp,-460 # 20000230 <_oled_buffer+0x1a4>
-    11be:	e0850513          	addi	a0,a0,-504 # 1e08 <__clz_tab+0x108>
+    11be:	e2850513          	addi	a0,a0,-472 # 1e28 <__clz_tab+0x108>
     11c2:	35ad                	jal	102c <font8x8_to_framebuffer.part.0>
     11c4:	6509                	lui	a0,0x2
     11c6:	ec018593          	addi	a1,gp,-320 # 200002bc <_oled_buffer+0x230>
-    11ca:	e1050513          	addi	a0,a0,-496 # 1e10 <__clz_tab+0x110>
+    11ca:	e3050513          	addi	a0,a0,-464 # 1e30 <__clz_tab+0x110>
     11ce:	3db9                	jal	102c <font8x8_to_framebuffer.part.0>
 	oled_init(&i2c_oled);
 	oled_draw_boot_screen();
 	oled_update();
     11d0:	3cad                	jal	c4a <oled_update.isra.0>
-static void pwm_init(void)
+void pwm_init(void)
 {
 	// NOTE: Uses TIM2 Channel 2 (PD3) and TIM2 Channel 3 (PC0)
 
@@ -2285,1426 +2290,1460 @@ static void pwm_init(void)
 	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
     11d2:	4c5c                	lw	a5,28(s0)
 
-	// Set GPIO OUTPUT 10MHz, Aleternate Function (Multiplex)
-	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
-    11d4:	45a5                	li	a1,9
-    11d6:	4509                	li	a0,2
+	// Enable the GPIO PORT C and PORT D Clocks
+	RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOC;
+
+	// Alternate Function PushPull Outputs
+	GPIOC->CFGLR &= ~(0x0F << 0);
+    11d4:	40011737          	lui	a4,0x40011
+	GPIOC->CFGLR |=  (GPIO_CNF_OUT_PP_AF | GPIO_Speed_10MHz) << 0;       // PC0
+	GPIOD->CFGLR &= ~(0x0F << (3 * 4));
+    11d8:	76c5                	lui	a3,0xffff1
 	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
-    11d8:	0017e793          	ori	a5,a5,1
-    11dc:	cc5c                	sw	a5,28(s0)
-	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
-    11de:	dd2ff0ef          	jal	7b0 <gpio_set_mode>
-	gpio_set_mode(GPIO_PD3, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
-    11e2:	45a5                	li	a1,9
-    11e4:	30300513          	li	a0,771
-    11e8:	dc8ff0ef          	jal	7b0 <gpio_set_mode>
+    11da:	0017e793          	ori	a5,a5,1
+    11de:	cc5c                	sw	a5,28(s0)
+	RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOC;
+    11e0:	4c1c                	lw	a5,24(s0)
+	GPIOD->CFGLR &= ~(0x0F << (3 * 4));
+    11e2:	16fd                	addi	a3,a3,-1 # ffff0fff <_eusrstack+0xdfff07ff>
+	pwm_init();
+	pwm_set_duty(PWM_CHANNEL_LED,    0x00);
+	pwm_set_duty(PWM_CHANNEL_HEATER, 0x00);
+	
+	// Set the Rotary Encoder Pins to INPUT_PULLUP
+	gpio_set_mode(ROTENC_SW_PIN, INPUT_PULLUP);
+    11e4:	45e1                	li	a1,24
+	RCC->APB2PCENR |= RCC_APB2Periph_GPIOD | RCC_APB2Periph_GPIOC;
+    11e6:	0307e793          	ori	a5,a5,48
+    11ea:	cc1c                	sw	a5,24(s0)
+	GPIOC->CFGLR &= ~(0x0F << 0);
+    11ec:	431c                	lw	a5,0(a4)
+    11ee:	30200513          	li	a0,770
+    11f2:	9bc1                	andi	a5,a5,-16
+    11f4:	c31c                	sw	a5,0(a4)
+	GPIOC->CFGLR |=  (GPIO_CNF_OUT_PP_AF | GPIO_Speed_10MHz) << 0;       // PC0
+    11f6:	431c                	lw	a5,0(a4)
+    11f8:	0097e793          	ori	a5,a5,9
+    11fc:	c31c                	sw	a5,0(a4)
+	GPIOD->CFGLR &= ~(0x0F << (3 * 4));
+    11fe:	40070793          	addi	a5,a4,1024 # 40011400 <_eusrstack+0x20010c00>
+    1202:	4398                	lw	a4,0(a5)
+    1204:	8f75                	and	a4,a4,a3
+    1206:	c398                	sw	a4,0(a5)
+	GPIOD->CFGLR |=  (GPIO_CNF_OUT_PP_AF | GPIO_Speed_10MHz) << (3 * 4); // PD3
+    1208:	4398                	lw	a4,0(a5)
+    120a:	66a5                	lui	a3,0x9
+    120c:	8f55                	or	a4,a4,a3
+    120e:	c398                	sw	a4,0(a5)
 
 	// Reset TIM2, Inits all registers
 	RCC->APB1PRSTR |=  RCC_APB1Periph_TIM2;
-    11ec:	481c                	lw	a5,16(s0)
+    1210:	481c                	lw	a5,16(s0)
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
 
 	// Set Prescaler to ~17KHz. More efficient switching
 	TIM2->PSC = 0x000A;
-    11ee:	4729                	li	a4,10
+    1212:	4729                	li	a4,10
 	// Set PWM Max Value (Autoreload Value)
 	TIM2->ATRLR = 254;
 
 	// Set the Compare Capture Register for Channel 3
 	// TIM2_OC3M = 0b111 - PWM Mode 2 - Enable Preload
 	TIM2->CHCTLR1 |= TIM_OC2M_2 | TIM_OC2M_1 | TIM_OC2M_0 | TIM_OC2PE;
-    11f0:	66a1                	lui	a3,0x8
+    1214:	66a1                	lui	a3,0x8
 	RCC->APB1PRSTR |=  RCC_APB1Periph_TIM2;
-    11f2:	0017e793          	ori	a5,a5,1
-    11f6:	c81c                	sw	a5,16(s0)
+    1216:	0017e793          	ori	a5,a5,1
+    121a:	c81c                	sw	a5,16(s0)
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
-    11f8:	481c                	lw	a5,16(s0)
+    121c:	481c                	lw	a5,16(s0)
 	TIM2->CHCTLR1 |= TIM_OC2M_2 | TIM_OC2M_1 | TIM_OC2M_0 | TIM_OC2PE;
-    11fa:	80068693          	addi	a3,a3,-2048 # 7800 <oled.c.c1a1d9e4+0x19c2>
-	gpio_set_mode(ROTENC_SW_PIN, INPUT_PULLUP);
-    11fe:	45e1                	li	a1,24
+    121e:	80068693          	addi	a3,a3,-2048 # 7800 <sysinit.c.f98e60a8+0x136b>
 	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
-    1200:	9bf9                	andi	a5,a5,-2
-    1202:	c81c                	sw	a5,16(s0)
+    1222:	9bf9                	andi	a5,a5,-2
+    1224:	c81c                	sw	a5,16(s0)
 	TIM2->PSC = 0x000A;
-    1204:	400007b7          	lui	a5,0x40000
-    1208:	02e79423          	sh	a4,40(a5) # 40000028 <_eusrstack+0x1ffff828>
+    1226:	400007b7          	lui	a5,0x40000
+    122a:	02e79423          	sh	a4,40(a5) # 40000028 <_eusrstack+0x1ffff828>
 	TIM2->ATRLR = 254;
-    120c:	0fe00713          	li	a4,254
-    1210:	02e79623          	sh	a4,44(a5)
+    122e:	0fe00713          	li	a4,254
+    1232:	02e79623          	sh	a4,44(a5)
 	TIM2->CHCTLR1 |= TIM_OC2M_2 | TIM_OC2M_1 | TIM_OC2M_0 | TIM_OC2PE;
-    1214:	0187d703          	lhu	a4,24(a5)
-	gpio_set_mode(ROTENC_SW_PIN, INPUT_PULLUP);
-    1218:	30200513          	li	a0,770
-	TIM2->CHCTLR1 |= TIM_OC2M_2 | TIM_OC2M_1 | TIM_OC2M_0 | TIM_OC2PE;
-    121c:	8f55                	or	a4,a4,a3
-    121e:	00e79c23          	sh	a4,24(a5)
+    1236:	0187d703          	lhu	a4,24(a5)
+    123a:	8f55                	or	a4,a4,a3
+    123c:	00e79c23          	sh	a4,24(a5)
 	TIM2->CHCTLR2 |= TIM_OC3M_2 | TIM_OC3M_1 | TIM_OC3M_0 | TIM_OC3PE;
-    1222:	01c7d703          	lhu	a4,28(a5)
-    1226:	07876713          	ori	a4,a4,120
-    122a:	00e79e23          	sh	a4,28(a5)
+    1240:	01c7d703          	lhu	a4,28(a5)
+    1244:	07876713          	ori	a4,a4,120
+    1248:	00e79e23          	sh	a4,28(a5)
 
 	// Enable auto-reload
 	TIM2->CTLR1 |= TIM_ARPE;
-    122e:	0007d703          	lhu	a4,0(a5)
-    1232:	08076713          	ori	a4,a4,128
-    1236:	00e79023          	sh	a4,0(a5)
+    124c:	0007d703          	lhu	a4,0(a5)
+    1250:	08076713          	ori	a4,a4,128
+    1254:	00e79023          	sh	a4,0(a5)
 
 	// Enable channel output, polarity is ACTIVE_HIGH
 	TIM2->CCER |= TIM_CC2E | TIM_CC2P;
-    123a:	0207d703          	lhu	a4,32(a5)
-    123e:	03076713          	ori	a4,a4,48
-    1242:	02e79023          	sh	a4,32(a5)
+    1258:	0207d703          	lhu	a4,32(a5)
+    125c:	03076713          	ori	a4,a4,48
+    1260:	02e79023          	sh	a4,32(a5)
 	TIM2->CCER |= TIM_CC3E | TIM_CC3P;
-    1246:	0207d703          	lhu	a4,32(a5)
-    124a:	30076713          	ori	a4,a4,768
-    124e:	02e79023          	sh	a4,32(a5)
+    1264:	0207d703          	lhu	a4,32(a5)
+    1268:	30076713          	ori	a4,a4,768
+    126c:	02e79023          	sh	a4,32(a5)
 
 	// Initialise Counter
 	TIM2->SWEVGR |= TIM_UG;
-    1252:	0147d703          	lhu	a4,20(a5)
-    1256:	00176713          	ori	a4,a4,1
-    125a:	00e79a23          	sh	a4,20(a5)
+    1270:	0147d703          	lhu	a4,20(a5)
+    1274:	00176713          	ori	a4,a4,1
+    1278:	00e79a23          	sh	a4,20(a5)
 
 	// Enable TIM2
 	TIM2->CTLR1 |= TIM_CEN;
-    125e:	0007d703          	lhu	a4,0(a5)
-    1262:	00176713          	ori	a4,a4,1
-    1266:	00e79023          	sh	a4,0(a5)
+    127c:	0007d703          	lhu	a4,0(a5)
+    1280:	00176713          	ori	a4,a4,1
+    1284:	00e79023          	sh	a4,0(a5)
 
 
 static  void pwm_set_duty(const uint8_t ch, const uint32_t duty)
 {
 	static volatile uint32_t *tim_ptr[2] = { &TIM2->CH2CVR, &TIM2->CH3CVR };
 	*tim_ptr[ch] = duty;
-    126a:	0207ac23          	sw	zero,56(a5)
-    126e:	0207ae23          	sw	zero,60(a5)
+    1288:	0207ac23          	sw	zero,56(a5)
+    128c:	0207ae23          	sw	zero,60(a5)
 	gpio_set_mode(ROTENC_SW_PIN, INPUT_PULLUP);
-    1272:	d3eff0ef          	jal	7b0 <gpio_set_mode>
+    1290:	d20ff0ef          	jal	7b0 <gpio_set_mode>
 	gpio_set_mode(ROTENC_A_PIN,  INPUT_PULLUP);
-    1276:	45e1                	li	a1,24
-    1278:	40200513          	li	a0,1026
-    127c:	d34ff0ef          	jal	7b0 <gpio_set_mode>
+    1294:	45e1                	li	a1,24
+    1296:	40200513          	li	a0,1026
+    129a:	d16ff0ef          	jal	7b0 <gpio_set_mode>
 	gpio_set_mode(ROTENC_B_PIN,  INPUT_PULLUP);
-    1280:	45e1                	li	a1,24
-    1282:	50200513          	li	a0,1282
-    1286:	d2aff0ef          	jal	7b0 <gpio_set_mode>
+    129e:	45e1                	li	a1,24
+    12a0:	50200513          	li	a0,1282
+    12a4:	d0cff0ef          	jal	7b0 <gpio_set_mode>
 
 
 void gpio_init_adc(const ADC_CLOCK_DIV div, const ADC_SAMPLE_CYCLES cycles)
 {
 	// Enable the ADC clock
 	GPIO_RCC->APB2PCENR |= RCC_APB2Periph_ADC1;
-    128a:	4c1c                	lw	a5,24(s0)
+    12a8:	4c1c                	lw	a5,24(s0)
 
 	// Set ACD Clock Divider
 	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
-    128c:	7741                	lui	a4,0xffff0
-    128e:	7ff70713          	addi	a4,a4,2047 # ffff07ff <_eusrstack+0xdffeffff>
+    12aa:	7741                	lui	a4,0xffff0
+    12ac:	7ff70713          	addi	a4,a4,2047 # ffff07ff <_eusrstack+0xdffeffff>
 	GPIO_RCC->APB2PCENR |= RCC_APB2Periph_ADC1;
-    1292:	2007e793          	ori	a5,a5,512
-    1296:	cc1c                	sw	a5,24(s0)
+    12b0:	2007e793          	ori	a5,a5,512
+    12b4:	cc1c                	sw	a5,24(s0)
 	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
-    1298:	405c                	lw	a5,4(s0)
+    12b6:	405c                	lw	a5,4(s0)
 	// Set the Sample Register(s) for all channels at once
 	GPIO_ADC1->SAMPTR1 = cycles;
 	GPIO_ADC1->SAMPTR2 = cycles;
 
 	// Enable the ADC, and set the triggering to external
 	GPIO_ADC1->CTLR2 |= ADC_ADON | ADC_EXTSEL;
-    129a:	000e06b7          	lui	a3,0xe0
-    129e:	0685                	addi	a3,a3,1 # e0001 <oled.c.c1a1d9e4+0xda1c3>
+    12b8:	000e06b7          	lui	a3,0xe0
+    12bc:	0685                	addi	a3,a3,1 # e0001 <sysinit.c.f98e60a8+0xd9b6c>
 	GPIO_RCC->CFGR0 &= ~ADC_CLOCK_DIV_128;
-    12a0:	8ff9                	and	a5,a5,a4
-    12a2:	c05c                	sw	a5,4(s0)
+    12be:	8ff9                	and	a5,a5,a4
+    12c0:	c05c                	sw	a5,4(s0)
 	GPIO_RCC->CFGR0 |= div;
-    12a4:	405c                	lw	a5,4(s0)
+    12c2:	405c                	lw	a5,4(s0)
 	GPIO_ADC1->SAMPTR1 = cycles;
-    12a6:	24925737          	lui	a4,0x24925
-    12aa:	92470713          	addi	a4,a4,-1756 # 24924924 <_eusrstack+0x4924124>
+    12c4:	24925737          	lui	a4,0x24925
+    12c8:	92470713          	addi	a4,a4,-1756 # 24924924 <_eusrstack+0x4924124>
 	GPIO_RCC->CFGR0 |= div;
-    12ae:	c05c                	sw	a5,4(s0)
+    12cc:	c05c                	sw	a5,4(s0)
 	GPIO_RCC->APB2PRSTR |=  RCC_APB2Periph_ADC1;
-    12b0:	445c                	lw	a5,12(s0)
-    12b2:	2007e793          	ori	a5,a5,512
-    12b6:	c45c                	sw	a5,12(s0)
+    12ce:	445c                	lw	a5,12(s0)
+    12d0:	2007e793          	ori	a5,a5,512
+    12d4:	c45c                	sw	a5,12(s0)
 	GPIO_RCC->APB2PRSTR &= ~RCC_APB2Periph_ADC1;
-    12b8:	445c                	lw	a5,12(s0)
-    12ba:	dff7f793          	andi	a5,a5,-513
-    12be:	c45c                	sw	a5,12(s0)
+    12d6:	445c                	lw	a5,12(s0)
+    12d8:	dff7f793          	andi	a5,a5,-513
+    12dc:	c45c                	sw	a5,12(s0)
 	GPIO_ADC1->RSQR1 = 0;
-    12c0:	400127b7          	lui	a5,0x40012
-    12c4:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-    12c8:	0207a623          	sw	zero,44(a5)
+    12de:	400127b7          	lui	a5,0x40012
+    12e2:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+    12e6:	0207a623          	sw	zero,44(a5)
 	GPIO_ADC1->RSQR2 = 0;
-    12cc:	0207a823          	sw	zero,48(a5)
+    12ea:	0207a823          	sw	zero,48(a5)
 	GPIO_ADC1->RSQR3 = 0;
-    12d0:	0207aa23          	sw	zero,52(a5)
+    12ee:	0207aa23          	sw	zero,52(a5)
 	GPIO_ADC1->SAMPTR1 = cycles;
-    12d4:	c7d8                	sw	a4,12(a5)
+    12f2:	c7d8                	sw	a4,12(a5)
 	GPIO_ADC1->SAMPTR2 = cycles;
-    12d6:	cb98                	sw	a4,16(a5)
+    12f4:	cb98                	sw	a4,16(a5)
 	GPIO_ADC1->CTLR2 |= ADC_ADON | ADC_EXTSEL;
-    12d8:	4798                	lw	a4,8(a5)
-    12da:	8f55                	or	a4,a4,a3
-    12dc:	c798                	sw	a4,8(a5)
+    12f6:	4798                	lw	a4,8(a5)
+    12f8:	8f55                	or	a4,a4,a3
+    12fa:	c798                	sw	a4,8(a5)
 	
 	// Reset calibration, wait for it to finish
 	GPIO_ADC1->CTLR2 |= ADC_RSTCAL;
-    12de:	4798                	lw	a4,8(a5)
-    12e0:	00876713          	ori	a4,a4,8
-    12e4:	c798                	sw	a4,8(a5)
+    12fc:	4798                	lw	a4,8(a5)
+    12fe:	00876713          	ori	a4,a4,8
+    1302:	c798                	sw	a4,8(a5)
 	while(GPIO_ADC1->CTLR2 & ADC_RSTCAL);
-    12e6:	4798                	lw	a4,8(a5)
-    12e8:	8b21                	andi	a4,a4,8
-    12ea:	ff75                	bnez	a4,12e6 <main+0x220>
+    1304:	4798                	lw	a4,8(a5)
+    1306:	8b21                	andi	a4,a4,8
+    1308:	ff75                	bnez	a4,1304 <main+0x23e>
 
 	// Calibrate the ADC, want for it to finish
 	GPIO_ADC1->CTLR2 |= ADC_CAL;
-    12ec:	4798                	lw	a4,8(a5)
+    130a:	4798                	lw	a4,8(a5)
 	while(GPIO_ADC1->CTLR2 & ADC_CAL);
-    12ee:	40012437          	lui	s0,0x40012
-    12f2:	40040413          	addi	s0,s0,1024 # 40012400 <_eusrstack+0x20011c00>
+    130c:	40012437          	lui	s0,0x40012
+    1310:	40040413          	addi	s0,s0,1024 # 40012400 <_eusrstack+0x20011c00>
 	GPIO_ADC1->CTLR2 |= ADC_CAL;
-    12f6:	00476713          	ori	a4,a4,4
-    12fa:	c798                	sw	a4,8(a5)
+    1314:	00476713          	ori	a4,a4,4
+    1318:	c798                	sw	a4,8(a5)
 	while(GPIO_ADC1->CTLR2 & ADC_CAL);
-    12fc:	441c                	lw	a5,8(s0)
-    12fe:	8b91                	andi	a5,a5,4
-    1300:	fff5                	bnez	a5,12fc <main+0x236>
+    131a:	441c                	lw	a5,8(s0)
+    131c:	8b91                	andi	a5,a5,4
+    131e:	fff5                	bnez	a5,131a <main+0x254>
 	gpio_set_mode(OPAMP_CHA1_NEG, INPUT_FLOATING);
-    1302:	4591                	li	a1,4
-    1304:	10000513          	li	a0,256
-    1308:	ca8ff0ef          	jal	7b0 <gpio_set_mode>
-	gpio_set_mode(OPAMP_CHA1_POS, INPUT_FLOATING);
-    130c:	4591                	li	a1,4
-    130e:	20000513          	li	a0,512
-    1312:	c9eff0ef          	jal	7b0 <gpio_set_mode>
-	gpio_set_mode(OPAMP_CHA2_POS, INPUT_FLOATING);
-    1316:	4591                	li	a1,4
-    1318:	70300513          	li	a0,1795
-    131c:	c94ff0ef          	jal	7b0 <gpio_set_mode>
-	gpio_set_mode(THERM_ADC_PIN,  INPUT_ANALOG);
-    1320:	4581                	li	a1,0
-    1322:	50300513          	li	a0,1283
+    1320:	4591                	li	a1,4
+    1322:	10000513          	li	a0,256
     1326:	c8aff0ef          	jal	7b0 <gpio_set_mode>
-	gpio_set_mode(BSENS_ADC_PIN,  INPUT_ANALOG);
-    132a:	4581                	li	a1,0
-    132c:	60300513          	li	a0,1539
+	gpio_set_mode(OPAMP_CHA1_POS, INPUT_FLOATING);
+    132a:	4591                	li	a1,4
+    132c:	20000513          	li	a0,512
     1330:	c80ff0ef          	jal	7b0 <gpio_set_mode>
-	gpio_set_mode(OPAMP_ADC_PIN,  INPUT_ANALOG);	
-    1334:	4581                	li	a1,0
-    1336:	40300513          	li	a0,1027
+	gpio_set_mode(OPAMP_CHA2_POS, INPUT_FLOATING);
+    1334:	4591                	li	a1,4
+    1336:	70300513          	li	a0,1795
     133a:	c76ff0ef          	jal	7b0 <gpio_set_mode>
+	gpio_set_mode(THERM_ADC_PIN,  INPUT_ANALOG);
+    133e:	4581                	li	a1,0
+    1340:	50300513          	li	a0,1283
+    1344:	c6cff0ef          	jal	7b0 <gpio_set_mode>
+	gpio_set_mode(BSENS_ADC_PIN,  INPUT_ANALOG);
+    1348:	4581                	li	a1,0
+    134a:	60300513          	li	a0,1539
+    134e:	c62ff0ef          	jal	7b0 <gpio_set_mode>
+	gpio_set_mode(OPAMP_ADC_PIN,  INPUT_ANALOG);	
+    1352:	4581                	li	a1,0
+    1354:	40300513          	li	a0,1027
+    1358:	c58ff0ef          	jal	7b0 <gpio_set_mode>
 	GPIO_EXTEN->EXTEN_CTR |= GPIO_EXTEN_OPA_EN;
-    133e:	400247b7          	lui	a5,0x40024
-    1342:	80078793          	addi	a5,a5,-2048 # 40023800 <_eusrstack+0x20023000>
-    1346:	4398                	lw	a4,0(a5)
-    1348:	66c1                	lui	a3,0x10
+    135c:	400247b7          	lui	a5,0x40024
+    1360:	80078793          	addi	a5,a5,-2048 # 40023800 <_eusrstack+0x20023000>
+    1364:	4398                	lw	a4,0(a5)
+    1366:	66c1                	lui	a3,0x10
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
-    134a:	4501                	li	a0,0
-    134c:	8f55                	or	a4,a4,a3
-    134e:	c398                	sw	a4,0(a5)
-    1350:	dbaff0ef          	jal	90a <gpio_set_opamp_inputs.constprop.0>
+    1368:	4501                	li	a0,0
+    136a:	8f55                	or	a4,a4,a3
+    136c:	c398                	sw	a4,0(a5)
+    136e:	d9cff0ef          	jal	90a <gpio_set_opamp_inputs.constprop.0>
 
 /*** Function Definitions ****************************************************/
 void opamp_calibrate(void)
 {
 	// Measure the offset of the OpAmp at 0 Input (While PWM Off)
 	Delay_Ms(500);
-    1354:	016e3537          	lui	a0,0x16e3
-    1358:	60050513          	addi	a0,a0,1536 # 16e3600 <oled.c.c1a1d9e4+0x16dd7c2>
-    135c:	b82ff0ef          	jal	6de <DelaySysTick>
+    1372:	016e3537          	lui	a0,0x16e3
+    1376:	60050513          	addi	a0,a0,1536 # 16e3600 <sysinit.c.f98e60a8+0x16dd16b>
+    137a:	b64ff0ef          	jal	6de <DelaySysTick>
 inline uint16_t gpio_analog_read(const GPIO_ANALOG_CHANNEL chan)
 {
 	// Set rule channel conversion for single conversion on passed channel
 	// GPIO_ADC1->RSQR1 = 0;
 	// GPIO_ADC1->RSQR2 = 0;
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
-    1360:	479d                	li	a5,7
-    1362:	d85c                	sw	a5,52(s0)
+    137e:	479d                	li	a5,7
+    1380:	d85c                	sw	a5,52(s0)
 
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    1364:	441c                	lw	a5,8(s0)
-    1366:	00400737          	lui	a4,0x400
-    136a:	8fd9                	or	a5,a5,a4
-    136c:	c41c                	sw	a5,8(s0)
+    1382:	441c                	lw	a5,8(s0)
+    1384:	00400737          	lui	a4,0x400
+    1388:	8fd9                	or	a5,a5,a4
+    138a:	c41c                	sw	a5,8(s0)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    136e:	40012437          	lui	s0,0x40012
-    1372:	40040413          	addi	s0,s0,1024 # 40012400 <_eusrstack+0x20011c00>
-    1376:	401c                	lw	a5,0(s0)
-    1378:	8b89                	andi	a5,a5,2
-    137a:	dff5                	beqz	a5,1376 <main+0x2b0>
+    138c:	40012437          	lui	s0,0x40012
+    1390:	40040413          	addi	s0,s0,1024 # 40012400 <_eusrstack+0x20011c00>
+    1394:	401c                	lw	a5,0(s0)
+    1396:	8b89                	andi	a5,a5,2
+    1398:	dff5                	beqz	a5,1394 <main+0x2ce>
 
 	// Get the resulting data from the ADC
 	return GPIO_ADC1->RDATAR;
-    137c:	4464                	lw	s1,76(s0)
+    139a:	4464                	lw	s1,76(s0)
 	// VCC/32 - The OpAmp Gain of 16 makes this effectively VCC/2
 	// Compare the value output to the expected output (1023/2) to get an
 	// offset
 	
 	// Switch to CH2 Positive Input and wait for it to stabilise
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH2_POS, GPIO_OPAMP_CH1_NEG);
-    137e:	4505                	li	a0,1
+    139c:	4505                	li	a0,1
 	_opamp_calibration_offset = gpio_analog_read(OPAMP_ADC_CH);
-    1380:	04c2                	slli	s1,s1,0x10
-    1382:	84c1                	srai	s1,s1,0x10
-    1384:	c4919d23          	sh	s1,-934(gp) # 20000056 <_opamp_calibration_offset>
+    139e:	04c2                	slli	s1,s1,0x10
+    13a0:	84c1                	srai	s1,s1,0x10
+    13a2:	c4919d23          	sh	s1,-934(gp) # 20000056 <_opamp_calibration_offset>
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH2_POS, GPIO_OPAMP_CH1_NEG);
-    1388:	d82ff0ef          	jal	90a <gpio_set_opamp_inputs.constprop.0>
+    13a6:	d64ff0ef          	jal	90a <gpio_set_opamp_inputs.constprop.0>
 	Delay_Ms(500);
-    138c:	016e3537          	lui	a0,0x16e3
-    1390:	60050513          	addi	a0,a0,1536 # 16e3600 <oled.c.c1a1d9e4+0x16dd7c2>
-    1394:	b4aff0ef          	jal	6de <DelaySysTick>
+    13aa:	016e3537          	lui	a0,0x16e3
+    13ae:	60050513          	addi	a0,a0,1536 # 16e3600 <sysinit.c.f98e60a8+0x16dd16b>
+    13b2:	b2cff0ef          	jal	6de <DelaySysTick>
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
-    1398:	479d                	li	a5,7
-    139a:	d85c                	sw	a5,52(s0)
+    13b6:	479d                	li	a5,7
+    13b8:	d85c                	sw	a5,52(s0)
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    139c:	441c                	lw	a5,8(s0)
-    139e:	00400737          	lui	a4,0x400
-    13a2:	8fd9                	or	a5,a5,a4
-    13a4:	c41c                	sw	a5,8(s0)
+    13ba:	441c                	lw	a5,8(s0)
+    13bc:	00400737          	lui	a4,0x400
+    13c0:	8fd9                	or	a5,a5,a4
+    13c2:	c41c                	sw	a5,8(s0)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    13a6:	400127b7          	lui	a5,0x40012
-    13aa:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-    13ae:	4398                	lw	a4,0(a5)
-    13b0:	8b09                	andi	a4,a4,2
-    13b2:	df75                	beqz	a4,13ae <main+0x2e8>
+    13c4:	400127b7          	lui	a5,0x40012
+    13c8:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+    13cc:	4398                	lw	a4,0(a5)
+    13ce:	8b09                	andi	a4,a4,2
+    13d0:	df75                	beqz	a4,13cc <main+0x306>
 	return GPIO_ADC1->RDATAR;
-    13b4:	47fc                	lw	a5,76(a5)
+    13d2:	47fc                	lw	a5,76(a5)
 
 	// Calculate the delta between the expected value and the read value
 	int32_t delta = gpio_analog_read(OPAMP_ADC_CH) - _opamp_calibration_offset;
-    13b6:	07c2                	slli	a5,a5,0x10
-    13b8:	83c1                	srli	a5,a5,0x10
-    13ba:	409785b3          	sub	a1,a5,s1
+    13d4:	07c2                	slli	a5,a5,0x10
+    13d6:	83c1                	srli	a5,a5,0x10
+    13d8:	409785b3          	sub	a1,a5,s1
 	if(delta == 0) delta = 1;
-    13be:	00979363          	bne	a5,s1,13c4 <main+0x2fe>
-    13c2:	4585                	li	a1,1
+    13dc:	00979363          	bne	a5,s1,13e2 <main+0x31c>
+    13e0:	4585                	li	a1,1
 	
 	_opamp_calibration_gain = ((int32_t)OPAMP_CAL_EXPECTED << 10) / delta;
-    13c4:	00080537          	lui	a0,0x80
-    13c8:	974ff0ef          	jal	53c <__divsi3>
-    13cc:	01051613          	slli	a2,a0,0x10
+    13e2:	00080537          	lui	a0,0x80
+    13e6:	956ff0ef          	jal	53c <__divsi3>
+    13ea:	01051613          	slli	a2,a0,0x10
 
 	printf("offset: %d\tgain: %d\n", _opamp_calibration_offset, _opamp_calibration_gain);
-    13d0:	6509                	lui	a0,0x2
+    13ee:	6509                	lui	a0,0x2
 	_opamp_calibration_gain = ((int32_t)OPAMP_CAL_EXPECTED << 10) / delta;
-    13d2:	8641                	srai	a2,a2,0x10
+    13f0:	8641                	srai	a2,a2,0x10
 	printf("offset: %d\tgain: %d\n", _opamp_calibration_offset, _opamp_calibration_gain);
-    13d4:	85a6                	mv	a1,s1
-    13d6:	e1850513          	addi	a0,a0,-488 # 1e18 <__clz_tab+0x118>
+    13f2:	85a6                	mv	a1,s1
+    13f4:	e3850513          	addi	a0,a0,-456 # 1e38 <__clz_tab+0x118>
 	_opamp_calibration_gain = ((int32_t)OPAMP_CAL_EXPECTED << 10) / delta;
-    13da:	c4c19c23          	sh	a2,-936(gp) # 20000054 <_opamp_calibration_gain>
+    13f8:	c4c19c23          	sh	a2,-936(gp) # 20000054 <_opamp_calibration_gain>
 	printf("offset: %d\tgain: %d\n", _opamp_calibration_offset, _opamp_calibration_gain);
-    13de:	3659                	jal	f64 <printf>
+    13fc:	36a5                	jal	f64 <printf>
 
 	// Switch back to CH1 Positive and wait for it to settle
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
-    13e0:	4501                	li	a0,0
-    13e2:	d28ff0ef          	jal	90a <gpio_set_opamp_inputs.constprop.0>
+    13fe:	4501                	li	a0,0
+    1400:	d0aff0ef          	jal	90a <gpio_set_opamp_inputs.constprop.0>
 	Delay_Ms(500);
-    13e6:	016e3537          	lui	a0,0x16e3
-    13ea:	60050513          	addi	a0,a0,1536 # 16e3600 <oled.c.c1a1d9e4+0x16dd7c2>
-    13ee:	af0ff0ef          	jal	6de <DelaySysTick>
+    1404:	016e3537          	lui	a0,0x16e3
+    1408:	60050513          	addi	a0,a0,1536 # 16e3600 <sysinit.c.f98e60a8+0x16dd16b>
+    140c:	ad2ff0ef          	jal	6de <DelaySysTick>
 	RCC->APB2PCENR |= RCC_APB2Periph_AFIO;
-    13f2:	40021737          	lui	a4,0x40021
-    13f6:	4f1c                	lw	a5,24(a4)
+    1410:	40021737          	lui	a4,0x40021
+    1414:	4f1c                	lw	a5,24(a4)
 	NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
-    13f8:	e000e6b7          	lui	a3,0xe000e
-    13fc:	0017e793          	ori	a5,a5,1
-    1400:	cf1c                	sw	a5,24(a4)
+    1416:	e000e6b7          	lui	a3,0xe000e
+    141a:	0017e793          	ori	a5,a5,1
+    141e:	cf1c                	sw	a5,24(a4)
 	AFIO->EXTICR    = AFIO_EXTICR_EXTI4_PC | AFIO_EXTICR_EXTI5_PC;
-    1402:	6785                	lui	a5,0x1
-    1404:	40010737          	lui	a4,0x40010
-    1408:	a0078793          	addi	a5,a5,-1536 # a00 <_write.constprop.0+0xc8>
-    140c:	c71c                	sw	a5,8(a4)
+    1420:	6785                	lui	a5,0x1
+    1422:	40010737          	lui	a4,0x40010
+    1426:	a0078793          	addi	a5,a5,-1536 # a00 <_write.constprop.0+0xc8>
+    142a:	c71c                	sw	a5,8(a4)
 	EXTI->INTENR    = EXTI_INTENR_MR4 | EXTI_INTENR_MR5;
-    140e:	40070793          	addi	a5,a4,1024 # 40010400 <_eusrstack+0x2000fc00>
-    1412:	03000713          	li	a4,48
-    1416:	c398                	sw	a4,0(a5)
+    142c:	40070793          	addi	a5,a4,1024 # 40010400 <_eusrstack+0x2000fc00>
+    1430:	03000713          	li	a4,48
+    1434:	c398                	sw	a4,0(a5)
 	EXTI->RTENR     = EXTI_RTENR_TR4  | EXTI_RTENR_TR5;
-    1418:	c798                	sw	a4,8(a5)
+    1436:	c798                	sw	a4,8(a5)
 	EXTI->FTENR     = EXTI_FTENR_TR4  | EXTI_FTENR_TR5;
-    141a:	c7d8                	sw	a4,12(a5)
+    1438:	c7d8                	sw	a4,12(a5)
 	EXTI->INTFR = 0x00000030;
-    141c:	cbd8                	sw	a4,20(a5)
-    141e:	001007b7          	lui	a5,0x100
-    1422:	10f6a023          	sw	a5,256(a3) # e000e100 <_eusrstack+0xc000d900>
+    143a:	cbd8                	sw	a4,20(a5)
+    143c:	001007b7          	lui	a5,0x100
+    1440:	10f6a023          	sw	a5,256(a3) # e000e100 <_eusrstack+0xc000d900>
 	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
-    1426:	6731                	lui	a4,0xc
+    1444:	6731                	lui	a4,0xc
 	SysTick->CTLR = 0x0000;
-    1428:	e000f7b7          	lui	a5,0xe000f
-    142c:	0007a023          	sw	zero,0(a5) # e000f000 <_eusrstack+0xc000e800>
+    1446:	e000f7b7          	lui	a5,0xe000f
+    144a:	0007a023          	sw	zero,0(a5) # e000f000 <_eusrstack+0xc000e800>
 	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
-    1430:	b7f70713          	addi	a4,a4,-1153 # bb7f <oled.c.c1a1d9e4+0x5d41>
-    1434:	cb98                	sw	a4,16(a5)
+    144e:	b7f70713          	addi	a4,a4,-1153 # bb7f <sysinit.c.f98e60a8+0x56ea>
+    1452:	cb98                	sw	a4,16(a5)
 	SysTick->CNT = 0x00000000;
-    1436:	0007a423          	sw	zero,8(a5)
-	g_systick_millis = 0x00000000;
-    143a:	c601ac23          	sw	zero,-904(gp) # 20000074 <g_systick_millis>
+    1454:	0007a423          	sw	zero,8(a5)
+	_systick_millis = 0x00000000;
+    1458:	c601ac23          	sw	zero,-904(gp) # 20000074 <_systick_millis>
 	SysTick->CTLR |= SYSTICK_CTLR_STE   |  // Enable Counter
-    143e:	4398                	lw	a4,0(a5)
-    1440:	00776713          	ori	a4,a4,7
-    1444:	c398                	sw	a4,0(a5)
-    1446:	6785                	lui	a5,0x1
-	IWDG->CTLR = 0x5555;
-    1448:	6715                	lui	a4,0x5
-    144a:	10f6a023          	sw	a5,256(a3)
-    144e:	55570713          	addi	a4,a4,1365 # 5555 <lib_i2c.c.771b9666+0x1c8>
-    1452:	400037b7          	lui	a5,0x40003
-    1456:	c398                	sw	a4,0(a5)
+    145c:	4398                	lw	a4,0(a5)
+    145e:	00776713          	ori	a4,a4,7
+    1462:	c398                	sw	a4,0(a5)
+    1464:	6785                	lui	a5,0x1
+	IWDG->CTLR = IWDG_KEY_CHANGE;
+    1466:	6715                	lui	a4,0x5
+    1468:	10f6a023          	sw	a5,256(a3)
+    146c:	55570713          	addi	a4,a4,1365 # 5555 <lib_i2c.c.771b9666+0x206>
+    1470:	400037b7          	lui	a5,0x40003
+    1474:	c398                	sw	a4,0(a5)
     IWDG->PSCR = prescaler;
-    1458:	4691                	li	a3,4
-    145a:	c3d4                	sw	a3,4(a5)
-	IWDG->CTLR = 0x5555;
-    145c:	c398                	sw	a4,0(a5)
+    1476:	4691                	li	a3,4
+    1478:	c3d4                	sw	a3,4(a5)
+	IWDG->CTLR = IWDG_KEY_CHANGE;
+    147a:	c398                	sw	a4,0(a5)
     IWDG->RLDR = rst_val & 0x0FFF;
-    145e:	09b00713          	li	a4,155
-    1462:	c798                	sw	a4,8(a5)
-	IWDG->CTLR = 0xCCCC;
-    1464:	6735                	lui	a4,0xd
-    1466:	ccc70713          	addi	a4,a4,-820 # cccc <oled.c.c1a1d9e4+0x6e8e>
-    146a:	c398                	sw	a4,0(a5)
+    147c:	09b00713          	li	a4,155
+    1480:	c798                	sw	a4,8(a5)
+	IWDG->CTLR = IWDG_KEY_ENABLE;
+    1482:	6735                	lui	a4,0xd
+    1484:	ccc70713          	addi	a4,a4,-820 # cccc <sysinit.c.f98e60a8+0x6837>
+    1488:	c398                	sw	a4,0(a5)
 	g_system_state    = SYSTEM_STATE_HEATER_DISABLED;
-    146c:	4785                	li	a5,1
-    146e:	c6f1ae23          	sw	a5,-900(gp) # 20000078 <g_system_state>
+    148a:	4785                	li	a5,1
+    148c:	c6f1ae23          	sw	a5,-900(gp) # 20000078 <g_system_state>
 	g_user_input_mode = UI_MODE_CHANGE_TEMP;
-    1472:	c2f1aa23          	sw	a5,-972(gp) # 20000030 <g_user_input_mode>
+    1490:	c2f1aa23          	sw	a5,-972(gp) # 20000030 <g_user_input_mode>
 	uint32_t millis_prev_display_update    = 0;
-    1476:	c202                	sw	zero,4(sp)
+    1494:	c202                	sw	zero,4(sp)
 	uint32_t millis_prev_battery_check     = 0;
-    1478:	ca02                	sw	zero,20(sp)
+    1496:	ca02                	sw	zero,20(sp)
 	uint32_t millis_prev_pid_temp_update   = 0;
-    147a:	c802                	sw	zero,16(sp)
+    1498:	c802                	sw	zero,16(sp)
 	uint32_t millis_prev_user_input_update = 0;
-    147c:	c602                	sw	zero,12(sp)
+    149a:	c602                	sw	zero,12(sp)
 	uint32_t millis_prev_led_update        = 0;
-    147e:	c402                	sw	zero,8(sp)
+    149c:	c402                	sw	zero,8(sp)
 	pid_ctrl_t heater_pid =
-    1480:	cc02                	sw	zero,24(sp)
-    1482:	c002                	sw	zero,0(sp)
-		if(g_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
-    1484:	4722                	lw	a4,8(sp)
-    1486:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    148a:	8f99                	sub	a5,a5,a4
-    148c:	4765                	li	a4,25
-    148e:	02f77863          	bgeu	a4,a5,14be <main+0x3f8>
+    149e:	cc02                	sw	zero,24(sp)
+    14a0:	c002                	sw	zero,0(sp)
+		if(_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
+    14a2:	4722                	lw	a4,8(sp)
+    14a4:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    14a8:	8f99                	sub	a5,a5,a4
+    14aa:	4765                	li	a4,25
+    14ac:	02f77863          	bgeu	a4,a5,14dc <main+0x416>
 			switch(g_system_state)
-    1492:	c7c1a783          	lw	a5,-900(gp) # 20000078 <g_system_state>
-    1496:	4609                	li	a2,2
-    1498:	3ec78963          	beq	a5,a2,188a <main+0x7c4>
-    149c:	460d                	li	a2,3
-    149e:	42c78663          	beq	a5,a2,18ca <main+0x804>
-    14a2:	4605                	li	a2,1
-    14a4:	44c79c63          	bne	a5,a2,18fc <main+0x836>
+    14b0:	c7c1a783          	lw	a5,-900(gp) # 20000078 <g_system_state>
+    14b4:	4609                	li	a2,2
+    14b6:	3ec78b63          	beq	a5,a2,18ac <main+0x7e6>
+    14ba:	460d                	li	a2,3
+    14bc:	42c78863          	beq	a5,a2,18ec <main+0x826>
+    14c0:	4605                	li	a2,1
+    14c2:	44c79e63          	bne	a5,a2,191e <main+0x858>
 					led_val = LED_MINIMUM_PWM;
-    14a8:	47f9                	li	a5,30
-    14aa:	c6f19a23          	sh	a5,-908(gp) # 20000070 <led_val.10>
+    14c6:	47f9                	li	a5,30
+    14c8:	c6f19a23          	sh	a5,-908(gp) # 20000070 <led_val.10>
 			pwm_set_duty(PWM_CHANNEL_LED, (uint8_t)led_val);
-    14ae:	c741c703          	lbu	a4,-908(gp) # 20000070 <led_val.10>
+    14cc:	c741c703          	lbu	a4,-908(gp) # 20000070 <led_val.10>
 	*tim_ptr[ch] = duty;
-    14b2:	400007b7          	lui	a5,0x40000
-    14b6:	df98                	sw	a4,56(a5)
-			millis_prev_led_update = g_systick_millis;
-    14b8:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    14bc:	c43e                	sw	a5,8(sp)
-		if(g_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
-    14be:	4732                	lw	a4,12(sp)
-    14c0:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    14c4:	8f99                	sub	a5,a5,a4
-    14c6:	03200713          	li	a4,50
-    14ca:	08f77263          	bgeu	a4,a5,154e <main+0x488>
+    14d0:	400007b7          	lui	a5,0x40000
+    14d4:	df98                	sw	a4,56(a5)
+			millis_prev_led_update = _systick_millis;
+    14d6:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    14da:	c43e                	sw	a5,8(sp)
+		if(_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
+    14dc:	4732                	lw	a4,12(sp)
+    14de:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    14e2:	8f99                	sub	a5,a5,a4
+    14e4:	03200713          	li	a4,50
+    14e8:	08f77263          	bgeu	a4,a5,156c <main+0x4a6>
 	if( (GPIO_PORT_MAP[ byte[0] ]->INDR & (0x01 << byte[1])) != 0x00 ) 
-    14ce:	400117b7          	lui	a5,0x40011
-    14d2:	479c                	lw	a5,8(a5)
+    14ec:	400117b7          	lui	a5,0x40011
+    14f0:	479c                	lw	a5,8(a5)
 			bool button_pressed = (p_button_state && !c_button_state);
-    14d4:	c2c1a683          	lw	a3,-980(gp) # 20000028 <p_button_state.7>
-    14d8:	8ba1                	andi	a5,a5,8
-    14da:	838d                	srli	a5,a5,0x3
-    14dc:	4601                	li	a2,0
-    14de:	c299                	beqz	a3,14e4 <main+0x41e>
-    14e0:	0017c613          	xori	a2,a5,1
+    14f2:	c2c1a683          	lw	a3,-980(gp) # 20000028 <p_button_state.7>
+    14f6:	8ba1                	andi	a5,a5,8
+    14f8:	838d                	srli	a5,a5,0x3
+    14fa:	4601                	li	a2,0
+    14fc:	c299                	beqz	a3,1502 <main+0x43c>
+    14fe:	0017c613          	xori	a2,a5,1
 			p_button_state = c_button_state;
-    14e4:	c2f1a623          	sw	a5,-980(gp) # 20000028 <p_button_state.7>
+    1502:	c2f1a623          	sw	a5,-980(gp) # 20000028 <p_button_state.7>
 			if(g_system_state != SYSTEM_STATE_ERROR_LOCKOUT)
-    14e8:	c7c1a683          	lw	a3,-900(gp) # 20000078 <g_system_state>
-    14ec:	478d                	li	a5,3
-    14ee:	04f68b63          	beq	a3,a5,1544 <main+0x47e>
+    1506:	c7c1a683          	lw	a3,-900(gp) # 20000078 <g_system_state>
+    150a:	478d                	li	a5,3
+    150c:	04f68b63          	beq	a3,a5,1562 <main+0x49c>
 				switch(g_user_input_mode)
-    14f2:	c341a703          	lw	a4,-972(gp) # 20000030 <g_user_input_mode>
-    14f6:	4785                	li	a5,1
-    14f8:	04f71663          	bne	a4,a5,1544 <main+0x47e>
+    1510:	c341a703          	lw	a4,-972(gp) # 20000030 <g_user_input_mode>
+    1514:	4785                	li	a5,1
+    1516:	04f71663          	bne	a4,a5,1562 <main+0x49c>
 						g_target_temperature += g_rotary_encoder_clicks * SETTING_TEMPERATURE_INCRIMENT;
-    14fc:	c721d703          	lhu	a4,-910(gp) # 2000006e <g_rotary_encoder_clicks>
+    151a:	c721d703          	lhu	a4,-910(gp) # 2000006e <g_rotary_encoder_clicks>
 						g_target_temperature = CLAMP(g_target_temperature, SETTING_TEMPERATURE_MINIMUM, SETTING_TEMPERATURE_MAXIMUM);
-    1500:	0dc00513          	li	a0,220
+    151e:	0dc00513          	li	a0,220
 						g_target_temperature += g_rotary_encoder_clicks * SETTING_TEMPERATURE_INCRIMENT;
-    1504:	0742                	slli	a4,a4,0x10
-    1506:	8741                	srai	a4,a4,0x10
-    1508:	00271793          	slli	a5,a4,0x2
-    150c:	97ba                	add	a5,a5,a4
-    150e:	c281d703          	lhu	a4,-984(gp) # 20000024 <g_target_temperature>
-    1512:	97ba                	add	a5,a5,a4
+    1522:	0742                	slli	a4,a4,0x10
+    1524:	8741                	srai	a4,a4,0x10
+    1526:	00271793          	slli	a5,a4,0x2
+    152a:	97ba                	add	a5,a5,a4
+    152c:	c281d703          	lhu	a4,-984(gp) # 20000024 <g_target_temperature>
+    1530:	97ba                	add	a5,a5,a4
 						g_target_temperature = CLAMP(g_target_temperature, SETTING_TEMPERATURE_MINIMUM, SETTING_TEMPERATURE_MAXIMUM);
-    1514:	873e                	mv	a4,a5
-    1516:	07c2                	slli	a5,a5,0x10
-    1518:	87c1                	srai	a5,a5,0x10
-    151a:	00f55363          	bge	a0,a5,1520 <main+0x45a>
-    151e:	872a                	mv	a4,a0
-    1520:	87ba                	mv	a5,a4
-    1522:	01079513          	slli	a0,a5,0x10
-    1526:	8541                	srai	a0,a0,0x10
-    1528:	03200713          	li	a4,50
-    152c:	00e55363          	bge	a0,a4,1532 <main+0x46c>
-    1530:	87ba                	mv	a5,a4
-    1532:	c2f19423          	sh	a5,-984(gp) # 20000024 <g_target_temperature>
+    1532:	873e                	mv	a4,a5
+    1534:	07c2                	slli	a5,a5,0x10
+    1536:	87c1                	srai	a5,a5,0x10
+    1538:	00f55363          	bge	a0,a5,153e <main+0x478>
+    153c:	872a                	mv	a4,a0
+    153e:	87ba                	mv	a5,a4
+    1540:	01079513          	slli	a0,a5,0x10
+    1544:	8541                	srai	a0,a0,0x10
+    1546:	03200713          	li	a4,50
+    154a:	00e55363          	bge	a0,a4,1550 <main+0x48a>
+    154e:	87ba                	mv	a5,a4
+    1550:	c2f19423          	sh	a5,-984(gp) # 20000024 <g_target_temperature>
 						if(button_pressed)
-    1536:	c619                	beqz	a2,1544 <main+0x47e>
+    1554:	c619                	beqz	a2,1562 <main+0x49c>
 							if(g_system_state == SYSTEM_STATE_HEATER_DISABLED)
-    1538:	4785                	li	a5,1
-    153a:	4709                	li	a4,2
-    153c:	3cf69363          	bne	a3,a5,1902 <main+0x83c>
+    1556:	4785                	li	a5,1
+    1558:	4709                	li	a4,2
+    155a:	3cf69563          	bne	a3,a5,1924 <main+0x85e>
 								g_system_state = SYSTEM_STATE_HEATER_ENABLED;
-    1540:	c6e1ae23          	sw	a4,-900(gp) # 20000078 <g_system_state>
+    155e:	c6e1ae23          	sw	a4,-900(gp) # 20000078 <g_system_state>
 			g_rotary_encoder_clicks = 0;
-    1544:	c6019923          	sh	zero,-910(gp) # 2000006e <g_rotary_encoder_clicks>
-			millis_prev_user_input_update = g_systick_millis;
-    1548:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    154c:	c63e                	sw	a5,12(sp)
-		if(g_systick_millis - millis_prev_pid_temp_update > MILLIS_PID_TEMP_UPDATE)
-    154e:	4742                	lw	a4,16(sp)
-    1550:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    1554:	8f99                	sub	a5,a5,a4
-    1556:	06400713          	li	a4,100
-    155a:	12f77d63          	bgeu	a4,a5,1694 <main+0x5ce>
+    1562:	c6019923          	sh	zero,-910(gp) # 2000006e <g_rotary_encoder_clicks>
+			millis_prev_user_input_update = _systick_millis;
+    1566:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    156a:	c63e                	sw	a5,12(sp)
+		if(_systick_millis - millis_prev_pid_temp_update > MILLIS_PID_TEMP_UPDATE)
+    156c:	4742                	lw	a4,16(sp)
+    156e:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    1572:	8f99                	sub	a5,a5,a4
+    1574:	06400713          	li	a4,100
+    1578:	12f77f63          	bgeu	a4,a5,16b6 <main+0x5f0>
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
-    155e:	400127b7          	lui	a5,0x40012
-    1562:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-    1566:	4715                	li	a4,5
-    1568:	dbd8                	sw	a4,52(a5)
+    157c:	400127b7          	lui	a5,0x40012
+    1580:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+    1584:	4715                	li	a4,5
+    1586:	dbd8                	sw	a4,52(a5)
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    156a:	4798                	lw	a4,8(a5)
-    156c:	004006b7          	lui	a3,0x400
-    1570:	8f55                	or	a4,a4,a3
-    1572:	c798                	sw	a4,8(a5)
+    1588:	4798                	lw	a4,8(a5)
+    158a:	004006b7          	lui	a3,0x400
+    158e:	8f55                	or	a4,a4,a3
+    1590:	c798                	sw	a4,8(a5)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    1574:	4398                	lw	a4,0(a5)
-    1576:	8b09                	andi	a4,a4,2
-    1578:	df75                	beqz	a4,1574 <main+0x4ae>
+    1592:	4398                	lw	a4,0(a5)
+    1594:	8b09                	andi	a4,a4,2
+    1596:	df75                	beqz	a4,1592 <main+0x4cc>
 	return GPIO_ADC1->RDATAR;
-    157a:	47ec                	lw	a1,76(a5)
+    1598:	47e8                	lw	a0,76(a5)
+static uint16_t thermistor_adc_to_temp(const uint16_t adc)
 {
-	uint16_t adc0 = 0, adc1 = 0, temp0 = 0, temp1 = 0, output = 0;
-	const uint16_t therm_max_index = THERMISTOR_PAIR_ENTRIES - 1;
+	const size_t therm_max_index = THERMISTOR_PAIR_ENTRIES - 1;
 	
 	// Cap the Upper and Lower Bounds
 	if(adc >= thermistor_pair[0].adc)
-    157c:	3f000793          	li	a5,1008
+    159a:	3f000713          	li	a4,1008
 		return thermistor_pair[0].temp_c;
-    1580:	4501                	li	a0,0
-    1582:	05c2                	slli	a1,a1,0x10
-    1584:	81c1                	srli	a1,a1,0x10
+    159e:	4781                	li	a5,0
+    15a0:	0542                	slli	a0,a0,0x10
+    15a2:	8141                	srli	a0,a0,0x10
 	if(adc >= thermistor_pair[0].adc)
-    1586:	06b7e063          	bltu	a5,a1,15e6 <main+0x520>
+    15a4:	06a76263          	bltu	a4,a0,1608 <main+0x542>
 	
 	if(adc <= thermistor_pair[therm_max_index].adc)
-    158a:	02500793          	li	a5,37
+    15a8:	02500713          	li	a4,37
 		return thermistor_pair[therm_max_index].temp_c;
-    158e:	12c00513          	li	a0,300
+    15ac:	12c00793          	li	a5,300
 	if(adc <= thermistor_pair[therm_max_index].adc)
-    1592:	04b7fa63          	bgeu	a5,a1,15e6 <main+0x520>
-    1596:	6689                	lui	a3,0x2
-    1598:	ba468613          	addi	a2,a3,-1116 # 1ba4 <thermistor_pair>
-    159c:	4781                	li	a5,0
-    159e:	ba468693          	addi	a3,a3,-1116
+    15b0:	04a77c63          	bgeu	a4,a0,1608 <main+0x542>
+    15b4:	6609                	lui	a2,0x2
+    15b6:	bc460593          	addi	a1,a2,-1084 # 1bc4 <thermistor_pair>
 
 
 	// Find the LUT ADC Range
-	for(uint16_t ti = 0; ti < therm_max_index; ti++)
-    15a2:	04b00513          	li	a0,75
+	for(size_t ti = 0; ti < therm_max_index; ti++)
+    15ba:	4681                	li	a3,0
+	if(adc <= thermistor_pair[therm_max_index].adc)
+    15bc:	3f100493          	li	s1,1009
+    15c0:	bc460613          	addi	a2,a2,-1084
+	for(size_t ti = 0; ti < therm_max_index; ti++)
+    15c4:	04b00313          	li	t1,75
 	{
 		// Get the Current and Next ADC Values in the pair table.
-		adc0  = thermistor_pair[ti].adc;
-    15a6:	00265483          	lhu	s1,2(a2)
-		adc1  = thermistor_pair[ti + 1].adc;
+		uint16_t adc0  = thermistor_pair[ti].adc;
+		uint16_t adc1  = thermistor_pair[ti + 1].adc;
+    15c8:	8726                	mv	a4,s1
+    15ca:	87b6                	mv	a5,a3
+    15cc:	0065d483          	lhu	s1,6(a1)
+    15d0:	0685                	addi	a3,a3,1 # 400001 <sysinit.c.f98e60a8+0x3f9b6c>
 
 		// ADC Values Decrease as temperature rises. Check if adc input is within
 		// the current check range
 		if(adc <= adc0 && adc >= adc1)
-    15aa:	36b4e163          	bltu	s1,a1,190c <main+0x846>
-		adc1  = thermistor_pair[ti + 1].adc;
-    15ae:	00665703          	lhu	a4,6(a2)
-		if(adc <= adc0 && adc >= adc1)
-    15b2:	34e5ed63          	bltu	a1,a4,190c <main+0x846>
+    15d2:	34a76e63          	bltu	a4,a0,192e <main+0x868>
+    15d6:	34956c63          	bltu	a0,s1,192e <main+0x868>
 		{
 			// Get Current and Next Temp values in the pair table
-			temp0 = thermistor_pair[ti].temp_c;
-    15b6:	00279613          	slli	a2,a5,0x2
-			temp1 = thermistor_pair[ti + 1].temp_c;
-    15ba:	0785                	addi	a5,a5,1
-    15bc:	078a                	slli	a5,a5,0x2
-			temp0 = thermistor_pair[ti].temp_c;
-    15be:	9636                	add	a2,a2,a3
-			temp1 = thermistor_pair[ti + 1].temp_c;
-    15c0:	97b6                	add	a5,a5,a3
-			temp0 = thermistor_pair[ti].temp_c;
-    15c2:	00065403          	lhu	s0,0(a2)
-			// delta_adc   =   adc0 - adc
-			// span_adc    =   adc0 - adc1
-			// delta_temp  =   temp1 - temp0
-			//
-			// x = temp0 + (delta_adc * delta_temp) / span_adc
-			output = temp0 + (uint32_t)(adc0 - adc) * (temp1 - temp0) / (adc0 - adc1);
-    15c6:	0007d503          	lhu	a0,0(a5)
-    15ca:	40b485b3          	sub	a1,s1,a1
-    15ce:	c83a                	sw	a4,16(sp)
-    15d0:	8d01                	sub	a0,a0,s0
-    15d2:	f53fe0ef          	jal	524 <__mulsi3>
-    15d6:	4742                	lw	a4,16(sp)
-    15d8:	40e485b3          	sub	a1,s1,a4
-    15dc:	f69fe0ef          	jal	544 <__hidden___udivsi3>
-    15e0:	9522                	add	a0,a0,s0
-    15e2:	0542                	slli	a0,a0,0x10
-    15e4:	8141                	srli	a0,a0,0x10
+			uint16_t temp0 = thermistor_pair[ti].temp_c;
+    15da:	078a                	slli	a5,a5,0x2
+			uint16_t temp1 = thermistor_pair[ti + 1].temp_c;
+    15dc:	068a                	slli	a3,a3,0x2
+			uint16_t temp0 = thermistor_pair[ti].temp_c;
+    15de:	97b2                	add	a5,a5,a2
+			uint16_t temp1 = thermistor_pair[ti + 1].temp_c;
+    15e0:	96b2                	add	a3,a3,a2
+			uint16_t temp0 = thermistor_pair[ti].temp_c;
+    15e2:	0007d403          	lhu	s0,0(a5)
+
+			// Linear Interpolation. ADC Decreases with Temperature Rise:
+			uint32_t delta_adc   = adc0 - adc;
+			uint32_t span_adc    = adc0 - adc1;
+			uint32_t delta_temp  = temp1 - temp0;
+    15e6:	0006d583          	lhu	a1,0(a3)
+
+			return temp0 + (delta_adc * delta_temp) / span_adc;
+    15ea:	40a70533          	sub	a0,a4,a0
+    15ee:	c83a                	sw	a4,16(sp)
+    15f0:	8d81                	sub	a1,a1,s0
+    15f2:	f33fe0ef          	jal	524 <__mulsi3>
+    15f6:	4742                	lw	a4,16(sp)
+    15f8:	409705b3          	sub	a1,a4,s1
+    15fc:	f49fe0ef          	jal	544 <__hidden___udivsi3>
+    1600:	00a407b3          	add	a5,s0,a0
+    1604:	07c2                	slli	a5,a5,0x10
+    1606:	83c1                	srli	a5,a5,0x10
 			g_actual_temperature = thermistor_adc_to_temp(thermistor_adc);
-    15e6:	0542                	slli	a0,a0,0x10
-    15e8:	8541                	srai	a0,a0,0x10
-    15ea:	c6a19823          	sh	a0,-912(gp) # 2000006c <g_actual_temperature>
+    1608:	07c2                	slli	a5,a5,0x10
+    160a:	87c1                	srai	a5,a5,0x10
+    160c:	c6f19823          	sh	a5,-912(gp) # 2000006c <g_actual_temperature>
 			heater_pwm = pid_calculate(&heater_pid, g_actual_temperature, g_target_temperature);
-    15ee:	c2819403          	lh	s0,-984(gp) # 20000024 <g_target_temperature>
+    1610:	c2819403          	lh	s0,-984(gp) # 20000024 <g_target_temperature>
 	// Calculate the current Error and Derivative
 	int32_t error = sp - pv;
 	int32_t derivative = error - pid->_prev_error;
 
 	// Prevent Integral Windup by clamping
 	pid->_integral = CLAMP_MIN_MAX(pid->_integral, -pid->_iclamp, pid->_iclamp);
-    15f2:	4702                	lw	a4,0(sp)
-    15f4:	6785                	lui	a5,0x1
-    15f6:	3ec78793          	addi	a5,a5,1004 # 13ec <main+0x326>
+    1614:	4702                	lw	a4,0(sp)
 	int32_t error = sp - pv;
-    15fa:	8c09                	sub	s0,s0,a0
+    1616:	8c1d                	sub	s0,s0,a5
 	pid->_integral = CLAMP_MIN_MAX(pid->_integral, -pid->_iclamp, pid->_iclamp);
-    15fc:	00e7d363          	bge	a5,a4,1602 <main+0x53c>
-    1600:	c03e                	sw	a5,0(sp)
-    1602:	4702                	lw	a4,0(sp)
-    1604:	77fd                	lui	a5,0xfffff
-    1606:	c1478793          	addi	a5,a5,-1004 # ffffec14 <_eusrstack+0xdfffe414>
-    160a:	00f75363          	bge	a4,a5,1610 <main+0x54a>
-    160e:	c03e                	sw	a5,0(sp)
+    1618:	6785                	lui	a5,0x1
+    161a:	3ec78793          	addi	a5,a5,1004 # 13ec <main+0x326>
+    161e:	00e7d363          	bge	a5,a4,1624 <main+0x55e>
+    1622:	c03e                	sw	a5,0(sp)
+    1624:	4702                	lw	a4,0(sp)
+    1626:	77fd                	lui	a5,0xfffff
+    1628:	c1478793          	addi	a5,a5,-1004 # ffffec14 <_eusrstack+0xdfffe414>
+    162c:	00f75363          	bge	a4,a5,1632 <main+0x56c>
+    1630:	c03e                	sw	a5,0(sp)
 	//if(pid->_integral >  pid->_iclamp)   pid->_integral =  pid->_iclamp;
 	//if(pid->_integral < -pid->_iclamp)   pid->_integral = -pid->_iclamp;
 
 
 	int64_t P = (int32_t)pid->Kp * error;
 	int64_t I = (int32_t)pid->Ki * pid->_integral;
-    1610:	4702                	lw	a4,0(sp)
+    1632:	4702                	lw	a4,0(sp)
 	int64_t P = (int32_t)pid->Kp * error;
-    1612:	00541793          	slli	a5,s0,0x5
+    1634:	00541793          	slli	a5,s0,0x5
 	int64_t I = (int32_t)pid->Ki * pid->_integral;
-    1616:	4602                	lw	a2,0(sp)
+    1638:	4602                	lw	a2,0(sp)
 	int64_t P = (int32_t)pid->Kp * error;
-    1618:	8f81                	sub	a5,a5,s0
-    161a:	078a                	slli	a5,a5,0x2
-    161c:	97a2                	add	a5,a5,s0
+    163a:	8f81                	sub	a5,a5,s0
+    163c:	078a                	slli	a5,a5,0x2
+    163e:	97a2                	add	a5,a5,s0
 	int64_t I = (int32_t)pid->Ki * pid->_integral;
-    161e:	070a                	slli	a4,a4,0x2
+    1640:	070a                	slli	a4,a4,0x2
 	int64_t P = (int32_t)pid->Kp * error;
-    1620:	00379693          	slli	a3,a5,0x3
+    1642:	00379693          	slli	a3,a5,0x3
 	int64_t I = (int32_t)pid->Ki * pid->_integral;
-    1624:	9732                	add	a4,a4,a2
-    1626:	41f75613          	srai	a2,a4,0x1f
+    1646:	9732                	add	a4,a4,a2
+    1648:	41f75613          	srai	a2,a4,0x1f
 	int64_t P = (int32_t)pid->Kp * error;
-    162a:	87fd                	srai	a5,a5,0x1f
+    164c:	87fd                	srai	a5,a5,0x1f
 	int64_t D = (int32_t)pid->Kd * derivative;
 	// Add the PID values, then scale to preserve resolution of intagers
 	int32_t cv = (int64_t)(P + I + D) / pid->scale;
-    162c:	9736                	add	a4,a4,a3
-    162e:	00d736b3          	sltu	a3,a4,a3
-    1632:	97b2                	add	a5,a5,a2
-    1634:	97b6                	add	a5,a5,a3
+    164e:	9736                	add	a4,a4,a3
+    1650:	00d736b3          	sltu	a3,a4,a3
+    1654:	97b2                	add	a5,a5,a2
+    1656:	97b6                	add	a5,a5,a3
 	int32_t derivative = error - pid->_prev_error;
-    1636:	46e2                	lw	a3,24(sp)
+    1658:	46e2                	lw	a3,24(sp)
 	int32_t cv = (int64_t)(P + I + D) / pid->scale;
-    1638:	06400613          	li	a2,100
+    165a:	06400613          	li	a2,100
 	int32_t derivative = error - pid->_prev_error;
-    163c:	40d406b3          	sub	a3,s0,a3
+    165e:	40d406b3          	sub	a3,s0,a3
 	int64_t D = (int32_t)pid->Kd * derivative;
-    1640:	00269513          	slli	a0,a3,0x2
-    1644:	9536                	add	a0,a0,a3
-    1646:	41f55693          	srai	a3,a0,0x1f
+    1662:	00269513          	slli	a0,a3,0x2
+    1666:	9536                	add	a0,a0,a3
+    1668:	41f55693          	srai	a3,a0,0x1f
 	int32_t cv = (int64_t)(P + I + D) / pid->scale;
-    164a:	953a                	add	a0,a0,a4
-    164c:	97b6                	add	a5,a5,a3
-    164e:	00e535b3          	sltu	a1,a0,a4
-    1652:	95be                	add	a1,a1,a5
-    1654:	4681                	li	a3,0
-    1656:	a4bfe0ef          	jal	a0 <__divdi3>
+    166c:	953a                	add	a0,a0,a4
+    166e:	97b6                	add	a5,a5,a3
+    1670:	00e535b3          	sltu	a1,a0,a4
+    1674:	95be                	add	a1,a1,a5
+    1676:	4681                	li	a3,0
+    1678:	a29fe0ef          	jal	a0 <__divdi3>
 
 	// Only accumulate the integration value if the output is not in saturation
 	if(cv <= pid->out_max && cv >= pid->out_min)    pid->_integral += error;
-    165a:	0ff00793          	li	a5,255
-    165e:	00a7e563          	bltu	a5,a0,1668 <main+0x5a2>
-    1662:	4702                	lw	a4,0(sp)
-    1664:	9722                	add	a4,a4,s0
-    1666:	c03a                	sw	a4,0(sp)
+    167c:	0ff00793          	li	a5,255
+    1680:	00a7e563          	bltu	a5,a0,168a <main+0x5c4>
+    1684:	4702                	lw	a4,0(sp)
+    1686:	9722                	add	a4,a4,s0
+    1688:	c03a                	sw	a4,0(sp)
 	
 	// Clamp the CV Output to the min/max
 	cv = CLAMP_MIN_MAX(cv, pid->out_min, pid->out_max);
-    1668:	2aa7d863          	bge	a5,a0,1918 <main+0x852>
-    166c:	0ff00513          	li	a0,255
+    168a:	2aa7d763          	bge	a5,a0,1938 <main+0x872>
+    168e:	0ff00513          	li	a0,255
 			if(g_system_state == SYSTEM_STATE_HEATER_DISABLED || g_system_state == SYSTEM_STATE_ERROR_LOCKOUT) 
-    1670:	c7c1a783          	lw	a5,-900(gp) # 20000078 <g_system_state>
+    1692:	c7c1a783          	lw	a5,-900(gp) # 20000078 <g_system_state>
 			heater_pwm = pid_calculate(&heater_pid, g_actual_temperature, g_target_temperature);
-    1674:	c6a1a623          	sw	a0,-916(gp) # 20000068 <heater_pwm.5>
+    1696:	c6a1a623          	sw	a0,-916(gp) # 20000068 <heater_pwm.5>
 			if(g_system_state == SYSTEM_STATE_HEATER_DISABLED || g_system_state == SYSTEM_STATE_ERROR_LOCKOUT) 
-    1678:	9bf5                	andi	a5,a5,-3
-    167a:	4685                	li	a3,1
-    167c:	00d79563          	bne	a5,a3,1686 <main+0x5c0>
+    169a:	9bf5                	andi	a5,a5,-3
+    169c:	4685                	li	a3,1
+    169e:	00d79563          	bne	a5,a3,16a8 <main+0x5e2>
 				heater_pwm = 0x00;
-    1680:	c601a623          	sw	zero,-916(gp) # 20000068 <heater_pwm.5>
-    1684:	4501                	li	a0,0
+    16a2:	c601a623          	sw	zero,-916(gp) # 20000068 <heater_pwm.5>
+    16a6:	4501                	li	a0,0
 	*tim_ptr[ch] = duty;
-    1686:	400007b7          	lui	a5,0x40000
-    168a:	dfc8                	sw	a0,60(a5)
-			millis_prev_pid_temp_update = g_systick_millis;
-    168c:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
+    16a8:	400007b7          	lui	a5,0x40000
+    16ac:	dfc8                	sw	a0,60(a5)
+			millis_prev_pid_temp_update = _systick_millis;
+    16ae:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
 
 	// Update the previous error for derivative
 	pid->_prev_error = error;
-    1690:	cc22                	sw	s0,24(sp)
-    1692:	c83e                	sw	a5,16(sp)
-		if(g_systick_millis - millis_prev_battery_check > MILLIS_BATTERY_CHECK)
-    1694:	4752                	lw	a4,20(sp)
-    1696:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    169a:	8f99                	sub	a5,a5,a4
-    169c:	0fa00713          	li	a4,250
-    16a0:	18f77c63          	bgeu	a4,a5,1838 <main+0x772>
+    16b2:	cc22                	sw	s0,24(sp)
+    16b4:	c83e                	sw	a5,16(sp)
+		if(_systick_millis - millis_prev_battery_check > MILLIS_BATTERY_CHECK)
+    16b6:	4752                	lw	a4,20(sp)
+    16b8:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    16bc:	8f99                	sub	a5,a5,a4
+    16be:	0fa00713          	li	a4,250
+    16c2:	18f77c63          	bgeu	a4,a5,185a <main+0x794>
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
-    16a4:	400124b7          	lui	s1,0x40012
-    16a8:	40048493          	addi	s1,s1,1024 # 40012400 <_eusrstack+0x20011c00>
-    16ac:	47a1                	li	a5,8
-    16ae:	d8dc                	sw	a5,52(s1)
+    16c6:	400124b7          	lui	s1,0x40012
+    16ca:	40048493          	addi	s1,s1,1024 # 40012400 <_eusrstack+0x20011c00>
+    16ce:	47a1                	li	a5,8
+    16d0:	d8dc                	sw	a5,52(s1)
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    16b0:	449c                	lw	a5,8(s1)
-    16b2:	00400737          	lui	a4,0x400
-    16b6:	8fd9                	or	a5,a5,a4
-    16b8:	c49c                	sw	a5,8(s1)
+    16d2:	449c                	lw	a5,8(s1)
+    16d4:	00400737          	lui	a4,0x400
+    16d8:	8fd9                	or	a5,a5,a4
+    16da:	c49c                	sw	a5,8(s1)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    16ba:	409c                	lw	a5,0(s1)
-    16bc:	8b89                	andi	a5,a5,2
-    16be:	dff5                	beqz	a5,16ba <main+0x5f4>
+    16dc:	409c                	lw	a5,0(s1)
+    16de:	8b89                	andi	a5,a5,2
+    16e0:	dff5                	beqz	a5,16dc <main+0x616>
 	return GPIO_ADC1->RDATAR;
-    16c0:	44ec                	lw	a1,76(s1)
+    16e2:	44ec                	lw	a1,76(s1)
 uint16_t gpio_read_system_mv(void)
 {
 	// Get the raw ADC Value for the VREF - shift by 10 (*1024),
 	// then divide it by the ADC maximum.
 	// This is the VREF Multiplier
 	uint32_t vref_multiplier = ((uint32_t)GPIO_ADC_MAXIMUM << 10) / gpio_analog_read(GPIO_ADC_VREF);
-    16c2:	00100537          	lui	a0,0x100
-    16c6:	c0050513          	addi	a0,a0,-1024 # ffc00 <oled.c.c1a1d9e4+0xf9dc2>
-    16ca:	05c2                	slli	a1,a1,0x10
-    16cc:	81c1                	srli	a1,a1,0x10
-    16ce:	e77fe0ef          	jal	544 <__hidden___udivsi3>
+    16e4:	00100537          	lui	a0,0x100
+    16e8:	c0050513          	addi	a0,a0,-1024 # ffc00 <sysinit.c.f98e60a8+0xf976b>
+    16ec:	05c2                	slli	a1,a1,0x10
+    16ee:	81c1                	srli	a1,a1,0x10
+    16f0:	e55fe0ef          	jal	544 <__hidden___udivsi3>
 
 	// The mV value is equal to the ADC_VREF Millivolts, multiplied by the VREF
 	// Multiplier, then shifted by 10 (/1024) to scale back down to mV
 	return (GPIO_ADC_REF_MV * vref_multiplier) >> 10;
-    16d2:	00251793          	slli	a5,a0,0x2
-    16d6:	953e                	add	a0,a0,a5
+    16f4:	00251793          	slli	a5,a0,0x2
+    16f8:	953e                	add	a0,a0,a5
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
-    16d8:	4799                	li	a5,6
-    16da:	d8dc                	sw	a5,52(s1)
+    16fa:	4799                	li	a5,6
+    16fc:	d8dc                	sw	a5,52(s1)
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    16dc:	449c                	lw	a5,8(s1)
+    16fe:	449c                	lw	a5,8(s1)
 	return (GPIO_ADC_REF_MV * vref_multiplier) >> 10;
-    16de:	00451413          	slli	s0,a0,0x4
+    1700:	00451413          	slli	s0,a0,0x4
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    16e2:	00400737          	lui	a4,0x400
-    16e6:	8fd9                	or	a5,a5,a4
+    1704:	00400737          	lui	a4,0x400
+    1708:	8fd9                	or	a5,a5,a4
 	return (GPIO_ADC_REF_MV * vref_multiplier) >> 10;
-    16e8:	8c09                	sub	s0,s0,a0
-    16ea:	0412                	slli	s0,s0,0x4
+    170a:	8c09                	sub	s0,s0,a0
+    170c:	0412                	slli	s0,s0,0x4
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    16ec:	c49c                	sw	a5,8(s1)
+    170e:	c49c                	sw	a5,8(s1)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    16ee:	400127b7          	lui	a5,0x40012
+    1710:	400127b7          	lui	a5,0x40012
 	return (GPIO_ADC_REF_MV * vref_multiplier) >> 10;
-    16f2:	8029                	srli	s0,s0,0xa
+    1714:	8029                	srli	s0,s0,0xa
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    16f4:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-    16f8:	4398                	lw	a4,0(a5)
-    16fa:	8b09                	andi	a4,a4,2
-    16fc:	df75                	beqz	a4,16f8 <main+0x632>
+    1716:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+    171a:	4398                	lw	a4,0(a5)
+    171c:	8b09                	andi	a4,a4,2
+    171e:	df75                	beqz	a4,171a <main+0x654>
 	return GPIO_ADC1->RDATAR;
-    16fe:	47e4                	lw	s1,76(a5)
+    1720:	47e4                	lw	s1,76(a5)
 	// The Voltage Divider is 33K || 8K2, to get the inverse of the divider ratio:
 	//  R2      /     (R1    +    R2)
 	// 8K2      /     (33K   +   8K2)
 	// (Invert)
 	// 41K2     /      8K2         = 5.024
 	uint32_t scaled_mv = ((uint32_t)system_mv * 5024) / 1000;
-    1700:	01041793          	slli	a5,s0,0x10
-    1704:	83c1                	srli	a5,a5,0x10
-    1706:	6585                	lui	a1,0x1
-    1708:	853e                	mv	a0,a5
-    170a:	3a058593          	addi	a1,a1,928 # 13a0 <main+0x2da>
-    170e:	ca3e                	sw	a5,20(sp)
-    1710:	e15fe0ef          	jal	524 <__mulsi3>
-    1714:	3e800593          	li	a1,1000
-    1718:	e2dfe0ef          	jal	544 <__hidden___udivsi3>
+    1722:	01041793          	slli	a5,s0,0x10
+    1726:	83c1                	srli	a5,a5,0x10
+    1728:	6585                	lui	a1,0x1
+    172a:	853e                	mv	a0,a5
+    172c:	3a058593          	addi	a1,a1,928 # 13a0 <main+0x2da>
+    1730:	ca3e                	sw	a5,20(sp)
+    1732:	df3fe0ef          	jal	524 <__mulsi3>
+    1736:	3e800593          	li	a1,1000
+    173a:	e0bfe0ef          	jal	544 <__hidden___udivsi3>
 	return ((uint32_t)battery_adc * scaled_mv) / ADC_MAXIMUM;
-    171c:	01049593          	slli	a1,s1,0x10
-    1720:	81c1                	srli	a1,a1,0x10
-    1722:	e03fe0ef          	jal	524 <__mulsi3>
-    1726:	3ff00593          	li	a1,1023
-    172a:	e1bfe0ef          	jal	544 <__hidden___udivsi3>
-    172e:	01051493          	slli	s1,a0,0x10
-    1732:	80c1                	srli	s1,s1,0x10
+    173e:	01049593          	slli	a1,s1,0x10
+    1742:	81c1                	srli	a1,a1,0x10
+    1744:	de1fe0ef          	jal	524 <__mulsi3>
+    1748:	3ff00593          	li	a1,1023
+    174c:	df9fe0ef          	jal	544 <__hidden___udivsi3>
+    1750:	01051493          	slli	s1,a0,0x10
+    1754:	80c1                	srli	s1,s1,0x10
 			g_battery_voltage_mv = battery_read_mv(system_mv);
-    1734:	c6919523          	sh	s1,-918(gp) # 20000066 <g_battery_voltage_mv>
+    1756:	c6919523          	sh	s1,-918(gp) # 20000066 <g_battery_voltage_mv>
 	rolling_sum -= _average_current_buffer[average_index];
-    1738:	c5c1c403          	lbu	s0,-932(gp) # 20000058 <average_index.0>
-    173c:	c8018693          	addi	a3,gp,-896 # 2000007c <_average_current_buffer>
-    1740:	00141593          	slli	a1,s0,0x1
-    1744:	96ae                	add	a3,a3,a1
-    1746:	0006d683          	lhu	a3,0(a3)
-    174a:	c601a583          	lw	a1,-928(gp) # 2000005c <rolling_sum.1>
-    174e:	40d587b3          	sub	a5,a1,a3
-    1752:	ce3e                	sw	a5,28(sp)
+    175a:	c5c1c403          	lbu	s0,-932(gp) # 20000058 <average_index.0>
+    175e:	c8018693          	addi	a3,gp,-896 # 2000007c <_average_current_buffer>
+    1762:	00141593          	slli	a1,s0,0x1
+    1766:	96ae                	add	a3,a3,a1
+    1768:	0006d683          	lhu	a3,0(a3)
+    176c:	c601a583          	lw	a1,-928(gp) # 2000005c <rolling_sum.1>
+    1770:	40d587b3          	sub	a5,a1,a3
+    1774:	ce3e                	sw	a5,28(sp)
 	GPIO_ADC1->RSQR3 = (uint32_t)chan;
-    1754:	400127b7          	lui	a5,0x40012
-    1758:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-    175c:	469d                	li	a3,7
-    175e:	dbd4                	sw	a3,52(a5)
+    1776:	400127b7          	lui	a5,0x40012
+    177a:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+    177e:	469d                	li	a3,7
+    1780:	dbd4                	sw	a3,52(a5)
 	GPIO_ADC1->CTLR2 |= ADC_SWSTART;
-    1760:	4794                	lw	a3,8(a5)
-    1762:	004005b7          	lui	a1,0x400
-    1766:	8ecd                	or	a3,a3,a1
-    1768:	c794                	sw	a3,8(a5)
+    1782:	4794                	lw	a3,8(a5)
+    1784:	004005b7          	lui	a1,0x400
+    1788:	8ecd                	or	a3,a3,a1
+    178a:	c794                	sw	a3,8(a5)
 	while(!(GPIO_ADC1->STATR & ADC_EOC));
-    176a:	c8018793          	addi	a5,gp,-896 # 2000007c <_average_current_buffer>
-    176e:	d03e                	sw	a5,32(sp)
-    1770:	400127b7          	lui	a5,0x40012
-    1774:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
-    1778:	4394                	lw	a3,0(a5)
-    177a:	8a89                	andi	a3,a3,2
-    177c:	def5                	beqz	a3,1778 <main+0x6b2>
+    178c:	c8018793          	addi	a5,gp,-896 # 2000007c <_average_current_buffer>
+    1790:	d03e                	sw	a5,32(sp)
+    1792:	400127b7          	lui	a5,0x40012
+    1796:	40078793          	addi	a5,a5,1024 # 40012400 <_eusrstack+0x20011c00>
+    179a:	4394                	lw	a3,0(a5)
+    179c:	8a89                	andi	a3,a3,2
+    179e:	def5                	beqz	a3,179a <main+0x6d4>
 	return GPIO_ADC1->RDATAR;
-    177e:	47fc                	lw	a5,76(a5)
+    17a0:	47fc                	lw	a5,76(a5)
 		((gpio_analog_read(OPAMP_ADC_CH) - _opamp_calibration_offset) 
-    1780:	c5a19503          	lh	a0,-934(gp) # 20000056 <_opamp_calibration_offset>
+    17a2:	c5a19503          	lh	a0,-934(gp) # 20000056 <_opamp_calibration_offset>
 		* _opamp_calibration_gain) >> 10;
-    1784:	c5819583          	lh	a1,-936(gp) # 20000054 <_opamp_calibration_gain>
+    17a6:	c5819583          	lh	a1,-936(gp) # 20000054 <_opamp_calibration_gain>
 		((gpio_analog_read(OPAMP_ADC_CH) - _opamp_calibration_offset) 
-    1788:	07c2                	slli	a5,a5,0x10
-    178a:	83c1                	srli	a5,a5,0x10
+    17aa:	07c2                	slli	a5,a5,0x10
+    17ac:	83c1                	srli	a5,a5,0x10
 		* _opamp_calibration_gain) >> 10;
-    178c:	40a78533          	sub	a0,a5,a0
-    1790:	d95fe0ef          	jal	524 <__mulsi3>
-    1794:	40a55793          	srai	a5,a0,0xa
+    17ae:	40a78533          	sub	a0,a5,a0
+    17b2:	d73fe0ef          	jal	524 <__mulsi3>
+    17b6:	40a55793          	srai	a5,a0,0xa
 	int16_t opamp_calibrated_adc = 
-    1798:	853e                	mv	a0,a5
+    17ba:	853e                	mv	a0,a5
 	if(opamp_calibrated_adc > 1023)  opamp_calibrated_adc = 1023;
-    179a:	07c2                	slli	a5,a5,0x10
-    179c:	87c1                	srai	a5,a5,0x10
-    179e:	3ff00693          	li	a3,1023
-    17a2:	18f6d063          	bge	a3,a5,1922 <main+0x85c>
-    17a6:	8536                	mv	a0,a3
+    17bc:	07c2                	slli	a5,a5,0x10
+    17be:	87c1                	srai	a5,a5,0x10
+    17c0:	3ff00693          	li	a3,1023
+    17c4:	16f6df63          	bge	a3,a5,1942 <main+0x87c>
+    17c8:	8536                	mv	a0,a3
 	uint16_t opamp_mv_raw = ((uint32_t)opamp_calibrated_adc * system_mv) / ADC_MAXIMUM;
-    17a8:	45d2                	lw	a1,20(sp)
-    17aa:	0542                	slli	a0,a0,0x10
-    17ac:	8541                	srai	a0,a0,0x10
-    17ae:	d77fe0ef          	jal	524 <__mulsi3>
-    17b2:	3ff00593          	li	a1,1023
-    17b6:	d8ffe0ef          	jal	544 <__hidden___udivsi3>
+    17ca:	45d2                	lw	a1,20(sp)
+    17cc:	0542                	slli	a0,a0,0x10
+    17ce:	8541                	srai	a0,a0,0x10
+    17d0:	d55fe0ef          	jal	524 <__mulsi3>
+    17d4:	3ff00593          	li	a1,1023
+    17d8:	d6dfe0ef          	jal	544 <__hidden___udivsi3>
 	uint16_t opamp_ma = ((opamp_mv_raw * 1000) / OPAMP_SENSE_MILLOHM) >> OPAMP_GAIN_SHIFT;
-    17ba:	00551793          	slli	a5,a0,0x5
-    17be:	8f89                	sub	a5,a5,a0
-    17c0:	078a                	slli	a5,a5,0x2
-    17c2:	953e                	add	a0,a0,a5
-    17c4:	02500593          	li	a1,37
-    17c8:	050e                	slli	a0,a0,0x3
-    17ca:	d73fe0ef          	jal	53c <__divsi3>
+    17dc:	00551793          	slli	a5,a0,0x5
+    17e0:	8f89                	sub	a5,a5,a0
+    17e2:	078a                	slli	a5,a5,0x2
+    17e4:	953e                	add	a0,a0,a5
+    17e6:	02500593          	li	a1,37
+    17ea:	050e                	slli	a0,a0,0x3
+    17ec:	d51fe0ef          	jal	53c <__divsi3>
 	_average_current_buffer[average_index] = opamp_read_rsense_ma(system_mv);
-    17ce:	5702                	lw	a4,32(sp)
-    17d0:	00141793          	slli	a5,s0,0x1
+    17f0:	5702                	lw	a4,32(sp)
+    17f2:	00141793          	slli	a5,s0,0x1
 	uint16_t opamp_ma = ((opamp_mv_raw * 1000) / OPAMP_SENSE_MILLOHM) >> OPAMP_GAIN_SHIFT;
-    17d4:	8511                	srai	a0,a0,0x4
+    17f6:	8511                	srai	a0,a0,0x4
 	_average_current_buffer[average_index] = opamp_read_rsense_ma(system_mv);
-    17d6:	97ba                	add	a5,a5,a4
+    17f8:	97ba                	add	a5,a5,a4
 	rolling_sum += _average_current_buffer[average_index];
-    17d8:	4772                	lw	a4,28(sp)
+    17fa:	4772                	lw	a4,28(sp)
 	uint16_t opamp_ma = ((opamp_mv_raw * 1000) / OPAMP_SENSE_MILLOHM) >> OPAMP_GAIN_SHIFT;
-    17da:	00a79023          	sh	a0,0(a5)
+    17fc:	00a79023          	sh	a0,0(a5)
 	rolling_sum += _average_current_buffer[average_index];
-    17de:	01051793          	slli	a5,a0,0x10
-    17e2:	83c1                	srli	a5,a5,0x10
-    17e4:	97ba                	add	a5,a5,a4
-    17e6:	c6f1a023          	sw	a5,-928(gp) # 2000005c <rolling_sum.1>
+    1800:	01051793          	slli	a5,a0,0x10
+    1804:	83c1                	srli	a5,a5,0x10
+    1806:	97ba                	add	a5,a5,a4
+    1808:	c6f1a023          	sw	a5,-928(gp) # 2000005c <rolling_sum.1>
 	average_index = (average_index + 1) & (AVG_SAMPLES - 1);
-    17ea:	00140713          	addi	a4,s0,1
+    180c:	00140713          	addi	a4,s0,1
 	return (uint16_t)(rolling_sum >> AVG_DIV_SHIFT);
-    17ee:	838d                	srli	a5,a5,0x3
+    1810:	838d                	srli	a5,a5,0x3
 	average_index = (average_index + 1) & (AVG_SAMPLES - 1);
-    17f0:	8b1d                	andi	a4,a4,7
+    1812:	8b1d                	andi	a4,a4,7
 	return (uint16_t)(rolling_sum >> AVG_DIV_SHIFT);
-    17f2:	07c2                	slli	a5,a5,0x10
+    1814:	07c2                	slli	a5,a5,0x10
 	average_index = (average_index + 1) & (AVG_SAMPLES - 1);
-    17f4:	c4e18e23          	sb	a4,-932(gp) # 20000058 <average_index.0>
+    1816:	c4e18e23          	sb	a4,-932(gp) # 20000058 <average_index.0>
 	return (uint16_t)(rolling_sum >> AVG_DIV_SHIFT);
-    17f8:	83c1                	srli	a5,a5,0x10
+    181a:	83c1                	srli	a5,a5,0x10
 			if( (g_battery_voltage_mv <= BATTERY_EMPTY_MV) || 
-    17fa:	6691                	lui	a3,0x4
+    181c:	6691                	lui	a3,0x4
 			g_battery_current_ma = battery_read_average_ma(system_mv);
-    17fc:	c6f19423          	sh	a5,-920(gp) # 20000064 <g_battery_current_ma>
+    181e:	c6f19423          	sh	a5,-920(gp) # 20000064 <g_battery_current_ma>
 			if( (g_battery_voltage_mv <= BATTERY_EMPTY_MV) || 
-    1800:	a9868693          	addi	a3,a3,-1384 # 3a98 <tcrhmag.c.27489cdd+0x3f2>
-    1804:	0096f763          	bgeu	a3,s1,1812 <main+0x74c>
-    1808:	6685                	lui	a3,0x1
-    180a:	57b68693          	addi	a3,a3,1403 # 157b <main+0x4b5>
-    180e:	12f6f063          	bgeu	a3,a5,192e <main+0x868>
+    1822:	a9868693          	addi	a3,a3,-1384 # 3a98 <tcrhmag.c.ffe39115+0x3e3>
+    1826:	0096f763          	bgeu	a3,s1,1834 <main+0x76e>
+    182a:	6685                	lui	a3,0x1
+    182c:	57b68693          	addi	a3,a3,1403 # 157b <main+0x4b5>
+    1830:	10f6ff63          	bgeu	a3,a5,194e <main+0x888>
 				if(--error_ticks == 0)
-    1812:	c271c783          	lbu	a5,-985(gp) # 20000023 <error_ticks.4>
-    1816:	17fd                	addi	a5,a5,-1
-    1818:	0ff7f793          	zext.b	a5,a5
-    181c:	c2f183a3          	sb	a5,-985(gp) # 20000023 <error_ticks.4>
-    1820:	eb89                	bnez	a5,1832 <main+0x76c>
+    1834:	c271c783          	lbu	a5,-985(gp) # 20000023 <error_ticks.4>
+    1838:	17fd                	addi	a5,a5,-1
+    183a:	0ff7f793          	zext.b	a5,a5
+    183e:	c2f183a3          	sb	a5,-985(gp) # 20000023 <error_ticks.4>
+    1842:	eb89                	bnez	a5,1854 <main+0x78e>
 					g_user_input_mode	  = UI_MODE_ERROR;
-    1822:	4715                	li	a4,5
+    1844:	4715                	li	a4,5
 					g_target_temperature  = 0;
-    1824:	c2019423          	sh	zero,-984(gp) # 20000024 <g_target_temperature>
+    1846:	c2019423          	sh	zero,-984(gp) # 20000024 <g_target_temperature>
 					g_user_input_mode	  = UI_MODE_ERROR;
-    1828:	c2e1aa23          	sw	a4,-972(gp) # 20000030 <g_user_input_mode>
+    184a:	c2e1aa23          	sw	a4,-972(gp) # 20000030 <g_user_input_mode>
 					g_system_state        = SYSTEM_STATE_ERROR_LOCKOUT;
-    182c:	470d                	li	a4,3
-    182e:	c6e1ae23          	sw	a4,-900(gp) # 20000078 <g_system_state>
-			millis_prev_battery_check = g_systick_millis;
-    1832:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    1836:	ca3e                	sw	a5,20(sp)
-		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
-    1838:	4712                	lw	a4,4(sp)
-    183a:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    183e:	8f99                	sub	a5,a5,a4
-    1840:	0fa00713          	li	a4,250
-    1844:	02f77c63          	bgeu	a4,a5,187c <main+0x7b6>
+    184e:	470d                	li	a4,3
+    1850:	c6e1ae23          	sw	a4,-900(gp) # 20000078 <g_system_state>
+			millis_prev_battery_check = _systick_millis;
+    1854:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    1858:	ca3e                	sw	a5,20(sp)
+		if(_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
+    185a:	4712                	lw	a4,4(sp)
+    185c:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    1860:	8f99                	sub	a5,a5,a4
+    1862:	0fa00713          	li	a4,250
+    1866:	02f77c63          	bgeu	a4,a5,189e <main+0x7d8>
 			if(p_user_input_mode != g_user_input_mode)
-    1848:	c341a403          	lw	s0,-972(gp) # 20000030 <g_user_input_mode>
-    184c:	c641a783          	lw	a5,-924(gp) # 20000060 <p_user_input_mode.3>
-    1850:	00878b63          	beq	a5,s0,1866 <main+0x7a0>
+    186a:	c341a403          	lw	s0,-972(gp) # 20000030 <g_user_input_mode>
+    186e:	c641a783          	lw	a5,-924(gp) # 20000060 <p_user_input_mode.3>
+    1872:	00878b63          	beq	a5,s0,1888 <main+0x7c2>
 }
 
 
 void oled_clear_display(void)
 {
 	memset(&_oled_buffer[0][0], 0x00, OLED_WIDTH * OLED_PAGES);
-    1854:	40000613          	li	a2,1024
-    1858:	4581                	li	a1,0
-    185a:	c9018513          	addi	a0,gp,-880 # 2000008c <_oled_buffer>
-    185e:	f2aff0ef          	jal	f88 <memset>
+    1876:	40000613          	li	a2,1024
+    187a:	4581                	li	a1,0
+    187c:	c9018513          	addi	a0,gp,-880 # 2000008c <_oled_buffer>
+    1880:	f08ff0ef          	jal	f88 <memset>
 				p_user_input_mode = g_user_input_mode;
-    1862:	c681a223          	sw	s0,-924(gp) # 20000060 <p_user_input_mode.3>
+    1884:	c681a223          	sw	s0,-924(gp) # 20000060 <p_user_input_mode.3>
 			switch(g_user_input_mode)
-    1866:	4785                	li	a5,1
-    1868:	0cf40763          	beq	s0,a5,1936 <main+0x870>
-    186c:	4795                	li	a5,5
-    186e:	1ef40663          	beq	s0,a5,1a5a <main+0x994>
+    1888:	4785                	li	a5,1
+    188a:	0cf40663          	beq	s0,a5,1956 <main+0x890>
+    188e:	4795                	li	a5,5
+    1890:	1ef40563          	beq	s0,a5,1a7a <main+0x9b4>
 			oled_update();
-    1872:	bd8ff0ef          	jal	c4a <oled_update.isra.0>
-			millis_prev_display_update = g_systick_millis;
-    1876:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-    187a:	c23e                	sw	a5,4(sp)
-{ IWDG->CTLR = 0xAAAA; }
-    187c:	67ad                	lui	a5,0xb
-    187e:	40003737          	lui	a4,0x40003
-    1882:	aaa78793          	addi	a5,a5,-1366 # aaaa <oled.c.c1a1d9e4+0x4c6c>
-    1886:	c31c                	sw	a5,0(a4)
-    1888:	bef5                	j	1484 <main+0x3be>
+    1894:	bb6ff0ef          	jal	c4a <oled_update.isra.0>
+			millis_prev_display_update = _systick_millis;
+    1898:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+    189c:	c23e                	sw	a5,4(sp)
+/// @brief Feeds the watchdog and keeps him happy :)
+/// @param None
+/// @return None
+__attribute__((always_inline))
+static inline void iwdg_feed(void)
+{ IWDG->CTLR = IWDG_KEY_FEED; }
+    189e:	67ad                	lui	a5,0xb
+    18a0:	40003737          	lui	a4,0x40003
+    18a4:	aaa78793          	addi	a5,a5,-1366 # aaaa <sysinit.c.f98e60a8+0x4615>
+    18a8:	c31c                	sw	a5,0(a4)
+    18aa:	bee5                	j	14a2 <main+0x3dc>
 					led_val += led_inc;
-    188a:	c3118603          	lb	a2,-975(gp) # 2000002d <led_inc.9>
-    188e:	c741d783          	lhu	a5,-908(gp) # 20000070 <led_val.10>
+    18ac:	c3118603          	lb	a2,-975(gp) # 2000002d <led_inc.9>
+    18b0:	c741d783          	lhu	a5,-908(gp) # 20000070 <led_val.10>
 					if(led_val >= LED_MAXIMUM_PWM || led_val <= LED_MINIMUM_PWM)
-    1892:	0df00313          	li	t1,223
+    18b4:	0df00313          	li	t1,223
 					led_val += led_inc;
-    1896:	97b2                	add	a5,a5,a2
-    1898:	01079513          	slli	a0,a5,0x10
+    18b8:	97b2                	add	a5,a5,a2
+    18ba:	01079513          	slli	a0,a5,0x10
 					if(led_val >= LED_MAXIMUM_PWM || led_val <= LED_MINIMUM_PWM)
-    189c:	1785                	addi	a5,a5,-31
-    189e:	07c2                	slli	a5,a5,0x10
-    18a0:	83c1                	srli	a5,a5,0x10
+    18be:	1785                	addi	a5,a5,-31
+    18c0:	07c2                	slli	a5,a5,0x10
+    18c2:	83c1                	srli	a5,a5,0x10
 					led_val += led_inc;
-    18a2:	8541                	srai	a0,a0,0x10
+    18c4:	8541                	srai	a0,a0,0x10
 					if(led_val >= LED_MAXIMUM_PWM || led_val <= LED_MINIMUM_PWM)
-    18a4:	00f36563          	bltu	t1,a5,18ae <main+0x7e8>
+    18c6:	00f36563          	bltu	t1,a5,18d0 <main+0x80a>
 					led_val += led_inc;
-    18a8:	c6a19a23          	sh	a0,-908(gp) # 20000070 <led_val.10>
-    18ac:	b109                	j	14ae <main+0x3e8>
+    18ca:	c6a19a23          	sh	a0,-908(gp) # 20000070 <led_val.10>
+    18ce:	befd                	j	14cc <main+0x406>
 						led_val = (led_val >= LED_MAXIMUM_PWM) ? LED_MAXIMUM_PWM : LED_MINIMUM_PWM;
-    18ae:	0fe00313          	li	t1,254
-    18b2:	47f9                	li	a5,30
-    18b4:	00a35463          	bge	t1,a0,18bc <main+0x7f6>
-    18b8:	0ff00793          	li	a5,255
+    18d0:	0fe00313          	li	t1,254
+    18d4:	47f9                	li	a5,30
+    18d6:	00a35463          	bge	t1,a0,18de <main+0x818>
+    18da:	0ff00793          	li	a5,255
 						led_inc = -led_inc;
-    18bc:	40c00633          	neg	a2,a2
+    18de:	40c00633          	neg	a2,a2
 						led_val = (led_val >= LED_MAXIMUM_PWM) ? LED_MAXIMUM_PWM : LED_MINIMUM_PWM;
-    18c0:	c6f19a23          	sh	a5,-908(gp) # 20000070 <led_val.10>
+    18e2:	c6f19a23          	sh	a5,-908(gp) # 20000070 <led_val.10>
 						led_inc = -led_inc;
-    18c4:	c2c188a3          	sb	a2,-975(gp) # 2000002d <led_inc.9>
-    18c8:	b6dd                	j	14ae <main+0x3e8>
+    18e6:	c2c188a3          	sb	a2,-975(gp) # 2000002d <led_inc.9>
+    18ea:	b6cd                	j	14cc <main+0x406>
 					if(--led_ticks == 0)
-    18ca:	c301c783          	lbu	a5,-976(gp) # 2000002c <led_ticks.8>
-    18ce:	17fd                	addi	a5,a5,-1
-    18d0:	0ff7f793          	zext.b	a5,a5
-    18d4:	c2f18823          	sb	a5,-976(gp) # 2000002c <led_ticks.8>
-    18d8:	bc079be3          	bnez	a5,14ae <main+0x3e8>
-						led_val = (led_val == LED_OFF_PWM) ? LED_MAXIMUM_PWM : LED_OFF_PWM;
-    18dc:	c7419783          	lh	a5,-908(gp) # 20000070 <led_val.10>
-    18e0:	00f037b3          	snez	a5,a5
-    18e4:	40f007b3          	neg	a5,a5
-    18e8:	f017f793          	andi	a5,a5,-255
-    18ec:	0ff78793          	addi	a5,a5,255
-    18f0:	c6f19a23          	sh	a5,-908(gp) # 20000070 <led_val.10>
-						led_ticks = LED_FLASH_TICKS;
-    18f4:	47a9                	li	a5,10
+    18ec:	c301c783          	lbu	a5,-976(gp) # 2000002c <led_ticks.8>
+    18f0:	17fd                	addi	a5,a5,-1
+    18f2:	0ff7f793          	zext.b	a5,a5
     18f6:	c2f18823          	sb	a5,-976(gp) # 2000002c <led_ticks.8>
-    18fa:	be55                	j	14ae <main+0x3e8>
+    18fa:	bc0799e3          	bnez	a5,14cc <main+0x406>
+						led_val = (led_val == LED_OFF_PWM) ? LED_MAXIMUM_PWM : LED_OFF_PWM;
+    18fe:	c7419783          	lh	a5,-908(gp) # 20000070 <led_val.10>
+    1902:	00f037b3          	snez	a5,a5
+    1906:	40f007b3          	neg	a5,a5
+    190a:	f017f793          	andi	a5,a5,-255
+    190e:	0ff78793          	addi	a5,a5,255
+    1912:	c6f19a23          	sh	a5,-908(gp) # 20000070 <led_val.10>
+						led_ticks = LED_FLASH_TICKS;
+    1916:	47a9                	li	a5,10
+    1918:	c2f18823          	sb	a5,-976(gp) # 2000002c <led_ticks.8>
+    191c:	be45                	j	14cc <main+0x406>
 					led_val = LED_OFF_PWM;
-    18fc:	c6019a23          	sh	zero,-908(gp) # 20000070 <led_val.10>
+    191e:	c6019a23          	sh	zero,-908(gp) # 20000070 <led_val.10>
 					break;
-    1900:	b67d                	j	14ae <main+0x3e8>
+    1922:	b66d                	j	14cc <main+0x406>
 							} else if(g_system_state == SYSTEM_STATE_HEATER_ENABLED) {
-    1902:	c4e691e3          	bne	a3,a4,1544 <main+0x47e>
+    1924:	c2e69fe3          	bne	a3,a4,1562 <main+0x49c>
 								g_system_state = SYSTEM_STATE_HEATER_DISABLED;
-    1906:	c6f1ae23          	sw	a5,-900(gp) # 20000078 <g_system_state>
-    190a:	b92d                	j	1544 <main+0x47e>
-	for(uint16_t ti = 0; ti < therm_max_index; ti++)
-    190c:	0785                	addi	a5,a5,1
-    190e:	0611                	addi	a2,a2,4
-    1910:	c8a79be3          	bne	a5,a0,15a6 <main+0x4e0>
+    1928:	c6f1ae23          	sw	a5,-900(gp) # 20000078 <g_system_state>
+    192c:	b91d                	j	1562 <main+0x49c>
+	for(size_t ti = 0; ti < therm_max_index; ti++)
+    192e:	0591                	addi	a1,a1,4 # 400004 <sysinit.c.f98e60a8+0x3f9b6f>
+    1930:	c8669ce3          	bne	a3,t1,15c8 <main+0x502>
 		return thermistor_pair[0].temp_c;
-    1914:	4501                	li	a0,0
-    1916:	b9c1                	j	15e6 <main+0x520>
+    1934:	4781                	li	a5,0
+    1936:	b9c9                	j	1608 <main+0x542>
 	cv = CLAMP_MIN_MAX(cv, pid->out_min, pid->out_max);
-    1918:	fff54793          	not	a5,a0
-    191c:	87fd                	srai	a5,a5,0x1f
-    191e:	8d7d                	and	a0,a0,a5
-    1920:	bb81                	j	1670 <main+0x5aa>
+    1938:	fff54793          	not	a5,a0
+    193c:	87fd                	srai	a5,a5,0x1f
+    193e:	8d7d                	and	a0,a0,a5
+    1940:	bb89                	j	1692 <main+0x5cc>
 	if(opamp_calibrated_adc < 0)     opamp_calibrated_adc = 0;
-    1922:	01051793          	slli	a5,a0,0x10
-    1926:	e807d1e3          	bgez	a5,17a8 <main+0x6e2>
-    192a:	4501                	li	a0,0
-    192c:	bdb5                	j	17a8 <main+0x6e2>
+    1942:	01051793          	slli	a5,a0,0x10
+    1946:	e807d2e3          	bgez	a5,17ca <main+0x704>
+    194a:	4501                	li	a0,0
+    194c:	bdbd                	j	17ca <main+0x704>
 				error_ticks = 10;	
-    192e:	47a9                	li	a5,10
-    1930:	c2f183a3          	sb	a5,-985(gp) # 20000023 <error_ticks.4>
-    1934:	bdfd                	j	1832 <main+0x76c>
+    194e:	47a9                	li	a5,10
+    1950:	c2f183a3          	sb	a5,-985(gp) # 20000023 <error_ticks.4>
+    1954:	b701                	j	1854 <main+0x78e>
 
 
 void oled_draw_battery_current(const uint16_t batt_ma)
 {
 	static char current_str[7] = "00.00A";
 	append_formatted_2dp_string(batt_ma, &current_str[0]);
-    1936:	c681d503          	lhu	a0,-920(gp) # 20000064 <g_battery_current_ma>
-    193a:	c1818593          	addi	a1,gp,-1000 # 20000014 <current_str.5>
-    193e:	f53fe0ef          	jal	890 <append_formatted_2dp_string>
+    1956:	c681d503          	lhu	a0,-920(gp) # 20000064 <g_battery_current_ma>
+    195a:	c1818593          	addi	a1,gp,-1000 # 20000014 <current_str.5>
+    195e:	f33fe0ef          	jal	890 <append_formatted_2dp_string>
 	if(str == NULL || ptr == NULL) return;
-    1942:	c1818513          	addi	a0,gp,-1000 # 20000014 <current_str.5>
-    1946:	c9018593          	addi	a1,gp,-880 # 2000008c <_oled_buffer>
-    194a:	ee2ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1962:	c1818513          	addi	a0,gp,-1000 # 20000014 <current_str.5>
+    1966:	c9018593          	addi	a1,gp,-880 # 2000008c <_oled_buffer>
+    196a:	ec2ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
 
 
 void oled_draw_battery_voltage(const uint16_t batt_mv)
 {
 	static char voltage_str[7] = "00.00V";
 	append_formatted_2dp_string(batt_mv, &voltage_str[0]);
-    194e:	c6a1d503          	lhu	a0,-918(gp) # 20000066 <g_battery_voltage_mv>
-    1952:	c2018593          	addi	a1,gp,-992 # 2000001c <voltage_str.4>
-    1956:	f3bfe0ef          	jal	890 <append_formatted_2dp_string>
+    196e:	c6a1d503          	lhu	a0,-918(gp) # 20000066 <g_battery_voltage_mv>
+    1972:	c2018593          	addi	a1,gp,-992 # 2000001c <voltage_str.4>
+    1976:	f1bfe0ef          	jal	890 <append_formatted_2dp_string>
 	if(str == NULL || ptr == NULL) return;
-    195a:	c2018513          	addi	a0,gp,-992 # 2000001c <voltage_str.4>
-    195e:	ce218593          	addi	a1,gp,-798 # 200000de <_oled_buffer+0x52>
-    1962:	ecaff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    197a:	c2018513          	addi	a0,gp,-992 # 2000001c <voltage_str.4>
+    197e:	ce218593          	addi	a1,gp,-798 # 200000de <_oled_buffer+0x52>
+    1982:	eaaff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
 					oled_draw_temperature(g_target_temperature, g_actual_temperature);
-    1966:	c281d403          	lhu	s0,-984(gp) # 20000024 <g_target_temperature>
-    196a:	c701d783          	lhu	a5,-912(gp) # 2000006c <g_actual_temperature>
+    1986:	c281d403          	lhu	s0,-984(gp) # 20000024 <g_target_temperature>
+    198a:	c701d783          	lhu	a5,-912(gp) # 2000006c <g_actual_temperature>
 	str[0] = '0' + ((val / 100) % 10);
-    196e:	06400593          	li	a1,100
-    1972:	8522                	mv	a0,s0
-    1974:	c23e                	sw	a5,4(sp)
-    1976:	bcffe0ef          	jal	544 <__hidden___udivsi3>
-    197a:	0542                	slli	a0,a0,0x10
-    197c:	45a9                	li	a1,10
-    197e:	8141                	srli	a0,a0,0x10
-    1980:	bf1fe0ef          	jal	570 <__umodsi3>
-    1984:	03050513          	addi	a0,a0,48
-    1988:	c0a18823          	sb	a0,-1008(gp) # 2000000c <target_str.3>
+    198e:	06400593          	li	a1,100
+    1992:	8522                	mv	a0,s0
+    1994:	c23e                	sw	a5,4(sp)
+    1996:	baffe0ef          	jal	544 <__hidden___udivsi3>
+    199a:	0542                	slli	a0,a0,0x10
+    199c:	45a9                	li	a1,10
+    199e:	8141                	srli	a0,a0,0x10
+    19a0:	bd1fe0ef          	jal	570 <__umodsi3>
+    19a4:	03050513          	addi	a0,a0,48
+    19a8:	c0a18823          	sb	a0,-1008(gp) # 2000000c <target_str.3>
 	str[1] = '0' + ((val / 10)  % 10);
-    198c:	45a9                	li	a1,10
-    198e:	8522                	mv	a0,s0
-    1990:	c1018493          	addi	s1,gp,-1008 # 2000000c <target_str.3>
-    1994:	bb1fe0ef          	jal	544 <__hidden___udivsi3>
-    1998:	0542                	slli	a0,a0,0x10
-    199a:	45a9                	li	a1,10
-    199c:	8141                	srli	a0,a0,0x10
-    199e:	bd3fe0ef          	jal	570 <__umodsi3>
-    19a2:	03050513          	addi	a0,a0,48
-    19a6:	00a480a3          	sb	a0,1(s1)
+    19ac:	45a9                	li	a1,10
+    19ae:	8522                	mv	a0,s0
+    19b0:	c1018493          	addi	s1,gp,-1008 # 2000000c <target_str.3>
+    19b4:	b91fe0ef          	jal	544 <__hidden___udivsi3>
+    19b8:	0542                	slli	a0,a0,0x10
+    19ba:	45a9                	li	a1,10
+    19bc:	8141                	srli	a0,a0,0x10
+    19be:	bb3fe0ef          	jal	570 <__umodsi3>
+    19c2:	03050513          	addi	a0,a0,48
+    19c6:	00a480a3          	sb	a0,1(s1)
 	str[2] = '0' +  (val % 10);	
-    19aa:	45a9                	li	a1,10
-    19ac:	8522                	mv	a0,s0
-    19ae:	bc3fe0ef          	jal	570 <__umodsi3>
-    19b2:	03050513          	addi	a0,a0,48
-    19b6:	00a48123          	sb	a0,2(s1)
+    19ca:	45a9                	li	a1,10
+    19cc:	8522                	mv	a0,s0
+    19ce:	ba3fe0ef          	jal	570 <__umodsi3>
+    19d2:	03050513          	addi	a0,a0,48
+    19d6:	00a48123          	sb	a0,2(s1)
 	str[0] = '0' + ((val / 100) % 10);
-    19ba:	4512                	lw	a0,4(sp)
-    19bc:	06400593          	li	a1,100
-    19c0:	b85fe0ef          	jal	544 <__hidden___udivsi3>
-    19c4:	0542                	slli	a0,a0,0x10
-    19c6:	45a9                	li	a1,10
-    19c8:	8141                	srli	a0,a0,0x10
-    19ca:	ba7fe0ef          	jal	570 <__umodsi3>
-    19ce:	03050513          	addi	a0,a0,48
-    19d2:	c0a18423          	sb	a0,-1016(gp) # 20000004 <actual_str.2>
+    19da:	4512                	lw	a0,4(sp)
+    19dc:	06400593          	li	a1,100
+    19e0:	b65fe0ef          	jal	544 <__hidden___udivsi3>
+    19e4:	0542                	slli	a0,a0,0x10
+    19e6:	45a9                	li	a1,10
+    19e8:	8141                	srli	a0,a0,0x10
+    19ea:	b87fe0ef          	jal	570 <__umodsi3>
+    19ee:	03050513          	addi	a0,a0,48
+    19f2:	c0a18423          	sb	a0,-1016(gp) # 20000004 <actual_str.2>
 	str[1] = '0' + ((val / 10)  % 10);
-    19d6:	4512                	lw	a0,4(sp)
-    19d8:	45a9                	li	a1,10
-    19da:	c0818413          	addi	s0,gp,-1016 # 20000004 <actual_str.2>
-    19de:	b67fe0ef          	jal	544 <__hidden___udivsi3>
-    19e2:	0542                	slli	a0,a0,0x10
-    19e4:	45a9                	li	a1,10
-    19e6:	8141                	srli	a0,a0,0x10
-    19e8:	b89fe0ef          	jal	570 <__umodsi3>
-    19ec:	03050513          	addi	a0,a0,48
-    19f0:	00a400a3          	sb	a0,1(s0)
+    19f6:	4512                	lw	a0,4(sp)
+    19f8:	45a9                	li	a1,10
+    19fa:	c0818413          	addi	s0,gp,-1016 # 20000004 <actual_str.2>
+    19fe:	b47fe0ef          	jal	544 <__hidden___udivsi3>
+    1a02:	0542                	slli	a0,a0,0x10
+    1a04:	45a9                	li	a1,10
+    1a06:	8141                	srli	a0,a0,0x10
+    1a08:	b69fe0ef          	jal	570 <__umodsi3>
+    1a0c:	03050513          	addi	a0,a0,48
+    1a10:	00a400a3          	sb	a0,1(s0)
 	str[2] = '0' +  (val % 10);	
-    19f4:	4512                	lw	a0,4(sp)
-    19f6:	45a9                	li	a1,10
-    19f8:	b79fe0ef          	jal	570 <__umodsi3>
-    19fc:	03050513          	addi	a0,a0,48
-    1a00:	00a40123          	sb	a0,2(s0)
+    1a14:	4512                	lw	a0,4(sp)
+    1a16:	45a9                	li	a1,10
+    1a18:	b59fe0ef          	jal	570 <__umodsi3>
+    1a1c:	03050513          	addi	a0,a0,48
+    1a20:	00a40123          	sb	a0,2(s0)
 	if(str == NULL || ptr == NULL) return;
-    1a04:	6509                	lui	a0,0x2
-    1a06:	d1018593          	addi	a1,gp,-752 # 2000010c <_oled_buffer+0x80>
-    1a0a:	e3050513          	addi	a0,a0,-464 # 1e30 <__clz_tab+0x130>
-    1a0e:	e1eff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1a24:	6509                	lui	a0,0x2
+    1a26:	d1018593          	addi	a1,gp,-752 # 2000010c <_oled_buffer+0x80>
+    1a2a:	e5050513          	addi	a0,a0,-432 # 1e50 <__clz_tab+0x130>
+    1a2e:	dfeff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
 	if(str == NULL || ptr == NULL) return;
-    1a12:	c1018513          	addi	a0,gp,-1008 # 2000000c <target_str.3>
-    1a16:	da818593          	addi	a1,gp,-600 # 200001a4 <_oled_buffer+0x118>
-    1a1a:	d96ff0ef          	jal	fb0 <font16x16_to_framebuffer.part.0>
+    1a32:	c1018513          	addi	a0,gp,-1008 # 2000000c <target_str.3>
+    1a36:	da818593          	addi	a1,gp,-600 # 200001a4 <_oled_buffer+0x118>
+    1a3a:	d76ff0ef          	jal	fb0 <font16x16_to_framebuffer.part.0>
 	if(str == NULL || ptr == NULL) return;
-    1a1e:	6509                	lui	a0,0x2
-    1a20:	f1018593          	addi	a1,gp,-240 # 2000030c <_oled_buffer+0x280>
-    1a24:	e4450513          	addi	a0,a0,-444 # 1e44 <__clz_tab+0x144>
-    1a28:	e04ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1a3e:	6509                	lui	a0,0x2
+    1a40:	f1018593          	addi	a1,gp,-240 # 2000030c <_oled_buffer+0x280>
+    1a44:	e6450513          	addi	a0,a0,-412 # 1e64 <__clz_tab+0x144>
+    1a48:	de4ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
 	if(str == NULL || ptr == NULL) return;
-    1a2c:	fa818593          	addi	a1,gp,-88 # 200003a4 <_oled_buffer+0x318>
-    1a30:	c0818513          	addi	a0,gp,-1016 # 20000004 <actual_str.2>
-    1a34:	d7cff0ef          	jal	fb0 <font16x16_to_framebuffer.part.0>
+    1a4c:	fa818593          	addi	a1,gp,-88 # 200003a4 <_oled_buffer+0x318>
+    1a50:	c0818513          	addi	a0,gp,-1016 # 20000004 <actual_str.2>
+    1a54:	d5cff0ef          	jal	fb0 <font16x16_to_framebuffer.part.0>
 void oled_draw_heater_state(const bool heater_on)
 {
 	static const uint8_t icon_on[8] =  { 0x3C, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C };
 	static const uint8_t icon_off[8] = { 0x3C, 0x66, 0xC3, 0x81, 0x81, 0xC3, 0x66, 0x3C };
 
 	const uint8_t *ptr = heater_on ? icon_on : icon_off;
-    1a38:	c7c1a703          	lw	a4,-900(gp) # 20000078 <g_system_state>
-    1a3c:	4789                	li	a5,2
-    1a3e:	00f71b63          	bne	a4,a5,1a54 <main+0x98e>
-    1a42:	c4418793          	addi	a5,gp,-956 # 20000040 <icon_on.1>
+    1a58:	c7c1a703          	lw	a4,-900(gp) # 20000078 <g_system_state>
+    1a5c:	4789                	li	a5,2
+    1a5e:	00f71b63          	bne	a4,a5,1a74 <main+0x9ae>
+    1a62:	c4418793          	addi	a5,gp,-956 # 20000040 <icon_on.1>
 	memcpy(&_oled_buffer[6][120], ptr, 8);	
-    1a46:	4394                	lw	a3,0(a5)
-    1a48:	43dc                	lw	a5,4(a5)
-    1a4a:	00818713          	addi	a4,gp,8 # 20000404 <__global_pointer$+0x8>
-    1a4e:	c314                	sw	a3,0(a4)
-    1a50:	c35c                	sw	a5,4(a4)
+    1a66:	4394                	lw	a3,0(a5)
+    1a68:	43dc                	lw	a5,4(a5)
+    1a6a:	00818713          	addi	a4,gp,8 # 20000404 <__global_pointer$+0x8>
+    1a6e:	c314                	sw	a3,0(a4)
+    1a70:	c35c                	sw	a5,4(a4)
 }
-    1a52:	b505                	j	1872 <main+0x7ac>
+    1a72:	b50d                	j	1894 <main+0x7ce>
 	const uint8_t *ptr = heater_on ? icon_on : icon_off;
-    1a54:	c3c18793          	addi	a5,gp,-964 # 20000038 <icon_off.0>
-    1a58:	b7fd                	j	1a46 <main+0x980>
+    1a74:	c3c18793          	addi	a5,gp,-964 # 20000038 <icon_off.0>
+    1a78:	b7fd                	j	1a66 <main+0x9a0>
 	append_formatted_2dp_string(batt_ma, &current_str[0]);
-    1a5a:	c681d503          	lhu	a0,-920(gp) # 20000064 <g_battery_current_ma>
-    1a5e:	c1818593          	addi	a1,gp,-1000 # 20000014 <current_str.5>
-    1a62:	e2ffe0ef          	jal	890 <append_formatted_2dp_string>
+    1a7a:	c681d503          	lhu	a0,-920(gp) # 20000064 <g_battery_current_ma>
+    1a7e:	c1818593          	addi	a1,gp,-1000 # 20000014 <current_str.5>
+    1a82:	e0ffe0ef          	jal	890 <append_formatted_2dp_string>
 	if(str == NULL || ptr == NULL) return;
-    1a66:	c1818513          	addi	a0,gp,-1000 # 20000014 <current_str.5>
-    1a6a:	c9018593          	addi	a1,gp,-880 # 2000008c <_oled_buffer>
-    1a6e:	dbeff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1a86:	c1818513          	addi	a0,gp,-1000 # 20000014 <current_str.5>
+    1a8a:	c9018593          	addi	a1,gp,-880 # 2000008c <_oled_buffer>
+    1a8e:	d9eff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
 	append_formatted_2dp_string(batt_mv, &voltage_str[0]);
-    1a72:	c6a1d503          	lhu	a0,-918(gp) # 20000066 <g_battery_voltage_mv>
-    1a76:	c2018593          	addi	a1,gp,-992 # 2000001c <voltage_str.4>
-    1a7a:	e17fe0ef          	jal	890 <append_formatted_2dp_string>
+    1a92:	c6a1d503          	lhu	a0,-918(gp) # 20000066 <g_battery_voltage_mv>
+    1a96:	c2018593          	addi	a1,gp,-992 # 2000001c <voltage_str.4>
+    1a9a:	df7fe0ef          	jal	890 <append_formatted_2dp_string>
 	if(str == NULL || ptr == NULL) return;
-    1a7e:	c2018513          	addi	a0,gp,-992 # 2000001c <voltage_str.4>
-    1a82:	ce218593          	addi	a1,gp,-798 # 200000de <_oled_buffer+0x52>
-    1a86:	da6ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
-    1a8a:	6509                	lui	a0,0x2
-    1a8c:	e2018593          	addi	a1,gp,-480 # 2000021c <_oled_buffer+0x190>
-    1a90:	e5850513          	addi	a0,a0,-424 # 1e58 <__clz_tab+0x158>
-    1a94:	d98ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
-    1a98:	6509                	lui	a0,0x2
-    1a9a:	e9818593          	addi	a1,gp,-360 # 20000294 <_oled_buffer+0x208>
-    1a9e:	e6850513          	addi	a0,a0,-408 # 1e68 <__clz_tab+0x168>
-    1aa2:	d8aff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1a9e:	c2018513          	addi	a0,gp,-992 # 2000001c <voltage_str.4>
+    1aa2:	ce218593          	addi	a1,gp,-798 # 200000de <_oled_buffer+0x52>
+    1aa6:	d86ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1aaa:	6509                	lui	a0,0x2
+    1aac:	e2018593          	addi	a1,gp,-480 # 2000021c <_oled_buffer+0x190>
+    1ab0:	e7850513          	addi	a0,a0,-392 # 1e78 <__clz_tab+0x158>
+    1ab4:	d78ff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
+    1ab8:	6509                	lui	a0,0x2
+    1aba:	e9818593          	addi	a1,gp,-360 # 20000294 <_oled_buffer+0x208>
+    1abe:	e8850513          	addi	a0,a0,-376 # 1e88 <__clz_tab+0x168>
+    1ac2:	d6aff0ef          	jal	102c <font8x8_to_framebuffer.part.0>
 					break;
-    1aa6:	b3f1                	j	1872 <main+0x7ac>
+    1ac6:	b3f9                	j	1894 <main+0x7ce>
 
-00001aa8 <SysTick_Handler>:
+00001ac8 <EXTI7_0_IRQHandler>:
 {
-    1aa8:	1151                	addi	sp,sp,-12
-    1aaa:	c03e                	sw	a5,0(sp)
-	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
-    1aac:	e000f7b7          	lui	a5,0xe000f
-{
-    1ab0:	c23a                	sw	a4,4(sp)
-	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
-    1ab2:	4b98                	lw	a4,16(a5)
-{
-    1ab4:	c436                	sw	a3,8(sp)
-	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
-    1ab6:	66b1                	lui	a3,0xc
-    1ab8:	b8068693          	addi	a3,a3,-1152 # bb80 <oled.c.c1a1d9e4+0x5d42>
-    1abc:	9736                	add	a4,a4,a3
-    1abe:	cb98                	sw	a4,16(a5)
-	SysTick->SR = 0x00000000;
-    1ac0:	0007a223          	sw	zero,4(a5) # e000f004 <_eusrstack+0xc000e804>
-	g_systick_millis++;
-    1ac4:	c781a783          	lw	a5,-904(gp) # 20000074 <g_systick_millis>
-}
-    1ac8:	46a2                	lw	a3,8(sp)
-	g_systick_millis++;
-    1aca:	0785                	addi	a5,a5,1
-    1acc:	c6f1ac23          	sw	a5,-904(gp) # 20000074 <g_systick_millis>
-}
-    1ad0:	4712                	lw	a4,4(sp)
-    1ad2:	4782                	lw	a5,0(sp)
-    1ad4:	0131                	addi	sp,sp,12
-    1ad6:	30200073          	mret
-
-00001ada <EXTI7_0_IRQHandler>:
-{
-    1ada:	1121                	addi	sp,sp,-24
-    1adc:	c03e                	sw	a5,0(sp)
+    1ac8:	1121                	addi	sp,sp,-24
+    1aca:	c03e                	sw	a5,0(sp)
 	if((EXTI->INTFR & 0x00000010) || (EXTI->INTFR & 0x00000020))
-    1ade:	400107b7          	lui	a5,0x40010
-    1ae2:	40078793          	addi	a5,a5,1024 # 40010400 <_eusrstack+0x2000fc00>
+    1acc:	400107b7          	lui	a5,0x40010
+    1ad0:	40078793          	addi	a5,a5,1024 # 40010400 <_eusrstack+0x2000fc00>
 {
-    1ae6:	c23a                	sw	a4,4(sp)
+    1ad4:	c23a                	sw	a4,4(sp)
 	if((EXTI->INTFR & 0x00000010) || (EXTI->INTFR & 0x00000020))
-    1ae8:	4bd8                	lw	a4,20(a5)
+    1ad6:	4bd8                	lw	a4,20(a5)
 {
-    1aea:	ca2a                	sw	a0,20(sp)
-    1aec:	c82e                	sw	a1,16(sp)
-    1aee:	c632                	sw	a2,12(sp)
-    1af0:	c436                	sw	a3,8(sp)
+    1ad8:	ca2a                	sw	a0,20(sp)
+    1ada:	c82e                	sw	a1,16(sp)
+    1adc:	c632                	sw	a2,12(sp)
+    1ade:	c436                	sw	a3,8(sp)
 	if((EXTI->INTFR & 0x00000010) || (EXTI->INTFR & 0x00000020))
-    1af2:	8b41                	andi	a4,a4,16
-    1af4:	e709                	bnez	a4,1afe <EXTI7_0_IRQHandler+0x24>
-    1af6:	4bdc                	lw	a5,20(a5)
-    1af8:	0207f793          	andi	a5,a5,32
-    1afc:	cfb5                	beqz	a5,1b78 <EXTI7_0_IRQHandler+0x9e>
+    1ae0:	8b41                	andi	a4,a4,16
+    1ae2:	e709                	bnez	a4,1aec <EXTI7_0_IRQHandler+0x24>
+    1ae4:	4bdc                	lw	a5,20(a5)
+    1ae6:	0207f793          	andi	a5,a5,32
+    1aea:	cfb5                	beqz	a5,1b66 <EXTI7_0_IRQHandler+0x9e>
 		if(EXTI->INTFR & 0x10) EXTI->INTFR = 0x10;
-    1afe:	40010737          	lui	a4,0x40010
+    1aec:	40010737          	lui	a4,0x40010
 		uint32_t portc_read = GPIOC->INDR;
-    1b02:	400117b7          	lui	a5,0x40011
+    1af0:	400117b7          	lui	a5,0x40011
 		if(EXTI->INTFR & 0x10) EXTI->INTFR = 0x10;
-    1b06:	40070713          	addi	a4,a4,1024 # 40010400 <_eusrstack+0x2000fc00>
+    1af4:	40070713          	addi	a4,a4,1024 # 40010400 <_eusrstack+0x2000fc00>
 		uint32_t portc_read = GPIOC->INDR;
-    1b0a:	479c                	lw	a5,8(a5)
+    1af8:	479c                	lw	a5,8(a5)
 		if(EXTI->INTFR & 0x10) EXTI->INTFR = 0x10;
-    1b0c:	4b54                	lw	a3,20(a4)
-    1b0e:	8ac1                	andi	a3,a3,16
-    1b10:	c299                	beqz	a3,1b16 <EXTI7_0_IRQHandler+0x3c>
-    1b12:	46c1                	li	a3,16
-    1b14:	cb54                	sw	a3,20(a4)
+    1afa:	4b54                	lw	a3,20(a4)
+    1afc:	8ac1                	andi	a3,a3,16
+    1afe:	c299                	beqz	a3,1b04 <EXTI7_0_IRQHandler+0x3c>
+    1b00:	46c1                	li	a3,16
+    1b02:	cb54                	sw	a3,20(a4)
 		if(EXTI->INTFR & 0x20) EXTI->INTFR = 0x20;
-    1b16:	4b54                	lw	a3,20(a4)
-    1b18:	0206f693          	andi	a3,a3,32
-    1b1c:	c681                	beqz	a3,1b24 <EXTI7_0_IRQHandler+0x4a>
-    1b1e:	02000693          	li	a3,32
-    1b22:	cb54                	sw	a3,20(a4)
+    1b04:	4b54                	lw	a3,20(a4)
+    1b06:	0206f693          	andi	a3,a3,32
+    1b0a:	c681                	beqz	a3,1b12 <EXTI7_0_IRQHandler+0x4a>
+    1b0c:	02000693          	li	a3,32
+    1b10:	cb54                	sw	a3,20(a4)
 		int8_t step = rotenc_table[ (rotenc_prev_bitmask << 2) | rotenc_curr_bitmask ];
-    1b24:	c0418683          	lb	a3,-1020(gp) # 20000000 <rotenc_prev_bitmask.1>
+    1b12:	c0418683          	lb	a3,-1020(gp) # 20000000 <rotenc_prev_bitmask.1>
 		       int8_t rotenc_curr_bitmask = (((portc_read >> 4) & 1) << 1) | ((portc_read >> 5) & 1);
-    1b28:	0037d713          	srli	a4,a5,0x3
-    1b2c:	8395                	srli	a5,a5,0x5
-    1b2e:	8b09                	andi	a4,a4,2
-    1b30:	8b85                	andi	a5,a5,1
-    1b32:	00f76633          	or	a2,a4,a5
+    1b16:	0037d713          	srli	a4,a5,0x3
+    1b1a:	8395                	srli	a5,a5,0x5
+    1b1c:	8b09                	andi	a4,a4,2
+    1b1e:	8b85                	andi	a5,a5,1
+    1b20:	00f76633          	or	a2,a4,a5
 		int8_t step = rotenc_table[ (rotenc_prev_bitmask << 2) | rotenc_curr_bitmask ];
-    1b36:	068a                	slli	a3,a3,0x2
-    1b38:	6789                	lui	a5,0x2
-    1b3a:	8ed1                	or	a3,a3,a2
-    1b3c:	25478793          	addi	a5,a5,596 # 2254 <rotenc_table>
-    1b40:	97b6                	add	a5,a5,a3
+    1b24:	068a                	slli	a3,a3,0x2
+    1b26:	6789                	lui	a5,0x2
+    1b28:	8ed1                	or	a3,a3,a2
+    1b2a:	27478793          	addi	a5,a5,628 # 2274 <rotenc_table>
+    1b2e:	97b6                	add	a5,a5,a3
 		       int8_t rotenc_curr_bitmask = (((portc_read >> 4) & 1) << 1) | ((portc_read >> 5) & 1);
-    1b42:	8732                	mv	a4,a2
+    1b30:	8732                	mv	a4,a2
 		accumulator += step;
-    1b44:	c4c1c683          	lbu	a3,-948(gp) # 20000048 <accumulator.0>
-    1b48:	0007c783          	lbu	a5,0(a5)
+    1b32:	c4c1c683          	lbu	a3,-948(gp) # 20000048 <accumulator.0>
+    1b36:	0007c783          	lbu	a5,0(a5)
 		     if(accumulator >=  4) { g_rotary_encoder_clicks++; accumulator -= 4; }
-    1b4c:	450d                	li	a0,3
+    1b3a:	450d                	li	a0,3
 		accumulator += step;
-    1b4e:	97b6                	add	a5,a5,a3
-    1b50:	0ff7f693          	zext.b	a3,a5
-    1b54:	07e2                	slli	a5,a5,0x18
-    1b56:	87e1                	srai	a5,a5,0x18
-    1b58:	c4f18623          	sb	a5,-948(gp) # 20000048 <accumulator.0>
+    1b3c:	97b6                	add	a5,a5,a3
+    1b3e:	0ff7f693          	zext.b	a3,a5
+    1b42:	07e2                	slli	a5,a5,0x18
+    1b44:	87e1                	srai	a5,a5,0x18
+    1b46:	c4f18623          	sb	a5,-948(gp) # 20000048 <accumulator.0>
 		     if(accumulator >=  4) { g_rotary_encoder_clicks++; accumulator -= 4; }
-    1b5c:	02f55763          	bge	a0,a5,1b8a <EXTI7_0_IRQHandler+0xb0>
-    1b60:	c721d783          	lhu	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
-    1b64:	16f1                	addi	a3,a3,-4
-    1b66:	0785                	addi	a5,a5,1
-    1b68:	07c2                	slli	a5,a5,0x10
-    1b6a:	87c1                	srai	a5,a5,0x10
-    1b6c:	c6f19923          	sh	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
+    1b4a:	02f55763          	bge	a0,a5,1b78 <EXTI7_0_IRQHandler+0xb0>
+    1b4e:	c721d783          	lhu	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
+    1b52:	16f1                	addi	a3,a3,-4
+    1b54:	0785                	addi	a5,a5,1
+    1b56:	07c2                	slli	a5,a5,0x10
+    1b58:	87c1                	srai	a5,a5,0x10
+    1b5a:	c6f19923          	sh	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
 		else if(accumulator <= -4) { g_rotary_encoder_clicks--; accumulator += 4; }
-    1b70:	c4d18623          	sb	a3,-948(gp) # 20000048 <accumulator.0>
+    1b5e:	c4d18623          	sb	a3,-948(gp) # 20000048 <accumulator.0>
 		rotenc_prev_bitmask = rotenc_curr_bitmask;
-    1b74:	c0e18223          	sb	a4,-1020(gp) # 20000000 <rotenc_prev_bitmask.1>
+    1b62:	c0e18223          	sb	a4,-1020(gp) # 20000000 <rotenc_prev_bitmask.1>
 }
-    1b78:	4552                	lw	a0,20(sp)
-    1b7a:	45c2                	lw	a1,16(sp)
-    1b7c:	4632                	lw	a2,12(sp)
-    1b7e:	46a2                	lw	a3,8(sp)
-    1b80:	4712                	lw	a4,4(sp)
-    1b82:	4782                	lw	a5,0(sp)
-    1b84:	0161                	addi	sp,sp,24
-    1b86:	30200073          	mret
+    1b66:	4552                	lw	a0,20(sp)
+    1b68:	45c2                	lw	a1,16(sp)
+    1b6a:	4632                	lw	a2,12(sp)
+    1b6c:	46a2                	lw	a3,8(sp)
+    1b6e:	4712                	lw	a4,4(sp)
+    1b70:	4782                	lw	a5,0(sp)
+    1b72:	0161                	addi	sp,sp,24
+    1b74:	30200073          	mret
 		else if(accumulator <= -4) { g_rotary_encoder_clicks--; accumulator += 4; }
-    1b8a:	5575                	li	a0,-3
-    1b8c:	fea7d4e3          	bge	a5,a0,1b74 <EXTI7_0_IRQHandler+0x9a>
-    1b90:	c721d783          	lhu	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
-    1b94:	0691                	addi	a3,a3,4
-    1b96:	17fd                	addi	a5,a5,-1
-    1b98:	07c2                	slli	a5,a5,0x10
-    1b9a:	87c1                	srai	a5,a5,0x10
-    1b9c:	c6f19923          	sh	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
-    1ba0:	bfc1                	j	1b70 <EXTI7_0_IRQHandler+0x96>
+    1b78:	5575                	li	a0,-3
+    1b7a:	fea7d4e3          	bge	a5,a0,1b62 <EXTI7_0_IRQHandler+0x9a>
+    1b7e:	c721d783          	lhu	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
+    1b82:	0691                	addi	a3,a3,4
+    1b84:	17fd                	addi	a5,a5,-1
+    1b86:	07c2                	slli	a5,a5,0x10
+    1b88:	87c1                	srai	a5,a5,0x10
+    1b8a:	c6f19923          	sh	a5,-910(gp) # 2000006e <g_rotary_encoder_clicks>
+    1b8e:	bfc1                	j	1b5e <EXTI7_0_IRQHandler+0x96>
+
+00001b90 <SysTick_Handler>:
+{
+    1b90:	1151                	addi	sp,sp,-12
+    1b92:	c03e                	sw	a5,0(sp)
+	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
+    1b94:	e000f7b7          	lui	a5,0xe000f
+{
+    1b98:	c23a                	sw	a4,4(sp)
+	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
+    1b9a:	4b98                	lw	a4,16(a5)
+{
+    1b9c:	c436                	sw	a3,8(sp)
+	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
+    1b9e:	66b1                	lui	a3,0xc
+    1ba0:	b8068693          	addi	a3,a3,-1152 # bb80 <sysinit.c.f98e60a8+0x56eb>
+    1ba4:	9736                	add	a4,a4,a3
+    1ba6:	cb98                	sw	a4,16(a5)
+	SysTick->SR = 0x00000000;
+    1ba8:	0007a223          	sw	zero,4(a5) # e000f004 <_eusrstack+0xc000e804>
+	_systick_millis++;
+    1bac:	c781a783          	lw	a5,-904(gp) # 20000074 <_systick_millis>
+}
+    1bb0:	46a2                	lw	a3,8(sp)
+	_systick_millis++;
+    1bb2:	0785                	addi	a5,a5,1
+    1bb4:	c6f1ac23          	sw	a5,-904(gp) # 20000074 <_systick_millis>
+}
+    1bb8:	4712                	lw	a4,4(sp)
+    1bba:	4782                	lw	a5,0(sp)
+    1bbc:	0131                	addi	sp,sp,12
+    1bbe:	30200073          	mret
 	...
 
-00001ba4 <thermistor_pair>:
-    1ba4:	0000 03f1 0004 03ee 0008 03ea 000c 03e5     ................
-    1bb4:	0010 03e0 0014 03da 0018 03d3 001c 03cb     ................
-    1bc4:	0020 03c2 0024 03b7 0028 03ac 002c 039f      ...$...(...,...
-    1bd4:	0030 0390 0034 0380 0038 036f 003c 035c     0...4...8.o.<.\.
-    1be4:	0040 0348 0044 0333 0048 031c 004c 0304     @.H.D.3.H...L...
-    1bf4:	0050 02eb 0054 02d1 0058 02b6 005c 029b     P...T...X...\...
-    1c04:	0060 027f 0064 0263 0068 0247 006c 022c     `...d.c.h.G.l.,.
-    1c14:	0070 0210 0074 01f5 0078 01db 007c 01c1     p...t...x...|...
-    1c24:	0080 01a8 0084 0190 0088 0179 008c 0163     ..........y...c.
-    1c34:	0090 014f 0094 013b 0098 0128 009c 0116     ..O...;...(.....
-    1c44:	00a0 0105 00a4 00f5 00a8 00e6 00ac 00d8     ................
-    1c54:	00b0 00cb 00b4 00bf 00b8 00b3 00bc 00a8     ................
-    1c64:	00c0 009e 00c4 0095 00c8 008c 00cc 0084     ................
-    1c74:	00d0 007c 00d4 0075 00d8 006e 00dc 0068     ..|...u...n...h.
-    1c84:	00e0 0062 00e4 005c 00e8 0057 00ec 0053     ..b...\...W...S.
-    1c94:	00f0 004e 00f4 004a 00f8 0046 00fc 0042     ..N...J...F...B.
-    1ca4:	0100 003f 0104 003c 0108 0039 010c 0036     ..?...<...9...6.
-    1cb4:	0110 0033 0114 0031 0118 002e 011c 002c     ..3...1.......,.
-    1cc4:	0120 002a 0124 0028 0128 0026 012c 0025      .*.$.(.(.&.,.%.
-    1cd4:	4240 000f 0000 0000 003c 0001 07d0 0000     @B......<.......
-    1ce4:	d5ae a8f0 d33f 4000 148d 0020 c8a1 12da     ....?..@.. .....
-    1cf4:	7f81 22d9 40db a6a4 00af 0000               ...".@......
+00001bc4 <thermistor_pair>:
+    1bc4:	03f10000 03ee0004 03ea0008 03e5000c     ................
+    1bd4:	03e00010 03da0014 03d30018 03cb001c     ................
+    1be4:	03c20020 03b70024 03ac0028 039f002c      ...$...(...,...
+    1bf4:	03900030 03800034 036f0038 035c003c     0...4...8.o.<.\.
+    1c04:	03480040 03330044 031c0048 0304004c     @.H.D.3.H...L...
+    1c14:	02eb0050 02d10054 02b60058 029b005c     P...T...X...\...
+    1c24:	027f0060 02630064 02470068 022c006c     `...d.c.h.G.l.,.
+    1c34:	02100070 01f50074 01db0078 01c1007c     p...t...x...|...
+    1c44:	01a80080 01900084 01790088 0163008c     ..........y...c.
+    1c54:	014f0090 013b0094 01280098 0116009c     ..O...;...(.....
+    1c64:	010500a0 00f500a4 00e600a8 00d800ac     ................
+    1c74:	00cb00b0 00bf00b4 00b300b8 00a800bc     ................
+    1c84:	009e00c0 009500c4 008c00c8 008400cc     ................
+    1c94:	007c00d0 007500d4 006e00d8 006800dc     ..|...u...n...h.
+    1ca4:	006200e0 005c00e4 005700e8 005300ec     ..b...\...W...S.
+    1cb4:	004e00f0 004a00f4 004600f8 004200fc     ..N...J...F...B.
+    1cc4:	003f0100 003c0104 00390108 0036010c     ..?...<...9...6.
+    1cd4:	00330110 00310114 002e0118 002c011c     ..3...1.......,.
+    1ce4:	002a0120 00280124 00260128 0025012c      .*.$.(.(.&.,.%.
+    1cf4:	000f4240 00000000 0001003c 000007d0     @B......<.......
+    1d04:	a8f0d5ae 4000d33f 0020148d 12dac8a1     ....?..@.. .....
+    1d14:	22d97f81 a6a440db 000000af              ...".@......
 
-00001d00 <__clz_tab>:
-    1d00:	0100 0202 0303 0303 0404 0404 0404 0404     ................
-    1d10:	0505 0505 0505 0505 0505 0505 0505 0505     ................
-    1d20:	0606 0606 0606 0606 0606 0606 0606 0606     ................
-    1d30:	0606 0606 0606 0606 0606 0606 0606 0606     ................
-    1d40:	0707 0707 0707 0707 0707 0707 0707 0707     ................
-    1d50:	0707 0707 0707 0707 0707 0707 0707 0707     ................
-    1d60:	0707 0707 0707 0707 0707 0707 0707 0707     ................
-    1d70:	0707 0707 0707 0707 0707 0707 0707 0707     ................
-    1d80:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1d90:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1da0:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1db0:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1dc0:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1dd0:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1de0:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1df0:	0808 0808 0808 0808 0808 0808 0808 0808     ................
-    1e00:	4f42 544f 4e49 0047 4354 4852 414d 0047     BOOTING.TCRHMAG.
-    1e10:	3156 322e 0000 0000 666f 7366 7465 203a     V1.2....offset: 
-    1e20:	6425 6709 6961 3a6e 2520 0a64 0000 0000     %d.gain: %d.....
-    1e30:	7e7e 7e7e 5420 5241 4547 2054 7e7e 7e7e     ~~~~ TARGET ~~~~
-    1e40:	0000 0000 7e7e 7e7e 4120 5443 4155 204c     ....~~~~ ACTUAL 
-    1e50:	7e7e 7e7e 0000 0000 5953 5453 4d45 4520     ~~~~....SYSTEM E
-    1e60:	5252 524f 0000 0000 4153 4546 5954 4c20     RROR....SAFETY L
-    1e70:	434f 4f4b 5455 0000                         OCKOUT..
+00001d20 <__clz_tab>:
+    1d20:	02020100 03030303 04040404 04040404     ................
+    1d30:	05050505 05050505 05050505 05050505     ................
+    1d40:	06060606 06060606 06060606 06060606     ................
+    1d50:	06060606 06060606 06060606 06060606     ................
+    1d60:	07070707 07070707 07070707 07070707     ................
+    1d70:	07070707 07070707 07070707 07070707     ................
+    1d80:	07070707 07070707 07070707 07070707     ................
+    1d90:	07070707 07070707 07070707 07070707     ................
+    1da0:	08080808 08080808 08080808 08080808     ................
+    1db0:	08080808 08080808 08080808 08080808     ................
+    1dc0:	08080808 08080808 08080808 08080808     ................
+    1dd0:	08080808 08080808 08080808 08080808     ................
+    1de0:	08080808 08080808 08080808 08080808     ................
+    1df0:	08080808 08080808 08080808 08080808     ................
+    1e00:	08080808 08080808 08080808 08080808     ................
+    1e10:	08080808 08080808 08080808 08080808     ................
+    1e20:	544f4f42 00474e49 48524354 0047414d     BOOTING.TCRHMAG.
+    1e30:	322e3156 00000000 7366666f 203a7465     V1.2....offset: 
+    1e40:	67096425 3a6e6961 0a642520 00000000     %d.gain: %d.....
+    1e50:	7e7e7e7e 52415420 20544547 7e7e7e7e     ~~~~ TARGET ~~~~
+    1e60:	00000000 7e7e7e7e 54434120 204c4155     ....~~~~ ACTUAL 
+    1e70:	7e7e7e7e 00000000 54535953 45204d45     ~~~~....SYSTEM E
+    1e80:	524f5252 00000000 45464153 4c205954     RROR....SAFETY L
+    1e90:	4f4b434f 00005455                       OCKOUT..
 
-00001e78 <font8x8_data>:
+00001e98 <font8x8_data>:
 	...
-    1e80:	6646 1830 660c 0062 0000 6060 0000 0000     Ff0..fb...``....
-    1e90:	7f3e 5971 7f4d 003e 4240 7f7f 4040 0000     >.qYM.>.@B..@@..
-    1ea0:	7362 4959 666f 0000 6322 4949 367f 0000     bsYIof.."cII.6..
-    1eb0:	1c18 5316 7f7f 0050 6727 4545 397d 0000     ...S..P.'gEE}9..
-    1ec0:	7e3c 494b 3079 0000 0303 7971 070f 0000     <~KIy0....qy....
-    1ed0:	7f36 4949 367f 0000 4f06 6949 1e3f 0000     6.II.6...OIi?...
-    1ee0:	0000 6666 0000 0000 8000 66e6 0000 0000     ..ff.......f....
-    1ef0:	1c08 6336 0041 0000 2424 2424 2424 0000     ..6cA...$$$$$$..
-    1f00:	4100 3663 081c 0000 0302 5951 060f 0000     .Ac6......QY....
-    1f10:	7f3e 5d41 1f5d 001e 7e7c 1313 7c7e 0000     >.A]]...|~..~|..
-    1f20:	7f41 497f 7f49 0036 3e1c 4163 6341 0022     A..II.6..>cAAc".
-    1f30:	7f41 417f 3e63 001c 7f41 497f 415d 0063     A..Ac>..A..I]Ac.
-    1f40:	7f41 497f 011d 0003 3e1c 4163 7351 0072     A..I.....>cAQsr.
-    1f50:	7f7f 0808 7f7f 0000 4100 7f7f 0041 0000     .........A..A...
-    1f60:	7030 4140 3f7f 0001 7f41 087f 771c 0063     0p@A.?..A....wc.
-    1f70:	7f41 417f 6040 0070 7f7f 1c0e 7f0e 007f     A..A@`p.........
-    1f80:	7f7f 0c06 7f18 007f 3e1c 4163 3e63 001c     .........>cAc>..
-    1f90:	7f41 497f 0f09 0006 3f1e 7121 5e7f 0000     A..I.....?!q.^..
-    1fa0:	7f41 097f 7f19 0066 6f26 594d 3273 0000     A.....f.&oMYs2..
-    1fb0:	4103 7f7f 0341 0000 7f7f 4040 7f7f 0000     .A..A.....@@....
-    1fc0:	3f1f 6060 1f3f 0000 7f7f 1830 7f30 007f     .?``?.....0.0...
-    1fd0:	6743 183c 673c 0043 4f07 7878 074f 0000     Cg<.<gC..OxxO...
-    1fe0:	6347 5971 674d 0073 1818 1818 1818 1818     GcqYMgs.........
+    1ea0:	18306646 0062660c 60600000 00000000     Ff0..fb...``....
+    1eb0:	59717f3e 003e7f4d 7f7f4240 00004040     >.qYM.>.@B..@@..
+    1ec0:	49597362 0000666f 49496322 0000367f     bsYIof.."cII.6..
+    1ed0:	53161c18 00507f7f 45456727 0000397d     ...S..P.'gEE}9..
+    1ee0:	494b7e3c 00003079 79710303 0000070f     <~KIy0....qy....
+    1ef0:	49497f36 0000367f 69494f06 00001e3f     6.II.6...OIi?...
+    1f00:	66660000 00000000 66e68000 00000000     ..ff.......f....
+    1f10:	63361c08 00000041 24242424 00002424     ..6cA...$$$$$$..
+    1f20:	36634100 0000081c 59510302 0000060f     .Ac6......QY....
+    1f30:	5d417f3e 001e1f5d 13137e7c 00007c7e     >.A]]...|~..~|..
+    1f40:	497f7f41 00367f49 41633e1c 00226341     A..II.6..>cAAc".
+    1f50:	417f7f41 001c3e63 497f7f41 0063415d     A..Ac>..A..I]Ac.
+    1f60:	497f7f41 0003011d 41633e1c 00727351     A..I.....>cAQsr.
+    1f70:	08087f7f 00007f7f 7f7f4100 00000041     .........A..A...
+    1f80:	41407030 00013f7f 087f7f41 0063771c     0p@A.?..A....wc.
+    1f90:	417f7f41 00706040 1c0e7f7f 007f7f0e     A..A@`p.........
+    1fa0:	0c067f7f 007f7f18 41633e1c 001c3e63     .........>cAc>..
+    1fb0:	497f7f41 00060f09 71213f1e 00005e7f     A..I.....?!q.^..
+    1fc0:	097f7f41 00667f19 594d6f26 00003273     A.....f.&oMYs2..
+    1fd0:	7f7f4103 00000341 40407f7f 00007f7f     .A..A.....@@....
+    1fe0:	60603f1f 00001f3f 18307f7f 007f7f30     .?``?.....0.0...
+    1ff0:	183c6743 0043673c 78784f07 0000074f     Cg<.<gC..OxxO...
+    2000:	59716347 0073674d 18181818 18181818     GcqYMgs.........
 
-00001ff0 <font8x8_lut>:
-    1ff0:	2520 302e 3231 3433 3635 3837 3a39 3c3b      %.0123456789:;<
-    2000:	3e3d 403f 4241 4443 4645 4847 4a49 4c4b     =>?@ABCDEFGHIJKL
-    2010:	4e4d 504f 5251 5453 5655 5857 5a59 007e     MNOPQRSTUVWXYZ~.
+00002010 <font8x8_lut>:
+    2010:	302e2520 34333231 38373635 3c3b3a39      %.0123456789:;<
+    2020:	403f3e3d 44434241 48474645 4c4b4a49     =>?@ABCDEFGHIJKL
+    2030:	504f4e4d 54535251 58575655 007e5a59     MNOPQRSTUVWXYZ~.
 
-00002020 <font16x16_data>:
+00002040 <font16x16_data>:
 	...
-    204c:	0000 1800 1800 0000 0000 0000 0000 0000     ................
+    206c:	18000000 00001800 00000000 00000000     ................
 	...
-    2068:	1ff0 3ff8 3018 2008 2008 2008 3018 3ff8     ...?.0. . . .0.?
-    2078:	1ff0 0000 0000 0000 0000 0000 0000 0000     ................
-    2088:	0000 0000 0000 3ff8 3ff8 0000 0000 0000     .......?.?......
+    2088:	3ff81ff0 20083018 20082008 3ff83018     ...?.0. . . .0.?
+    2098:	00001ff0 00000000 00000000 00000000     ................
+    20a8:	00000000 3ff80000 00003ff8 00000000     .......?.?......
 	...
-    20a8:	3e08 3f08 2108 2108 2108 2108 2108 21f8     .>.?.!.!.!.!.!.!
-    20b8:	20f0 0000 0000 0000 0000 0000 0000 0000     . ..............
-    20c8:	2008 2108 2108 2108 2108 2108 2108 3ff8     . .!.!.!.!.!.!.?
-    20d8:	1ff0 0000 0000 0000 0000 0000 0000 0000     ................
-    20e8:	01f8 03f8 0200 0200 0200 3f80 3f80 0200     ...........?.?..
-    20f8:	0200 0000 0000 0000 0000 0000 0000 0000     ................
-    2108:	21f8 21f8 2108 2108 2108 2108 2108 3f08     .!.!.!.!.!.!.!.?
-    2118:	1e08 0000 0000 0000 0000 0000 0000 0000     ................
-    2128:	1ff0 3ff8 3188 2088 2088 2088 2088 3188     ...?.1. . . . .1
-    2138:	1f88 1f00 0000 0000 0000 0000 0000 0000     ................
-    2148:	0008 0008 3008 3c08 0f08 03c8 00f8 0038     .....0.<......8.
-    2158:	0008 0000 0000 0000 0000 0000 0000 0000     ................
-    2168:	1ef0 3ff8 2108 2108 2108 2108 2108 3ff8     ...?.!.!.!.!.!.?
-    2178:	1ff0 0000 0000 0000 0000 0000 0000 0000     ................
-    2188:	01f0 21f8 2318 2208 2208 2208 2208 2318     ...!.#.".".".".#
-    2198:	3ff8 1ff0 0000 0000 0000 0000 0000 0000     .?..............
-    21a8:	1ff0 3ff8 2008 2008 2008 2008 2008 2008     ...?. . . . . . 
-    21b8:	2008 0000 0000 0000 0000 0000 0000 0000     . ..............
-    21c8:	3ff0 3ff8 0108 0108 0108 0108 0108 0108     .?.?............
-    21d8:	0108 0000 0000 0000 0000 0000 0000 0000     ................
-    21e8:	0000 0038 007c 0044 0044 0044 007c 0038     ..8.|.D.D.D.|.8.
+    20c8:	3f083e08 21082108 21082108 21f82108     .>.?.!.!.!.!.!.!
+    20d8:	000020f0 00000000 00000000 00000000     . ..............
+    20e8:	21082008 21082108 21082108 3ff82108     . .!.!.!.!.!.!.?
+    20f8:	00001ff0 00000000 00000000 00000000     ................
+    2108:	03f801f8 02000200 3f800200 02003f80     ...........?.?..
+    2118:	00000200 00000000 00000000 00000000     ................
+    2128:	21f821f8 21082108 21082108 3f082108     .!.!.!.!.!.!.!.?
+    2138:	00001e08 00000000 00000000 00000000     ................
+    2148:	3ff81ff0 20883188 20882088 31882088     ...?.1. . . . .1
+    2158:	1f001f88 00000000 00000000 00000000     ................
+    2168:	00080008 3c083008 03c80f08 003800f8     .....0.<......8.
+    2178:	00000008 00000000 00000000 00000000     ................
+    2188:	3ff81ef0 21082108 21082108 3ff82108     ...?.!.!.!.!.!.?
+    2198:	00001ff0 00000000 00000000 00000000     ................
+    21a8:	21f801f0 22082318 22082208 23182208     ...!.#.".".".".#
+    21b8:	1ff03ff8 00000000 00000000 00000000     .?..............
+    21c8:	3ff81ff0 20082008 20082008 20082008     ...?. . . . . . 
+    21d8:	00002008 00000000 00000000 00000000     . ..............
+    21e8:	3ff83ff0 01080108 01080108 01080108     .?.?............
+    21f8:	00000108 00000000 00000000 00000000     ................
+    2208:	00380000 0044007c 00440044 0038007c     ..8.|.D.D.D.|.8.
 	...
-    220c:	7ffe 7ffe 6002 6002 6002 0000 0000 0000     .....`.`.`......
+    222c:	7ffe7ffe 60026002 00006002 00000000     .....`.`.`......
 	...
-    222c:	6002 6002 7ffe 7ffe 0000 0000 0000 0000     .`.`............
-    223c:	0000 0000                                   ....
+    224c:	60026002 7ffe7ffe 00000000 00000000     .`.`............
+    225c:	00000000                                ....
 
-00002240 <font16_16_lut>:
-    2240:	2e20 3130 3332 3534 3736 3938 4643 5b60      .0123456789CF`[
-    2250:	005d 0000                                   ]...
+00002260 <font16_16_lut>:
+    2260:	31302e20 35343332 39383736 5b604643      .0123456789CF`[
+    2270:	0000005d                                ]...
 
-00002254 <rotenc_table>:
-    2254:	ff00 0001 0001 ff00 00ff 0100 0100 00ff     ................
+00002274 <rotenc_table>:
+    2274:	0001ff00 ff000001 010000ff 00ff0100     ................
 
-00002264 <GPIO_PORT_MAP>:
-    2264:	0800 4001 0000 0000 1000 4001 1400 4001     ...@.......@...@
+00002284 <GPIO_PORT_MAP>:
+    2284:	40010800 00000000 40011000 40011400     ...@.......@...@

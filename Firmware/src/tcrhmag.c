@@ -23,28 +23,31 @@
 * PD7    OPAMP_CH2+
 *
 * ---- TODO ----
+* - Scheduler Library
 * - Add UI for PID adjust
 * - Store the previous Target temp in flash
-* - Emergency error screen
 *
-* Ver 1.4    20 May 2026
+* Ver 1.5    29 May 2026
 * (c) ADBeta 2026
 ******************************************************************************/
-#include "ch32fun.h"
+#include <ch32fun.h>
 #include "thermistor_lut.h"
-#include "lib_gpioctrl.h"
-#include "lib_i2c.h"
-#include "lib_pid.h"
+#include "sysinit.h"
 #include "battery.h"
 #include "oled.h"
 
+#include "lib_gpioctrl.h"
+#include "lib_i2c.h"
+#include "lib_pid.h"
 
 #include <stdio.h>
 #include <stdbool.h>
 
 
+
 /*** Macro Functons **********************************************************/
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
+
 
 
 /*** Pin Definitions *********************************************************/
@@ -106,8 +109,8 @@ typedef enum {
 
 
 /*** Global Variables ********************************************************/
-// 1ms SysTick counter variable
-volatile uint32_t g_systick_millis         = 0;
+// External 1ms SysTick counter variable
+volatile uint32_t _systick_millis         = 0;
 
 
 /// System Status and Settings ////////////////////////////////////////////////
@@ -126,7 +129,6 @@ static uint8_t             g_battery_percentage                  = 0;
 static int16_t             g_target_temperature                  = SETTING_TEMPERATURE_MINIMUM;
 static int16_t             g_actual_temperature                  = 0;
 
-
 /// @brief Gray Code Lookup Table for the Rotary Encoder
 static const int8_t rotenc_table[16] = 
 {
@@ -136,20 +138,36 @@ static const int8_t rotenc_table[16] =
 	 0,   1,  -1,   0
 };
 
+/// @brief Base Settings for the PID Controller for the Heater
+static pid_ctrl_t heater_pid =
+{
+	.Kp        = 1000,
+	.Ki        = 5,
+	.Kd        = 5,
+	.scale     = 100,
+
+	.out_min   = 0,
+	.out_max   = 255
+};
+
+/// @brief I2C Device for the OLED
+static i2c_device_t i2c_oled = 
+{
+	.clkr = I2C_CLK_1MHZ,
+	.type = I2C_ADDR_7BIT,
+	.addr = 0x3C,
+	.regb = 1,
+	.tout = 2000,
+};
+
+
 
 
 /*** Function Declarations ***************************************************/
-/// @brief Initialise the SysTick interrupt to incriment every 1 millisecond
+/// @brief Initialises the EXTI7_0 Rotary Encoder IRQ
 /// @param None
 /// @return None
-static void systick_init(void);
-
-
-/// @brief SysTick IRQ
-/// @param none
-/// @return none
-__attribute__((interrupt))
-void SysTick_Handler(void);
+static void EXTI7_0_Init(void);
 
 
 /// @brief EXTI Pin Change Interrupt - Handles the Rotary Encoder stepping
@@ -157,28 +175,6 @@ void SysTick_Handler(void);
 /// @return None
 __attribute__((interrupt)) 
 void EXTI7_0_IRQHandler(void);
-
-
-/// @brief Initialises the watchdog with prescaler and reset value
-/// @param prescaler, Input CLK divider prescaler, 0x00 = 4x
-/// @param rst_val, value to reset when reached
-/// @return None
-static void iwdg_init(const uint8_t prescaler, const uint16_t rst_val);
-
-
-/// @brief Resets the watchdog timer
-/// @param None
-/// @return None
-__attribute__((always_inline))
-static inline void iwdg_feed(void);
-
-
-/// @breif Initialised TIM2 Channel 2 (PD3) and Channel 3 (PC0) to be 
-/// PWM Output, active LOW.
-/// Autoreload is set to 254, Capture mode is 0b111, PWM2.
-/// @param none
-/// @return none
-static void pwm_init(void);
 
 
 /// @breif Sets the Duty Cycle of the given PWM Channel. Max input is 255
@@ -196,20 +192,45 @@ static uint16_t thermistor_adc_to_temp(const uint16_t adc);
 
 
 
+
+
+
+
+
+
+typedef struct
+{
+	void (*task)(void);
+	uint32_t period_ms;
+	uint32_t last_ms;
+} scheduler_task_t;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*** Main ********************************************************************/
 int main(void)
 {
 	SystemInit();
 
-	/*** IO Initialisation *******************************/
 	// I2C Setup for the OLED
-	i2c_device_t i2c_oled = {
-		.clkr = I2C_CLK_1MHZ,
-		.type = I2C_ADDR_7BIT,
-		.addr = 0x3C,
-		.regb = 1,
-		.tout = 2000,
-	};
 	i2c_init(&i2c_oled);
 
 	// Initialise the OLED, then display the BOOTING Screen
@@ -244,24 +265,9 @@ int main(void)
 	gpio_set_opamp_inputs(GPIO_OPAMP_CH1_POS, GPIO_OPAMP_CH1_NEG);
 	opamp_calibrate();
 
+	// Initialise the Rotary Encoder IRQ
+	EXTI7_0_Init();
 
-	/*** Pin Change Interrupts (Rotary Encoder) **********/
-	// Enable AFIO and CH4 and CH5 on PORTC
-	RCC->APB2PCENR |= RCC_APB2Periph_AFIO;
-	AFIO->EXTICR    = AFIO_EXTICR_EXTI4_PC | AFIO_EXTICR_EXTI5_PC;
-	
-	// Enable IRQ on Channel 4 & 5, Rising or Falling Edge
-	EXTI->INTENR    = EXTI_INTENR_MR4 | EXTI_INTENR_MR5;
-	EXTI->RTENR     = EXTI_RTENR_TR4  | EXTI_RTENR_TR5;
-	EXTI->FTENR     = EXTI_FTENR_TR4  | EXTI_FTENR_TR5;
-
-	// Clear IRQ Flags before enabling for safety
-	EXTI->INTFR = 0x00000030;
-	// Enable the EXTI0-7 Interrupt Group in NVIC
-	NVIC_EnableIRQ(EXTI7_0_IRQn);
-
-
-	/*** Timers and Watchdog *****************************/
 	// Initialise the SysTick to get millis() funcitonality
 	systick_init();
 
@@ -269,27 +275,24 @@ int main(void)
 	iwdg_init(0x04, 0x9B);
 
 
+
+
+
+
 	// TODO:
 	// Get user settings from flash
-
-	/*** PID Controller **********************************/
-	// Declare and initialise a PID Controller Struct for the Heater
-	pid_ctrl_t heater_pid =
-	{
-		.Kp        = 1000,
-		.Ki        = 5,
-		.Kd        = 5,
-		.scale     = 100,
-
-		.out_min   = 0,
-		.out_max   = 255
-	};
 	pid_init(&heater_pid);
+
+
+
 
 	// TODO: Change via UI
 	g_system_state    = SYSTEM_STATE_HEATER_DISABLED;
 	g_user_input_mode = UI_MODE_CHANGE_TEMP;
 	
+
+
+
 
 	/*** Timing Variables *******************************/
 	uint32_t millis_prev_led_update        = 0;
@@ -302,7 +305,7 @@ int main(void)
 	while(true)
 	{
 		/// LED Update ////////////////////////////////////////////////////////
-		if(g_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
+		if(_systick_millis - millis_prev_led_update > MILLIS_LED_UPDATE)
 		{
 			static int16_t led_val   = 0;
 			static int8_t  led_inc   = 5;
@@ -339,12 +342,12 @@ int main(void)
 			// Set the LED PWM
 			pwm_set_duty(PWM_CHANNEL_LED, (uint8_t)led_val);
 
-			millis_prev_led_update = g_systick_millis;
+			millis_prev_led_update = _systick_millis;
 		}
 
 
 		/// User Control Input Checks /////////////////////////////////////////
-		if(g_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
+		if(_systick_millis - millis_prev_user_input_update > MILLIS_USER_INPUT_UPDATE)
 		{
 			// Determine if the RENC button has been pressed
 			       GPIO_STATE c_button_state = gpio_digital_read(ROTENC_SW_PIN);
@@ -387,12 +390,12 @@ int main(void)
 			}
 
 			g_rotary_encoder_clicks = 0;
-			millis_prev_user_input_update = g_systick_millis;
+			millis_prev_user_input_update = _systick_millis;
 		}
 
 
 		/// PID and Temp Update /////////////////////////////////////////////////////
-		if(g_systick_millis - millis_prev_pid_temp_update > MILLIS_PID_TEMP_UPDATE)
+		if(_systick_millis - millis_prev_pid_temp_update > MILLIS_PID_TEMP_UPDATE)
 		{
 			static uint16_t   thermistor_adc;
 			static int32_t    heater_pwm;
@@ -411,12 +414,12 @@ int main(void)
 				heater_pwm = 0x00;
 			pwm_set_duty(PWM_CHANNEL_HEATER, (uint8_t)heater_pwm);
 
-			millis_prev_pid_temp_update = g_systick_millis;
+			millis_prev_pid_temp_update = _systick_millis;
 		}
 
 
 		/// Battery Checking ////////////////////////////////////////////////////////
-		if(g_systick_millis - millis_prev_battery_check > MILLIS_BATTERY_CHECK)
+		if(_systick_millis - millis_prev_battery_check > MILLIS_BATTERY_CHECK)
 		{
 			uint16_t system_mv = gpio_read_system_mv();
 
@@ -441,12 +444,12 @@ int main(void)
 				error_ticks = 10;	
 
 
-			millis_prev_battery_check = g_systick_millis;
+			millis_prev_battery_check = _systick_millis;
 		}
 
 
 		/// Display Update and Redraw ///////////////////////////////////////////////
-		if(g_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
+		if(_systick_millis - millis_prev_display_update > MILLIS_DISPLAY_UPDATE)
 		{
 			static user_input_mode_e p_user_input_mode = UI_MODE_UNSET;
 			if(p_user_input_mode != g_user_input_mode)
@@ -478,7 +481,7 @@ int main(void)
 
 
 			oled_update();
-			millis_prev_display_update = g_systick_millis;
+			millis_prev_display_update = _systick_millis;
 		}
 
 
@@ -493,64 +496,21 @@ int main(void)
 
 
 /*** Function Definitions ****************************************************/
-static void iwdg_init(const uint8_t prescaler, const uint16_t rst_val)
+static void EXTI7_0_Init(void)
 {
-	// Enable changes then set prescaler
-	IWDG->CTLR = 0x5555;
-    IWDG->PSCR = prescaler;
-
-	// Enable changes then set rst_val, limited to max value
-	IWDG->CTLR = 0x5555;
-    IWDG->RLDR = rst_val & 0x0FFF;
-
-	// Enable Watchdog
-	IWDG->CTLR = 0xCCCC;
-}
-
-
-
-__attribute__((always_inline))
-static inline void iwdg_feed(void)
-{ IWDG->CTLR = 0xAAAA; }
-
-
-
-static const uint32_t SYSTICK_ONE_MILLISECOND = ((uint32_t)FUNCONF_SYSTEM_CORE_CLOCK / 1000);
-static void systick_init(void)
-{
-	// Reset any pre-existing configuration
-	SysTick->CTLR = 0x0000;
+	// Enable AFIO and CH4 and CH5 on PORTC
+	RCC->APB2PCENR |= RCC_APB2Periph_AFIO;
+	AFIO->EXTICR    = AFIO_EXTICR_EXTI4_PC | AFIO_EXTICR_EXTI5_PC;
 	
-	// Set the compare register to trigger once per millisecond
-	SysTick->CMP = SYSTICK_ONE_MILLISECOND - 1;
+	// Enable IRQ on Channel 4 & 5, Rising or Falling Edge
+	EXTI->INTENR    = EXTI_INTENR_MR4 | EXTI_INTENR_MR5;
+	EXTI->RTENR     = EXTI_RTENR_TR4  | EXTI_RTENR_TR5;
+	EXTI->FTENR     = EXTI_FTENR_TR4  | EXTI_FTENR_TR5;
 
-	// Reset the Count Register, and the global millis counter to 0
-	SysTick->CNT = 0x00000000;
-	g_systick_millis = 0x00000000;
-	
-	// Set the SysTick Configuration
-	// NOTE: By not setting SYSTICK_CTLR_STRE, we maintain compatibility with
-	// busywait delay funtions used by ch32fun.
-	SysTick->CTLR |= SYSTICK_CTLR_STE   |  // Enable Counter
-	                 SYSTICK_CTLR_STIE  |  // Enable Interrupts
-	                 SYSTICK_CTLR_STCLK ;  // Set Clock Source to HCLK/1
-	
-	// Enable the SysTick IRQ
-	NVIC_EnableIRQ(SysTicK_IRQn);
-}
-
-
-__attribute__((interrupt))
-void SysTick_Handler(void)
-{
-	// Increment the Compare Register for the next trigger
-	SysTick->CMP += SYSTICK_ONE_MILLISECOND;
-
-	// Clear the trigger state for the next IRQ
-	SysTick->SR = 0x00000000;
-
-	// Increment the milliseconds count
-	g_systick_millis++;
+	// Clear IRQ Flags before enabling for safety
+	EXTI->INTFR = 0x00000030;
+	// Enable the EXTI0-7 Interrupt Group in NVIC
+	NVIC_EnableIRQ(EXTI7_0_IRQn);
 }
 
 
@@ -589,46 +549,6 @@ void EXTI7_0_IRQHandler(void)
 }
 
 
-static void pwm_init(void)
-{
-	// NOTE: Uses TIM2 Channel 2 (PD3) and TIM2 Channel 3 (PC0)
-
-	// Enable TIM2 Clock
-	RCC->APB1PCENR |= RCC_APB1Periph_TIM2;
-
-	// Set GPIO OUTPUT 10MHz, Aleternate Function (Multiplex)
-	gpio_set_mode(GPIO_PC0, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
-	gpio_set_mode(GPIO_PD3, OUTPUT_10MHZ_PP | OUTPUT_PP_AF);
-
-	// Reset TIM2, Inits all registers
-	RCC->APB1PRSTR |=  RCC_APB1Periph_TIM2;
-	RCC->APB1PRSTR &= ~RCC_APB1Periph_TIM2;
-
-	// Set Prescaler to ~17KHz. More efficient switching
-	TIM2->PSC = 0x000A;
-	// Set PWM Max Value (Autoreload Value)
-	TIM2->ATRLR = 254;
-
-	// Set the Compare Capture Register for Channel 3
-	// TIM2_OC3M = 0b111 - PWM Mode 2 - Enable Preload
-	TIM2->CHCTLR1 |= TIM_OC2M_2 | TIM_OC2M_1 | TIM_OC2M_0 | TIM_OC2PE;
-	TIM2->CHCTLR2 |= TIM_OC3M_2 | TIM_OC3M_1 | TIM_OC3M_0 | TIM_OC3PE;
-
-	// Enable auto-reload
-	TIM2->CTLR1 |= TIM_ARPE;
-
-	// Enable channel output, polarity is ACTIVE_HIGH
-	TIM2->CCER |= TIM_CC2E | TIM_CC2P;
-	TIM2->CCER |= TIM_CC3E | TIM_CC3P;
-
-	// Initialise Counter
-	TIM2->SWEVGR |= TIM_UG;
-
-	// Enable TIM2
-	TIM2->CTLR1 |= TIM_CEN;
-}
-
-
 static  void pwm_set_duty(const uint8_t ch, const uint32_t duty)
 {
 	static volatile uint32_t *tim_ptr[2] = { &TIM2->CH2CVR, &TIM2->CH3CVR };
@@ -638,8 +558,7 @@ static  void pwm_set_duty(const uint8_t ch, const uint32_t duty)
 
 static uint16_t thermistor_adc_to_temp(const uint16_t adc)
 {
-	uint16_t adc0 = 0, adc1 = 0, temp0 = 0, temp1 = 0, output = 0;
-	const uint16_t therm_max_index = THERMISTOR_PAIR_ENTRIES - 1;
+	const size_t therm_max_index = THERMISTOR_PAIR_ENTRIES - 1;
 	
 	// Cap the Upper and Lower Bounds
 	if(adc >= thermistor_pair[0].adc)
@@ -650,33 +569,30 @@ static uint16_t thermistor_adc_to_temp(const uint16_t adc)
 
 
 	// Find the LUT ADC Range
-	for(uint16_t ti = 0; ti < therm_max_index; ti++)
+	for(size_t ti = 0; ti < therm_max_index; ti++)
 	{
 		// Get the Current and Next ADC Values in the pair table.
-		adc0  = thermistor_pair[ti].adc;
-		adc1  = thermistor_pair[ti + 1].adc;
+		uint16_t adc0  = thermistor_pair[ti].adc;
+		uint16_t adc1  = thermistor_pair[ti + 1].adc;
 
 		// ADC Values Decrease as temperature rises. Check if adc input is within
 		// the current check range
 		if(adc <= adc0 && adc >= adc1)
 		{
 			// Get Current and Next Temp values in the pair table
-			temp0 = thermistor_pair[ti].temp_c;
-			temp1 = thermistor_pair[ti + 1].temp_c;
+			uint16_t temp0 = thermistor_pair[ti].temp_c;
+			uint16_t temp1 = thermistor_pair[ti + 1].temp_c;
 
-			// Linear Interpolation
-			// ADC Decreases with Temperature Rise:
-			// delta_adc   =   adc0 - adc
-			// span_adc    =   adc0 - adc1
-			// delta_temp  =   temp1 - temp0
-			//
-			// x = temp0 + (delta_adc * delta_temp) / span_adc
-			output = temp0 + (uint32_t)(adc0 - adc) * (temp1 - temp0) / (adc0 - adc1);
-			break;
+			// Linear Interpolation. ADC Decreases with Temperature Rise:
+			uint32_t delta_adc   = adc0 - adc;
+			uint32_t span_adc    = adc0 - adc1;
+			uint32_t delta_temp  = temp1 - temp0;
+
+			return temp0 + (delta_adc * delta_temp) / span_adc;
 		}
 	}
 
-	// 0 if something has gone wrong, the linear interptreted temp if not
-	return output;
+	// LUT Ordering error: Should never be this
+	return 0;
 }
 
