@@ -60,10 +60,16 @@ oled_err_t oled_update(void);
 void oled_draw_boot_screen(void);
 
 
-/// @brief Draws a screen to let the user know there was an error
+/// @brief Draws a screen to let the user know there was an undervoltage error
 /// @param None
 /// @return None
-void oled_draw_error_screen(void);
+void oled_draw_error_undervoltage_screen(void);
+
+
+/// @brief Draws a screen to let the user know there was an overcurrent error
+/// @param None
+/// @return None
+void oled_draw_error_overcurrent_screen(void);
 
 
 /// @brief Clears the whole display

@@ -301,10 +301,19 @@ void oled_draw_boot_screen(void)
 }
 
 
-void oled_draw_error_screen()
+void oled_draw_error_undervoltage_screen(void)
 {
-	OLED_PRINT_8X8_CENTERED(3, "SYSTEM ERROR");
-	OLED_PRINT_8X8_CENTERED(4, "SAFETY LOCKOUT");
+	OLED_PRINT_8X8_CENTERED(2, "~~~ ERROR ~~~");
+	OLED_PRINT_8X8_CENTERED(4, "BATTERY");
+	OLED_PRINT_8X8_CENTERED(5, "VOLTAGE LOW");
+}
+
+
+void oled_draw_error_overcurrent_screen(void)
+{
+	OLED_PRINT_8X8_CENTERED(2, "~~~ ERROR ~~~");
+	OLED_PRINT_8X8_CENTERED(4, "BATTERY");
+	OLED_PRINT_8X8_CENTERED(5, "OVERCURRENT");
 }
 
 
